@@ -17,7 +17,7 @@ const int default_webserverporthttp = 80;
 IPAddress AP_GATEWAY(172, 0, 0, 1);  // Gateway
 
 WebServer* server=nullptr;               // initialise webserver
-const char* host = "fzerofirmware";
+const char* host = "fzero";
 String uploadFolder="";
 
 /**********************************************************************
