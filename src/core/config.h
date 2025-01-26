@@ -58,7 +58,7 @@ public:
 
     // Wifi
     Credential webUI = {"admin", "fzerofirmware"};
-    WiFiCredential wifiAp = {"FZerofirmwareNet", "fzerofirmwarenet"};
+    WiFiCredential wifiAp = {"FZeroFirmwareNet", "fzerofirmwarenet"};
     std::map<String, String> wifi = {};
 
     // IR
@@ -88,7 +88,7 @@ public:
     std::vector<String> disabledMenus = {};
 
     std::vector<QrCodeEntry> qrCodes = {
-        {"FZero Firmware AP", "WIFI:T:WPA;S:FZerofirmwareNet;P:fzerofirmwarenet;;"},
+        {"FZero Firmware AP", "WIFI:T:WPA;S:FZeroFirmwareNet;P:fzerofirmwarenet;;"},
         {"Main Bruce Wiki", "https://github.com/pr3y/Bruce/wiki"},
         {"FZero Firmware Github", "https://github.com/HiennNek/FZero-Firmware"},
         {"HiennNek GitHub", "https://github.com/HiennNek"},
