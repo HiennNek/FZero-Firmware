@@ -292,8 +292,8 @@ void Pn532ble::loadNdefEmulateMenu()
     String prefix = "";
 
     options = {
-        {"Visit Bruce", [&]()
-         { prefix = "https://bruce.computer"; }},
+        {"Visit FZerofirmware", [&]()
+         { prefix = "https://fzerofirmware.computer"; }},
         {"Open Url", [&]()
          { prefix = "https://"; }},
         {"Phone Call", [&]()
@@ -1349,8 +1349,8 @@ void Pn532ble::loadMifareClassicDumpFile()
         padprintln("No storage found");
         return;
     }
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    String filePath = loopSD(*fs, true, "bin", "/BruceRFID");
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    String filePath = loopSD(*fs, true, "bin", "/FZerofirmwareRFID");
     if (filePath == "")
     {
         padprintln("No file selected");
@@ -1423,8 +1423,8 @@ void Pn532ble::loadMifareUltralightDumpFile()
         padprintln("No storage found");
         return;
     }
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    String filePath = loopSD(*fs, true, "bin", "/BruceRFID");
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    String filePath = loopSD(*fs, true, "bin", "/FZerofirmwareRFID");
     if (filePath == "")
     {
         padprintln("No file selected");
@@ -1491,8 +1491,8 @@ void Pn532ble::loadIso15693DumpFile()
         padprintln("No storage found");
         return;
     }
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    String filePath = loopSD(*fs, true, "bin", "/BruceRFID");
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    String filePath = loopSD(*fs, true, "bin", "/FZerofirmwareRFID");
     if (filePath == "")
     {
         padprintln("No file selected");

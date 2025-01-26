@@ -40,7 +40,7 @@ TagOMatic::~TagOMatic() {
 }
 
 void TagOMatic::set_rfid_module() {
-    switch (bruceConfig.rfidModule) {
+    switch (fzerofirmwareConfig.rfidModule) {
         case PN532_I2C_MODULE:
             _rfid = new PN532();
             break;
@@ -494,21 +494,21 @@ void TagOMatic::save_scan_result() {
 
     String filename = "scan_result";
 
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    if (!(*fs).exists("/BruceRFID/Scans")) (*fs).mkdir("/BruceRFID/Scans");
-    if ((*fs).exists("/BruceRFID/Scans/" + filename + ".rfidscan")) {
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    if (!(*fs).exists("/FZerofirmwareRFID/Scans")) (*fs).mkdir("/FZerofirmwareRFID/Scans");
+    if ((*fs).exists("/FZerofirmwareRFID/Scans/" + filename + ".rfidscan")) {
         int i = 1;
         filename += "_";
-        while((*fs).exists("/BruceRFID/Scans/" + filename + String(i) + ".rfidscan")) i++;
+        while((*fs).exists("/FZerofirmwareRFID/Scans/" + filename + String(i) + ".rfidscan")) i++;
         filename += String(i);
     }
-    File file = (*fs).open("/BruceRFID/Scans/"+ filename + ".rfidscan", FILE_WRITE);
+    File file = (*fs).open("/FZerofirmwareRFID/Scans/"+ filename + ".rfidscan", FILE_WRITE);
 
     if(!file) {
         return;
     }
 
-    file.println("Filetype: Bruce RFID Scan Result");
+    file.println("Filetype: FZerofirmware RFID Scan Result");
     for (String uid : _scanned_tags) {
         file.println(uid);
     }

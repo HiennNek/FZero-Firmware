@@ -79,16 +79,16 @@ void InputHandler(void) {
     if (touch.touched()) { //touch.tirqTouched() &&
         auto t = touch.getPointScaled();
         t = touch.getPointScaled();
-        if(bruceConfig.rotation==3) {
+        if(fzerofirmwareConfig.rotation==3) {
             t.y = (tftHeight+20)-t.y;
             t.x = tftWidth-t.x;
         }
-        if(bruceConfig.rotation==0) {
+        if(fzerofirmwareConfig.rotation==0) {
             int tmp=t.x;
             t.x = tftWidth-t.y;
             t.y = tmp;
         }
-        if(bruceConfig.rotation==2) {
+        if(fzerofirmwareConfig.rotation==2) {
             int tmp=t.x;
             t.x = t.y;
             t.y = (tftHeight+20)-tmp;

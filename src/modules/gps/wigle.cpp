@@ -20,13 +20,13 @@ Wigle::Wigle() {}
 Wigle::~Wigle() {}
 
 bool Wigle::_check_token() {
-    if (bruceConfig.wigleBasicToken == "") {
+    if (fzerofirmwareConfig.wigleBasicToken == "") {
         displayError("Wigle token not found");
         delay(1000);
         return false;
     }
 
-    auth_header = "Basic " + bruceConfig.wigleBasicToken;
+    auth_header = "Basic " + fzerofirmwareConfig.wigleBasicToken;
 
     if(!wifiConnected) wifiConnectMenu();
 
@@ -47,7 +47,7 @@ bool Wigle::get_user() {
     client.print("Host: ");
     client.println(host);
     client.println("Connection: close");
-    client.println("User-Agent: bruce.wardriving");
+    client.println("User-Agent: fzerofirmware.wardriving");
     client.print("Authorization: ");
     client.println(auth_header);
     client.println();
@@ -94,7 +94,7 @@ void Wigle::send_upload_headers(WiFiClientSecure &client, String filename, int f
     client.print("Host: ");
     client.println(host);
     client.println("Connection: close");
-    client.println("User-Agent: bruce.wardriving");
+    client.println("User-Agent: fzerofirmware.wardriving");
     client.print("Authorization: ");
     client.println(auth_header);
     client.print("Content-Type: multipart/form-data; boundary=");
@@ -196,7 +196,7 @@ bool Wigle::_upload_file(File file, String upload_message) {
 
     String filename = file.name();
     int filesize = file.size();
-    String boundary = "BRUCE";
+    String boundary = "FZEROFIRMWARE";
     boundary.concat(esp_random());
 
     send_upload_headers(client, filename, filesize, boundary);

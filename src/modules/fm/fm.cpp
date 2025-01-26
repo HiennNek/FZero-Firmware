@@ -15,9 +15,9 @@ void set_frq(uint16_t frq) {
 }
 
 void fm_banner() {
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   tft.setCursor(10, 10);
-  tft.drawCentreString("~== Bruce Radio ==~", tftWidth/2, 10, SMOOTH_FONT);
+  tft.drawCentreString("~== FZerofirmware Radio ==~", tftWidth/2, 10, SMOOTH_FONT);
   delay(500);
 }
 
@@ -35,7 +35,7 @@ uint16_t fm_scan() {
   radio.readTuneStatus();
   min_noise = radio.currNoiseLevel;
 
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   displayTextLine("Scanning...");
   for (f=8750; f<10800; f+=10) {
     Serial.print("Measuring "); Serial.print(f); Serial.print("...");
@@ -51,7 +51,7 @@ uint16_t fm_scan() {
   }
 
   sprintf(display_freq, "Found %d MHz", freq_candidate);
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   displayTextLine(display_freq);
   while(!check(EscPress) && !check(SelPress)) {
     delay(100);
@@ -228,7 +228,7 @@ void fm_spectrum() {
 
 bool fm_begin() {
   if (!radio.begin()) { // begin with address 0x63 (CS high default)
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     Serial.println("Cannot find radio");
     displayTextLine("Cannot find radio",true);
     return false;
@@ -283,12 +283,12 @@ bool fm_setup(bool traffic_alert, bool silent) {
   // Begin the RDS/RDBS transmission
   radio.beginRDS();
   if (traffic_alert) {
-    radio.setRDSstation("BruceTraffic");
+    radio.setRDSstation("FZerofirmwareTraffic");
     radio.setRDSbuffer("Traffic Info");
   }
   else {
-    radio.setRDSstation("BruceRadio");
-    radio.setRDSbuffer("Pwned by Bruce Radio!");
+    radio.setRDSstation("FZerofirmwareRadio");
+    radio.setRDSbuffer("Pwned by FZerofirmware Radio!");
   }
 
   if (!silent) {

@@ -92,7 +92,7 @@ int PN532::load() {
     FS *fs;
 
     if(!getFsStorage(fs)) return FAILURE;
-    filepath = loopSD(*fs, true, "RFID|NFC", "/BruceRFID");
+    filepath = loopSD(*fs, true, "RFID|NFC", "/FZerofirmwareRFID");
     file = fs->open(filepath, FILE_READ);
 
     if (!file) {
@@ -128,14 +128,14 @@ int PN532::save(String filename) {
     FS *fs;
     if(!getFsStorage(fs)) return FAILURE;
 
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    File file = createNewFile(fs, "/BruceRFID/" + filename + ".rfid");
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    File file = createNewFile(fs, "/FZerofirmwareRFID/" + filename + ".rfid");
 
     if(!file) {
         return FAILURE;
     }
 
-    file.println("Filetype: Bruce RFID File");
+    file.println("Filetype: FZerofirmware RFID File");
     file.println("Version 1");
     file.println("Device type: " + printableUID.picc_type);
     file.println("# UID, ATQA and SAK are common for all formats");
@@ -350,7 +350,7 @@ bool PN532::authenticate_mifare_classic(byte block) {
     if (!successA) {
         uint8_t keyA[6];
 
-        for (const auto& mifKey : bruceConfig.mifareKeys) {
+        for (const auto& mifKey : fzerofirmwareConfig.mifareKeys) {
             for (size_t i = 0; i < mifKey.length(); i += 2) {
                 keyA[i/2] = strtoul(mifKey.substring(i, i + 2).c_str(), NULL, 16);
             }
@@ -376,7 +376,7 @@ bool PN532::authenticate_mifare_classic(byte block) {
     if (!successB) {
         uint8_t keyB[6];
 
-        for (const auto& mifKey : bruceConfig.mifareKeys) {
+        for (const auto& mifKey : fzerofirmwareConfig.mifareKeys) {
             for (size_t i = 0; i < mifKey.length(); i += 2) {
                 keyB[i/2] = strtoul(mifKey.substring(i, i + 2).c_str(), NULL, 16);
             }

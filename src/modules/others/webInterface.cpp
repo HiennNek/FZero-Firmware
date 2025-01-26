@@ -17,7 +17,7 @@ const int default_webserverporthttp = 80;
 IPAddress AP_GATEWAY(172, 0, 0, 1);  // Gateway
 
 WebServer* server=nullptr;               // initialise webserver
-const char* host = "bruce";
+const char* host = "fzerofirmware";
 String uploadFolder="";
 
 /**********************************************************************
@@ -136,7 +136,7 @@ String listFiles(FS fs, bool ishtml, String folder, bool isLittleFS) {
 
 String processor(const String& var) {
   String processedHtml = var;
-  processedHtml.replace("%FIRMWARE%", String(BRUCE_VERSION));
+  processedHtml.replace("%FIRMWARE%", String(FZEROFIRMWARE_VERSION));
   processedHtml.replace("%FREESD%", humanReadableSize(SD.totalBytes() - SD.usedBytes()));
   processedHtml.replace("%USEDSD%", humanReadableSize(SD.usedBytes()));
   processedHtml.replace("%TOTALSD%", humanReadableSize(SD.totalBytes()));
@@ -156,7 +156,7 @@ String processor(const String& var) {
 **********************************************************************/
 bool checkUserWebAuth() {
   bool isAuthenticated = false;
-  if (server->authenticate(bruceConfig.webUI.user.c_str(), bruceConfig.webUI.pwd.c_str())) {
+  if (server->authenticate(fzerofirmwareConfig.webUI.user.c_str(), fzerofirmwareConfig.webUI.pwd.c_str())) {
     isAuthenticated = true;
   }
   return isAuthenticated;
@@ -212,29 +212,29 @@ void handleFileUpload(FS fs) {
 **  Draw information on screen of WebUI.
 **********************************************************************/
 void drawWebUiScreen(bool mode_ap) {
-  tft.fillScreen(bruceConfig.bgColor);
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,ALCOLOR);
   if(mode_ap) {
-    setTftDisplay(0,0,bruceConfig.bgColor,FM);
-    tft.drawCentreString("BruceNet/brucenet",tftWidth/2,7,1);
+    setTftDisplay(0,0,fzerofirmwareConfig.bgColor,FM);
+    tft.drawCentreString("FZerofirmwareNet/fzerofirmwarenet",tftWidth/2,7,1);
   }
   setTftDisplay(0,0,ALCOLOR,FM);
-  tft.drawCentreString("BRUCE WebUI",tftWidth/2,27,1);
+  tft.drawCentreString("FZEROFIRMWARE WebUI",tftWidth/2,27,1);
   String txt;
   if(!mode_ap) txt = WiFi.localIP().toString();
   else txt = WiFi.softAPIP().toString();
-  tft.setTextColor(bruceConfig.priColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor);
 
-  tft.drawCentreString("http://bruce.local", tftWidth/2,45,1);
+  tft.drawCentreString("http://fzerofirmware.local", tftWidth/2,45,1);
   setTftDisplay(7,67);
 
   tft.setTextSize(FM);
   tft.print("IP: ");   tft.println(txt);
   tft.setCursor(7,tft.getCursorY());
-  tft.println("Usr: " + String(bruceConfig.webUI.user));
+  tft.println("Usr: " + String(fzerofirmwareConfig.webUI.user));
   tft.setCursor(7,tft.getCursorY());
-  tft.println("Pwd: " + String(bruceConfig.webUI.pwd));
+  tft.println("Pwd: " + String(fzerofirmwareConfig.webUI.pwd));
   tft.setCursor(7,tft.getCursorY());
   tft.setTextColor(TFT_RED);
   tft.setTextSize(FP);
@@ -456,7 +456,7 @@ server->on("/script.js", HTTP_GET, []() {
       if (server->hasArg("usr") && server->hasArg("pwd")) {
         const char *usr = server->arg("usr").c_str();
         const char *pwd = server->arg("pwd").c_str();
-        bruceConfig.setWebUICreds(usr, pwd);
+        fzerofirmwareConfig.setWebUICreds(usr, pwd);
         server->send(200, "text/plain", "User: " + String(usr) + " configured with password: " + String(pwd));
       }
     } else {

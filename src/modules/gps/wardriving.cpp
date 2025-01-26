@@ -42,7 +42,7 @@ void Wardriving::begin_wifi() {
 }
 
 bool Wardriving::begin_gps() {
-    GPSserial.begin(bruceConfig.gpsBaudrate, SERIAL_8N1, SERIAL_RX, SERIAL_TX);
+    GPSserial.begin(fzerofirmwareConfig.gpsBaudrate, SERIAL_8N1, SERIAL_RX, SERIAL_TX);
 
     int count = 0;
     padprintln("Waiting for GPS data");
@@ -201,11 +201,11 @@ void Wardriving::append_to_file(int network_amount) {
 
     if (filename == "") create_filename();
 
-    if (!(*fs).exists("/BruceWardriving")) (*fs).mkdir("/BruceWardriving");
+    if (!(*fs).exists("/FZerofirmwareWardriving")) (*fs).mkdir("/FZerofirmwareWardriving");
 
     bool is_new_file = false;
-    if(!(*fs).exists("/BruceWardriving/"+filename)) is_new_file = true;
-    File file = (*fs).open("/BruceWardriving/"+filename, is_new_file ? FILE_WRITE : FILE_APPEND);
+    if(!(*fs).exists("/FZerofirmwareWardriving/"+filename)) is_new_file = true;
+    File file = (*fs).open("/FZerofirmwareWardriving/"+filename, is_new_file ? FILE_WRITE : FILE_APPEND);
 
     if (!file) {
         padprintln("Failed to open file for writing");
@@ -214,7 +214,7 @@ void Wardriving::append_to_file(int network_amount) {
     }
 
     if (is_new_file) {
-        file.println("WigleWifi-1.6,appRelease=v"+String(BRUCE_VERSION)+",model=M5Stack GPS Unit,release=v"+String(BRUCE_VERSION)+",device=ESP32 M5Stack,display=SPI TFT,board=ESP32 M5Stack,brand=Bruce,star=Sol,body=4,subBody=1");
+        file.println("WigleWifi-1.6,appRelease=v"+String(FZEROFIRMWARE_VERSION)+",model=M5Stack GPS Unit,release=v"+String(FZEROFIRMWARE_VERSION)+",device=ESP32 M5Stack,display=SPI TFT,board=ESP32 M5Stack,brand=FZerofirmware,star=Sol,body=4,subBody=1");
         file.println("MAC,SSID,AuthMode,FirstSeen,Channel,Frequency,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,RCOIs,MfgrId,Type");
     }
 

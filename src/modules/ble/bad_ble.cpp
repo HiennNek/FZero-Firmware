@@ -6,7 +6,7 @@
 #include "bad_ble.h"
 
 #define DEF_DELAY 100
-BleKeyboard Kble(String("Keyboard_" + String((uint8_t)(ESP.getEfuseMac() >> 32), HEX)).c_str(), "BruceNet", 98);
+BleKeyboard Kble(String("Keyboard_" + String((uint8_t)(ESP.getEfuseMac() >> 32), HEX)).c_str(), "FZerofirmwareNet", 98);
 uint8_t Ask_for_restart=0;
 /* Example of payload file
 
@@ -52,7 +52,7 @@ void key_input_ble(FS fs, String bad_script) {
       Kble.releaseAll();
       tft.setTextSize(1);
       tft.setCursor(0, 0);
-      tft.fillScreen(bruceConfig.bgColor);
+      tft.fillScreen(fzerofirmwareConfig.bgColor);
       line = 0;
 
       while (payloadFile.available()) {
@@ -169,7 +169,7 @@ void key_input_ble(FS fs, String bad_script) {
 
           if (tft.getCursorY()>(tftHeight-LH)) {
             tft.setCursor(0, 0);
-            tft.fillScreen(bruceConfig.bgColor);
+            tft.fillScreen(fzerofirmwareConfig.bgColor);
           }
 
           if (cmdFail == 57) {
@@ -184,7 +184,7 @@ void key_input_ble(FS fs, String bad_script) {
               Kble.println(Command);
             }
           } else {
-            tft.setTextColor(bruceConfig.priColor);
+            tft.setTextColor(fzerofirmwareConfig.priColor);
             tft.print(Command);
           }
           if(Argument.length()>0) {
@@ -240,7 +240,7 @@ void ble_setup() {
   bool first_time=true;
   int index=0;
 NewScript:
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   String bad_script = "";
   bad_script = "/badpayload.txt";
 
@@ -256,7 +256,7 @@ NewScript:
 
   if(fs!=nullptr) {
     bad_script = loopSD(*fs,true);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     if(first_time) {
       options = {
         {"US Inter",    [=]() { chooseKb_ble(KeyboardLayout_en_US); }},
@@ -374,7 +374,7 @@ Reconnect:
   if(Kble.isConnected())  {
     BLEConnected=true;
 
-    tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
     tft.setTextSize(FP);
     drawMainBorder();
     tft.setCursor(10,28);

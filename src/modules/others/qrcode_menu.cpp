@@ -40,7 +40,7 @@ void qrcode_display(String qrcodeUrl) {
     qrcode.create(qrcodeUrl);
     delay(300); //Due to M5 sel press, it could be confusing with next line
     while(!check(EscPress) && !check(SelPress)) delay(100);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
 #endif
 }
 
@@ -58,7 +58,7 @@ void pix_qrcode() {
 
     String data0 = "0014BR.GOV.BCB.PIX01" + key_length + key;
 
-    String pix_code = "00020126" + String(data0.length()) + data0 + "52040000530398654" + amount_length + amount + "5802BR5909Bruce PIX6014Rio de Janeiro62070503***6304";
+    String pix_code = "00020126" + String(data0.length()) + data0 + "52040000530398654" + amount_length + amount + "5802BR5909FZerofirmware PIX6014Rio de Janeiro62070503***6304";
     String crc = calculate_crc(pix_code);
 
     return qrcode_display(pix_code + crc);
@@ -69,7 +69,7 @@ void qrcode_menu() {
     std::vector<Option> options;
 
     // Add QR codes from the config
-    for (const auto& entry : bruceConfig.qrCodes) {
+    for (const auto& entry : fzerofirmwareConfig.qrCodes) {
         options.emplace_back(std::string(entry.menuName.c_str()), [=]() { qrcode_display(entry.content); });
     }
 
@@ -99,8 +99,8 @@ void save_and_display_qrcode() {
         return;
     }
 
-    if (std::any_of(bruceConfig.qrCodes.begin(), bruceConfig.qrCodes.end(),
-                    [&](const BruceConfig::QrCodeEntry &entry)
+    if (std::any_of(fzerofirmwareConfig.qrCodes.begin(), fzerofirmwareConfig.qrCodes.end(),
+                    [&](const FZerofirmwareConfig::QrCodeEntry &entry)
                     {
                         return entry.menuName == name;
                     }))
@@ -112,12 +112,12 @@ void save_and_display_qrcode() {
 
     String text = keyboard("", 100, "QRCode text:");
 
-    bruceConfig.addQrCodeEntry(name, text);
+    fzerofirmwareConfig.addQrCodeEntry(name, text);
     return qrcode_display(text);
 }
 
 void remove_custom_qrcode() {
-    if (bruceConfig.qrCodes.empty()){
+    if (fzerofirmwareConfig.qrCodes.empty()){
         displayInfo("There is nothing to remove!");
         delay(1000);
         custom_qrcode_menu();
@@ -125,11 +125,11 @@ void remove_custom_qrcode() {
     std::vector<Option> options;
 
     // Populate options with the QR codes from the config
-    for (const auto& entry : bruceConfig.qrCodes) {
+    for (const auto& entry : fzerofirmwareConfig.qrCodes) {
         options.emplace_back(
             std::string(entry.menuName.c_str()), 
             [=]() { 
-                bruceConfig.removeQrCodeEntry(entry.menuName); 
+                fzerofirmwareConfig.removeQrCodeEntry(entry.menuName); 
                 log_i("Removed QR code: %s", entry.menuName.c_str());
                 custom_qrcode_menu(); 
             }

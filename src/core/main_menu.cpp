@@ -79,7 +79,7 @@ void MainMenu::draw(float scale) {
 
 void MainMenu::_checkDisabledMenus(bool next_button) {
     MenuItemInterface* current_menu = _menuItems[_currentIndex];
-    std::vector<String> l = bruceConfig.disabledMenus;
+    std::vector<String> l = fzerofirmwareConfig.disabledMenus;
 
     String currName = current_menu->getName();
     if( find(l.begin(), l.end(), currName)!=l.end() ) {

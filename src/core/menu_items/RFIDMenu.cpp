@@ -26,9 +26,9 @@ void RFIDMenu::optionsMenu() {
     delay(200);
 
     String txt = "RFID";
-    if(bruceConfig.rfidModule==M5_RFID2_MODULE)        txt+=" (RFID2)";
-    else if(bruceConfig.rfidModule==PN532_I2C_MODULE)  txt+=" (PN532-I2C)";
-    else if(bruceConfig.rfidModule==PN532_SPI_MODULE)  txt+=" (PN532-SPI)";
+    if(fzerofirmwareConfig.rfidModule==M5_RFID2_MODULE)        txt+=" (RFID2)";
+    else if(fzerofirmwareConfig.rfidModule==PN532_I2C_MODULE)  txt+=" (PN532-I2C)";
+    else if(fzerofirmwareConfig.rfidModule==PN532_SPI_MODULE)  txt+=" (PN532-SPI)";
     loopOptions(options,false,true,txt);
 }
 
@@ -57,21 +57,21 @@ void RFIDMenu::drawIcon(float scale) {
         iconSize,
         iconSize,
         iconRadius,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillRect(
         iconCenterX - iconSize/2,
         iconCenterY,
         iconSize/2,
         iconSize/2,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.bgColor
     );
 
     tft.drawCircle(
         iconCenterX - iconSize/2 + deltaRadius,
         iconCenterY + iconSize/2 - deltaRadius,
         iconRadius,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     tft.drawArc(
@@ -79,23 +79,23 @@ void RFIDMenu::drawIcon(float scale) {
         iconCenterY + iconSize/2 - deltaRadius,
         2.5*iconRadius, 2*iconRadius,
         180,270,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX - iconSize/2 + deltaRadius,
         iconCenterY + iconSize/2 - deltaRadius,
         2.5*iconRadius + deltaRadius, 2*iconRadius + deltaRadius,
         180,270,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX - iconSize/2 + deltaRadius,
         iconCenterY + iconSize/2 - deltaRadius,
         2.5*iconRadius + 2*deltaRadius, 2*iconRadius + 2*deltaRadius,
         180,270,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 }

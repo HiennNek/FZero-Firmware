@@ -36,8 +36,8 @@ void beginLed() {
 #else
     FastLED.addLeds<LED_TYPE, RGB_LED, LED_ORDER>(leds, LED_COUNT); // Initialize the LED Object. Only 1 LED.
 #endif
-    setLedColor(bruceConfig.ledColor);
-    setLedBrightness(bruceConfig.ledBright);
+    setLedColor(fzerofirmwareConfig.ledColor);
+    setLedBrightness(fzerofirmwareConfig.ledBright);
 }
 
 
@@ -57,49 +57,49 @@ void setLedBrightness(int value) {
 
 void setLedColorConfig() {
     int idx;
-    if (bruceConfig.ledColor==CRGB::Black) idx=0;
-    else if (bruceConfig.ledColor==CRGB::Purple) idx=1;
-    else if (bruceConfig.ledColor==CRGB::White) idx=2;
-    else if (bruceConfig.ledColor==CRGB::Red) idx=3;
-    else if (bruceConfig.ledColor==CRGB::Green) idx=4;
-    else if (bruceConfig.ledColor==CRGB::Blue) idx=5;
+    if (fzerofirmwareConfig.ledColor==CRGB::Black) idx=0;
+    else if (fzerofirmwareConfig.ledColor==CRGB::Purple) idx=1;
+    else if (fzerofirmwareConfig.ledColor==CRGB::White) idx=2;
+    else if (fzerofirmwareConfig.ledColor==CRGB::Red) idx=3;
+    else if (fzerofirmwareConfig.ledColor==CRGB::Green) idx=4;
+    else if (fzerofirmwareConfig.ledColor==CRGB::Blue) idx=5;
     else idx=6;  // custom color
 
     options = {
-        {"OFF",    [=]() { bruceConfig.setLedColor(CRGB::Black); }, bruceConfig.ledColor == CRGB::Black },
-        {"Purple", [=]() { bruceConfig.setLedColor(CRGB::Purple); }, bruceConfig.ledColor == CRGB::Purple},
-        {"White",  [=]() { bruceConfig.setLedColor(CRGB::White); }, bruceConfig.ledColor == CRGB::White},
-        {"Red",    [=]() { bruceConfig.setLedColor(CRGB::Red); }, bruceConfig.ledColor == CRGB::Red},
-        {"Green",  [=]() { bruceConfig.setLedColor(CRGB::Green); }, bruceConfig.ledColor == CRGB::Green},
-        {"Blue",   [=]() { bruceConfig.setLedColor(CRGB::Blue); }, bruceConfig.ledColor == CRGB::Blue},
+        {"OFF",    [=]() { fzerofirmwareConfig.setLedColor(CRGB::Black); }, fzerofirmwareConfig.ledColor == CRGB::Black },
+        {"Purple", [=]() { fzerofirmwareConfig.setLedColor(CRGB::Purple); }, fzerofirmwareConfig.ledColor == CRGB::Purple},
+        {"White",  [=]() { fzerofirmwareConfig.setLedColor(CRGB::White); }, fzerofirmwareConfig.ledColor == CRGB::White},
+        {"Red",    [=]() { fzerofirmwareConfig.setLedColor(CRGB::Red); }, fzerofirmwareConfig.ledColor == CRGB::Red},
+        {"Green",  [=]() { fzerofirmwareConfig.setLedColor(CRGB::Green); }, fzerofirmwareConfig.ledColor == CRGB::Green},
+        {"Blue",   [=]() { fzerofirmwareConfig.setLedColor(CRGB::Blue); }, fzerofirmwareConfig.ledColor == CRGB::Blue},
     };
 
     if (idx == 6) options.emplace_back("Custom Color", [=]() { backToMenu(); }, true);
     options.emplace_back("Main Menu", [=]() { backToMenu(); });
 
     loopOptions(options, idx);
-    setLedColor(bruceConfig.ledColor);
+    setLedColor(fzerofirmwareConfig.ledColor);
 }
 
 
 void setLedBrightnessConfig() {
     int idx;
-    if (bruceConfig.ledBright==10) idx=0;
-    else if (bruceConfig.ledBright==25) idx=1;
-    else if (bruceConfig.ledBright==50) idx=2;
-    else if (bruceConfig.ledBright==75) idx=3;
-    else if (bruceConfig.ledBright==100) idx=4;
+    if (fzerofirmwareConfig.ledBright==10) idx=0;
+    else if (fzerofirmwareConfig.ledBright==25) idx=1;
+    else if (fzerofirmwareConfig.ledBright==50) idx=2;
+    else if (fzerofirmwareConfig.ledBright==75) idx=3;
+    else if (fzerofirmwareConfig.ledBright==100) idx=4;
 
     options = {
-        {"10 %", [=]() { bruceConfig.setLedBright(10);  }, bruceConfig.ledBright == 10 },
-        {"25 %", [=]() { bruceConfig.setLedBright(25);  }, bruceConfig.ledBright == 25 },
-        {"50 %", [=]() { bruceConfig.setLedBright(50);  }, bruceConfig.ledBright == 50 },
-        {"75 %", [=]() { bruceConfig.setLedBright(75);  }, bruceConfig.ledBright == 75 },
-        {"100%", [=]() { bruceConfig.setLedBright(100); }, bruceConfig.ledBright == 100 },
+        {"10 %", [=]() { fzerofirmwareConfig.setLedBright(10);  }, fzerofirmwareConfig.ledBright == 10 },
+        {"25 %", [=]() { fzerofirmwareConfig.setLedBright(25);  }, fzerofirmwareConfig.ledBright == 25 },
+        {"50 %", [=]() { fzerofirmwareConfig.setLedBright(50);  }, fzerofirmwareConfig.ledBright == 50 },
+        {"75 %", [=]() { fzerofirmwareConfig.setLedBright(75);  }, fzerofirmwareConfig.ledBright == 75 },
+        {"100%", [=]() { fzerofirmwareConfig.setLedBright(100); }, fzerofirmwareConfig.ledBright == 100 },
         {"Main Menu", [=]() { backToMenu(); }},
     };
 
     loopOptions(options, idx);
-    setLedBrightness(bruceConfig.ledBright);
+    setLedBrightness(fzerofirmwareConfig.ledBright);
 }
 #endif

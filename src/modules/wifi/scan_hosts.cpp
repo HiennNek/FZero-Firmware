@@ -106,7 +106,7 @@ void afterScanOptions(const Host& host) {
     {"ARP Spoofing",    [=](){ arpSpoofing(host, false); }},
     {"ARP Poisoning",   [=](){ arpPoisoner(); }},
   };
-  //if(sdcardMounted && bruceConfig.devMode) options.push_back({"ARP MITM (WIP)",  [&](){ opt=5;  }});
+  //if(sdcardMounted && fzerofirmwareConfig.devMode) options.push_back({"ARP MITM (WIP)",  [&](){ opt=5;  }});
   loopOptions(options);
   if(opt==3) stationDeauth(host);
   if(opt==5)  { 
@@ -288,9 +288,9 @@ bool arpPCAPfile(File &pcapFile) {
   else { 
     fs=&LittleFS;
   }
-  if(!fs->exists("/BrucePCAP")) fs->mkdir("/BrucePCAP");
-  while(fs->exists(String("/BrucePCAP/ARP_session_" + String(nf++) + ".pcap").c_str())) yield();
-  pcapFile = fs->open(String("/BrucePCAP/ARP_session_" + String(nf) + ".pcap").c_str(), FILE_WRITE);
+  if(!fs->exists("/FZerofirmwarePCAP")) fs->mkdir("/FZerofirmwarePCAP");
+  while(fs->exists(String("/FZerofirmwarePCAP/ARP_session_" + String(nf++) + ".pcap").c_str())) yield();
+  pcapFile = fs->open(String("/FZerofirmwarePCAP/ARP_session_" + String(nf) + ".pcap").c_str(), FILE_WRITE);
   if(pcapFile) return true;
   else return false;
 }
@@ -307,7 +307,7 @@ void arpSpoofing(const Host& host, bool mitm) {
   if(!arpPCAPfile(pcapFile)) Serial.println("Fail creating ARP Pcap file");
   writeHeader(pcapFile); // write pcap header into the file
 
-  // Get the MAC from the attacker (bruce MAC)
+  // Get the MAC from the attacker (fzerofirmware MAC)
   esp_read_mac(myMAC, ESP_MAC_WIFI_STA);
   for(int i=0; i<4; i++) victimIP[i] = host.ip[i];
   stringToMAC(host.mac.c_str(),victimMAC);
@@ -322,7 +322,7 @@ void arpSpoofing(const Host& host, bool mitm) {
   if(mitm) {
     tft.setTextSize(FP);
     //padprintln("Man in The middle Activated");
-    //padprintln("/BrucePCAP/ARP_session_" + String(nf) + ".pcap");
+    //padprintln("/FZerofirmwarePCAP/ARP_session_" + String(nf) + ".pcap");
     Serial.println("Still in development");
   }
   padprintln("Tgt:" + host.mac);

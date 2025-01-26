@@ -2,7 +2,7 @@
 #include "sd_functions.h"
 
 
-JsonDocument BruceConfig::toJson() const {
+JsonDocument FZerofirmwareConfig::toJson() const {
     JsonDocument jsonDoc;
     JsonObject setting = jsonDoc.to<JsonObject>();
 
@@ -70,7 +70,7 @@ JsonDocument BruceConfig::toJson() const {
 }
 
 
-void BruceConfig::fromFile() {
+void FZerofirmwareConfig::fromFile() {
     FS *fs;
     if(!getFsStorage(fs)) return;
 
@@ -177,7 +177,7 @@ void BruceConfig::fromFile() {
 }
 
 
-void BruceConfig::saveFile() {
+void FZerofirmwareConfig::saveFile() {
     FS *fs = &LittleFS;
     JsonDocument jsonDoc = toJson();
 
@@ -200,7 +200,7 @@ void BruceConfig::saveFile() {
 }
 
 
-void BruceConfig::validateConfig() {
+void FZerofirmwareConfig::validateConfig() {
     validateTheme();
     validateRotationValue();
     validateDimmerValue();
@@ -219,7 +219,7 @@ void BruceConfig::validateConfig() {
 }
 
 
-void BruceConfig::setTheme(uint16_t primary, uint16_t secondary, uint16_t background) {
+void FZerofirmwareConfig::setTheme(uint16_t primary, uint16_t secondary, uint16_t background) {
     priColor = primary;
     secColor = secondary == NULL ? primary - 0x2000 : secondary;
     bgColor = background == NULL ? 0x0 : background;
@@ -228,189 +228,189 @@ void BruceConfig::setTheme(uint16_t primary, uint16_t secondary, uint16_t backgr
 }
 
 
-void BruceConfig::validateTheme() {
+void FZerofirmwareConfig::validateTheme() {
     if (priColor < 0 || priColor > 0xFFFF) priColor = DEFAULT_PRICOLOR;
     if (secColor < 0 || secColor > 0xFFFF) secColor = priColor - 0x2000;
     if (bgColor  < 0 || bgColor  > 0xFFFF) bgColor  = 0;
 }
 
 
-void BruceConfig::setRotation(int value) {
+void FZerofirmwareConfig::setRotation(int value) {
     rotation = value;
     validateRotationValue();
     saveFile();
 }
 
 
-void BruceConfig::validateRotationValue() {
+void FZerofirmwareConfig::validateRotationValue() {
     if (rotation < 0 || rotation > 3) rotation = 1;
 }
 
 
-void BruceConfig::setDimmer(int value) {
+void FZerofirmwareConfig::setDimmer(int value) {
     dimmerSet = value;
     validateDimmerValue();
     saveFile();
 }
 
 
-void BruceConfig::validateDimmerValue() {
+void FZerofirmwareConfig::validateDimmerValue() {
     if (dimmerSet < 0) dimmerSet = 10;
     if (dimmerSet > 60) dimmerSet = 0;
 }
 
 
-void BruceConfig::setBright(uint8_t value) {
+void FZerofirmwareConfig::setBright(uint8_t value) {
     bright = value;
     validateBrightValue();
     saveFile();
 }
 
 
-void BruceConfig::validateBrightValue() {
+void FZerofirmwareConfig::validateBrightValue() {
     if (bright > 100) bright = 100;
 }
 
 
-void BruceConfig::setTmz(int value) {
+void FZerofirmwareConfig::setTmz(int value) {
     tmz = value;
     validateTmzValue();
     saveFile();
 }
 
 
-void BruceConfig::validateTmzValue() {
+void FZerofirmwareConfig::validateTmzValue() {
     if (tmz < -12 || tmz > 12) tmz = 0;
 }
 
 
-void BruceConfig::setSoundEnabled(int value) {
+void FZerofirmwareConfig::setSoundEnabled(int value) {
     soundEnabled = value;
     validateSoundEnabledValue();
     saveFile();
 }
 
 
-void BruceConfig::validateSoundEnabledValue() {
+void FZerofirmwareConfig::validateSoundEnabledValue() {
     if (soundEnabled > 1) soundEnabled = 1;
 }
 
 
-void BruceConfig::setWifiAtStartup(int value) {
+void FZerofirmwareConfig::setWifiAtStartup(int value) {
     wifiAtStartup = value;
     validateWifiAtStartupValue();
     saveFile();
 }
 
 
-void BruceConfig::validateWifiAtStartupValue() {
+void FZerofirmwareConfig::validateWifiAtStartupValue() {
     if (wifiAtStartup > 1) wifiAtStartup = 1;
 }
 
 
-void BruceConfig::setLedBright(int value) {
+void FZerofirmwareConfig::setLedBright(int value) {
     ledBright = value;
     validateLedBrightValue();
     saveFile();
 }
 
 
-void BruceConfig::validateLedBrightValue() {
+void FZerofirmwareConfig::validateLedBrightValue() {
     ledBright = max(0, min(100, ledBright));
 }
 
 
-void BruceConfig::setLedColor(uint32_t value) {
+void FZerofirmwareConfig::setLedColor(uint32_t value) {
     ledColor = value;
     validateLedColorValue();
     saveFile();
 }
 
 
-void BruceConfig::validateLedColorValue() {
+void FZerofirmwareConfig::validateLedColorValue() {
     ledColor = max((uint32_t)0, min(0xFFFFFFFF, ledColor));
 }
 
 
-void BruceConfig::setWebUICreds(const String& usr, const String& pwd) {
+void FZerofirmwareConfig::setWebUICreds(const String& usr, const String& pwd) {
     webUI.user = usr;
     webUI.pwd = pwd;
     saveFile();
 }
 
 
-void BruceConfig::setWifiApCreds(const String& ssid, const String& pwd) {
+void FZerofirmwareConfig::setWifiApCreds(const String& ssid, const String& pwd) {
     wifiAp.ssid = ssid;
     wifiAp.pwd = pwd;
     saveFile();
 }
 
 
-void BruceConfig::addWifiCredential(const String& ssid, const String& pwd) {
+void FZerofirmwareConfig::addWifiCredential(const String& ssid, const String& pwd) {
     wifi[ssid] = pwd;
     saveFile();
 }
 
 
-String BruceConfig::getWifiPassword(const String& ssid) const {
+String FZerofirmwareConfig::getWifiPassword(const String& ssid) const {
     auto it = wifi.find(ssid);
     if (it != wifi.end()) return it->second;
     return "";
 }
 
 
-void BruceConfig::setIrTxPin(int value) {
+void FZerofirmwareConfig::setIrTxPin(int value) {
     irTx = value;
     saveFile();
 }
 
 
-void BruceConfig::setIrRxPin(int value) {
+void FZerofirmwareConfig::setIrRxPin(int value) {
     irRx = value;
     saveFile();
 }
 
 
-void BruceConfig::setRfTxPin(int value) {
+void FZerofirmwareConfig::setRfTxPin(int value) {
     rfTx = value;
     saveFile();
 }
 
 
-void BruceConfig::setRfRxPin(int value) {
+void FZerofirmwareConfig::setRfRxPin(int value) {
     rfRx = value;
     saveFile();
 }
 
 
-void BruceConfig::setRfModule(RFModules value) {
+void FZerofirmwareConfig::setRfModule(RFModules value) {
     rfModule = value;
     validateRfModuleValue();
     saveFile();
 }
 
 
-void BruceConfig::validateRfModuleValue() {
+void FZerofirmwareConfig::validateRfModuleValue() {
     if (rfModule != M5_RF_MODULE && rfModule != CC1101_SPI_MODULE) {
         rfModule = M5_RF_MODULE;
     }
 }
 
 
-void BruceConfig::setRfFreq(float value, int fxdFreq) {
+void FZerofirmwareConfig::setRfFreq(float value, int fxdFreq) {
     rfFreq = value;
     if (fxdFreq != NULL) rfFxdFreq = fxdFreq;
     saveFile();
 }
 
 
-void BruceConfig::setRfFxdFreq(float value) {
+void FZerofirmwareConfig::setRfFxdFreq(float value) {
     rfFxdFreq = value;
     saveFile();
 }
 
 
-void BruceConfig::setRfScanRange(int value, int fxdFreq) {
+void FZerofirmwareConfig::setRfScanRange(int value, int fxdFreq) {
     rfScanRange = value;
     rfFxdFreq = fxdFreq;
     validateRfScanRangeValue();
@@ -418,19 +418,19 @@ void BruceConfig::setRfScanRange(int value, int fxdFreq) {
 }
 
 
-void BruceConfig::validateRfScanRangeValue() {
+void FZerofirmwareConfig::validateRfScanRangeValue() {
     if (rfScanRange < 0 || rfScanRange > 3) rfScanRange = 3;
 }
 
 
-void BruceConfig::setRfidModule(RFIDModules value) {
+void FZerofirmwareConfig::setRfidModule(RFIDModules value) {
     rfidModule = value;
     validateRfidModuleValue();
     saveFile();
 }
 
 
-void BruceConfig::validateRfidModuleValue() {
+void FZerofirmwareConfig::validateRfidModuleValue() {
     if (
         rfidModule != M5_RFID2_MODULE
         && rfidModule != PN532_I2C_MODULE
@@ -441,7 +441,7 @@ void BruceConfig::validateRfidModuleValue() {
 }
 
 
-void BruceConfig::addMifareKey(String value) {
+void FZerofirmwareConfig::addMifareKey(String value) {
     if (value.length() != 12) return;
     mifareKeys.insert(value);
     validateMifareKeysItems();
@@ -449,7 +449,7 @@ void BruceConfig::addMifareKey(String value) {
 }
 
 
-void BruceConfig::validateMifareKeysItems() {
+void FZerofirmwareConfig::validateMifareKeysItems() {
     for (auto key = mifareKeys.begin(); key != mifareKeys.end();) {
         if (key->length() != 12) key = mifareKeys.erase(key);
         else ++key;
@@ -457,54 +457,54 @@ void BruceConfig::validateMifareKeysItems() {
 }
 
 
-void BruceConfig::setGpsBaudrate(int value) {
+void FZerofirmwareConfig::setGpsBaudrate(int value) {
     gpsBaudrate = value;
     validateGpsBaudrateValue();
     saveFile();
 }
 
 
-void BruceConfig::validateGpsBaudrateValue() {
+void FZerofirmwareConfig::validateGpsBaudrateValue() {
     if (gpsBaudrate != 9600 && gpsBaudrate != 115200) gpsBaudrate = 9600;
 }
 
 
-void BruceConfig::setStartupApp(String value) {
+void FZerofirmwareConfig::setStartupApp(String value) {
     startupApp = value;
     saveFile();
 }
 
 
-void BruceConfig::setWigleBasicToken(String value) {
+void FZerofirmwareConfig::setWigleBasicToken(String value) {
     wigleBasicToken = value;
     saveFile();
 }
 
 
-void BruceConfig::setDevMode(int value) {
+void FZerofirmwareConfig::setDevMode(int value) {
     devMode = value;
     validateDevModeValue();
     saveFile();
 }
 
 
-void BruceConfig::validateDevModeValue() {
+void FZerofirmwareConfig::validateDevModeValue() {
     if (devMode > 1) devMode = 1;
 }
 
 
-void BruceConfig::addDisabledMenu(String value) {
+void FZerofirmwareConfig::addDisabledMenu(String value) {
     // TODO: check if duplicate
     disabledMenus.push_back(value);
     saveFile();
 }
 
-void BruceConfig::addQrCodeEntry(const String& menuName, const String& content) {
+void FZerofirmwareConfig::addQrCodeEntry(const String& menuName, const String& content) {
     qrCodes.push_back({menuName, content});
     saveFile();
 }
 
-void BruceConfig::removeQrCodeEntry(const String& menuName) {
+void FZerofirmwareConfig::removeQrCodeEntry(const String& menuName) {
     qrCodes.erase(std::remove_if(qrCodes.begin(), qrCodes.end(),
         [&](const QrCodeEntry& entry) { return entry.menuName == menuName; }), qrCodes.end());
     saveFile();

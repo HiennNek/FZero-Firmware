@@ -1,5 +1,5 @@
-#ifndef __BRUCE_CONFIG_H__
-#define __BRUCE_CONFIG_H__
+#ifndef __FZEROFIRMWARE_CONFIG_H__
+#define __FZEROFIRMWARE_CONFIG_H__
 
 // #include <globals.h>
 #include <Arduino.h>
@@ -8,7 +8,7 @@
 #include <vector>
 #include <set>
 
-#define DEFAULT_PRICOLOR 0xA80F
+#define DEFAULT_PRICOLOR 0xFD20
 
 enum RFIDModules {
     M5_RFID2_MODULE  = 0,
@@ -22,7 +22,7 @@ enum RFModules {
 };
 
 
-class BruceConfig {
+class FZerofirmwareConfig {
 public:
     struct WiFiCredential {
         String ssid;
@@ -37,7 +37,7 @@ public:
         String content;
     };
 
-    const char *filepath = "/bruce.conf";
+    const char *filepath = "/fzero.conf";
 
     // Theme colors in RGB565 format
     uint16_t priColor = DEFAULT_PRICOLOR;
@@ -57,8 +57,8 @@ public:
     uint32_t ledColor = 0;
 
     // Wifi
-    Credential webUI = {"admin", "bruce"};
-    WiFiCredential wifiAp = {"BruceNet", "brucenet"};
+    Credential webUI = {"admin", "fzerofirmware"};
+    WiFiCredential wifiAp = {"FZerofirmwareNet", "fzerofirmwarenet"};
     std::map<String, String> wifi = {};
 
     // IR
@@ -83,22 +83,24 @@ public:
     // Misc
     String startupApp = "";
     String wigleBasicToken = "";
-    int devMode = 0;
+    int devMode = 1;
 
     std::vector<String> disabledMenus = {};
 
     std::vector<QrCodeEntry> qrCodes = {
-        {"Bruce AP", "WIFI:T:WPA;S:BruceNet;P:brucenet;;"},
-        {"Bruce Wiki", "https://github.com/pr3y/Bruce/wiki"},
-        {"Bruce Site", "https://bruce.computer"},
-        {"Rickroll", "https://youtu.be/dQw4w9WgXcQ"}
+        {"FZero Firmware AP", "WIFI:T:WPA;S:FZerofirmwareNet;P:fzerofirmwarenet;;"},
+        {"Main Bruce Wiki", "https://github.com/pr3y/Bruce/wiki"},
+        {"FZero Firmware Github", "https://github.com/HiennNek/FZero-Firmware"},
+        {"HiennNek GitHub", "https://github.com/HiennNek"},
+        {"Rickroll", "https://youtu.be/dQw4w9WgXcQ"},
+        {"HTP WiFi Archive", "https://htpwifiarchive.pages.dev/"}
     };
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     /////////////////////////////////////////////////////////////////////////////////////
-    BruceConfig() {};
-    // ~BruceConfig();
+    FZerofirmwareConfig() {};
+    // ~FZerofirmwareConfig();
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Operations

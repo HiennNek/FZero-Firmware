@@ -160,7 +160,7 @@ void EvilPortal::drawScreen(bool holdDeauth) {
     padprint("Victims: ");
     tft.setTextColor(TFT_RED);
     tft.println(String(totalCapturedCredentials));
-    tft.setTextColor(bruceConfig.priColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor);
 
     padprintln("");
     printLastCapturedCredential();
@@ -182,7 +182,7 @@ void EvilPortal::printDeauthStatus(bool holdDeauth) {
     } else {
         tft.setTextColor(TFT_RED);
         printFootnote("Deauth ON");
-        tft.setTextColor(bruceConfig.priColor);
+        tft.setTextColor(fzerofirmwareConfig.priColor);
     }
 }
 
@@ -322,8 +322,8 @@ void EvilPortal::saveToCSV(const String &csvLine) {
         return;
     }
 
-    if (!fs->exists("/BruceEvilCreds")) fs->mkdir("/BruceEvilCreds");
-    File file = fs->open("/BruceEvilCreds/"+outputFile, FILE_APPEND);
+    if (!fs->exists("/FZerofirmwareEvilCreds")) fs->mkdir("/FZerofirmwareEvilCreds");
+    File file = fs->open("/FZerofirmwareEvilCreds/"+outputFile, FILE_APPEND);
     if (!file) {
         log_i("Error to open file");
         return;

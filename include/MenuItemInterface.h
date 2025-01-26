@@ -14,7 +14,7 @@ public:
     String getName() const {return _name;}
 
     void draw(float scale = 1) {
-        if(rotation!=bruceConfig.rotation) resetCoordinates();
+        if(rotation!=fzerofirmwareConfig.rotation) resetCoordinates();
 
         drawIcon(scale);
         drawArrows(scale);
@@ -22,8 +22,8 @@ public:
     }
 
     void drawArrows(float scale = 1) {
-        tft.fillRect(arrowAreaX, iconAreaY, arrowAreaW, iconAreaH, bruceConfig.bgColor);
-        tft.fillRect(tftWidth - arrowAreaX - arrowAreaW, iconAreaY, arrowAreaW, iconAreaH, bruceConfig.bgColor);
+        tft.fillRect(arrowAreaX, iconAreaY, arrowAreaW, iconAreaH, fzerofirmwareConfig.bgColor);
+        tft.fillRect(tftWidth - arrowAreaX - arrowAreaW, iconAreaY, arrowAreaW, iconAreaH, fzerofirmwareConfig.bgColor);
 
         int arrowSize = scale * 10;
         int lineWidth = scale * 3;
@@ -38,8 +38,8 @@ public:
             arrowX + arrowSize,
             arrowY + arrowSize,
             lineWidth,
-            bruceConfig.priColor,
-            bruceConfig.bgColor
+            fzerofirmwareConfig.priColor,
+            fzerofirmwareConfig.bgColor
         );
         tft.drawWideLine(
             arrowX,
@@ -47,8 +47,8 @@ public:
             arrowX + arrowSize,
             arrowY - arrowSize,
             lineWidth,
-            bruceConfig.priColor,
-            bruceConfig.bgColor
+            fzerofirmwareConfig.priColor,
+            fzerofirmwareConfig.bgColor
         );
 
         // Right Arrow
@@ -58,8 +58,8 @@ public:
             tftWidth - arrowX - arrowSize,
             arrowY + arrowSize,
             lineWidth,
-            bruceConfig.priColor,
-            bruceConfig.bgColor
+            fzerofirmwareConfig.priColor,
+            fzerofirmwareConfig.bgColor
         );
         tft.drawWideLine(
             tftWidth - arrowX,
@@ -67,8 +67,8 @@ public:
             tftWidth - arrowX - arrowSize,
             arrowY - arrowSize,
             lineWidth,
-            bruceConfig.priColor,
-            bruceConfig.bgColor
+            fzerofirmwareConfig.priColor,
+            fzerofirmwareConfig.bgColor
         );
     }
 
@@ -79,7 +79,7 @@ public:
         tft.fillRect(
             arrowAreaX, titleY,
             tftWidth - 2*arrowAreaX, LH*FM,
-            bruceConfig.bgColor
+            fzerofirmwareConfig.bgColor
         );
         tft.drawCentreString(getName(), iconCenterX, titleY, 1);
     }
@@ -107,7 +107,7 @@ protected:
     MenuItemInterface(const String& name) : _name(name) {}
 
     void clearIconArea(void) {
-        tft.fillRect(iconAreaX, iconAreaY, iconAreaW, iconAreaH, bruceConfig.bgColor);
+        tft.fillRect(iconAreaX, iconAreaY, iconAreaW, iconAreaH, fzerofirmwareConfig.bgColor);
     }
     
     void resetCoordinates(void) {
@@ -137,7 +137,7 @@ protected:
         arrowAreaX = BORDER_PAD_X;
         arrowAreaW = iconAreaX - arrowAreaX;
 
-        rotation = bruceConfig.rotation;
+        rotation = fzerofirmwareConfig.rotation;
     }
 };
 

@@ -12,14 +12,15 @@ void RFMenu::optionsMenu() {
         {"SquareWave Spec", [=]() { rf_SquareWave(); }}, //@Pirata
         {"Jammer Itmt",     [=]() { rf_jammerIntermittent(); }}, //@IncursioHack
         {"Jammer Full",     [=]() { rf_jammerFull(); }}, //@IncursioHack
+        {"Jammer All Freq", [=]() { rf_jammerAllFreq(); }}, //@HiennNek
         {"Config",          [=]() { configMenu(); }},
         {"Main Menu",       [=]() { backToMenu(); }},
     };
 
     delay(200);
     String txt = "Radio Frequency";
-    if(bruceConfig.rfModule==CC1101_SPI_MODULE) txt+=" (CC1101)"; // Indicates if CC1101 is connected
-    else txt+=" Tx: " + String(bruceConfig.rfTx) + " Rx: " + String(bruceConfig.rfRx);
+    if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) txt+=" (CC1101)"; // Indicates if CC1101 is connected
+    else txt+=" Tx: " + String(fzerofirmwareConfig.rfTx) + " Rx: " + String(fzerofirmwareConfig.rfRx);
 
     loopOptions(options,false,true,txt);
 }
@@ -46,12 +47,12 @@ void RFMenu::drawIcon(float scale) {
     if (triangleSize % 2 != 0) triangleSize++;
 
     // Body
-    tft.fillCircle(iconCenterX, iconCenterY - radius, radius, bruceConfig.priColor);
+    tft.fillCircle(iconCenterX, iconCenterY - radius, radius, fzerofirmwareConfig.priColor);
     tft.fillTriangle(
         iconCenterX, iconCenterY,
         iconCenterX - triangleSize/2, iconCenterY + triangleSize,
         iconCenterX + triangleSize/2, iconCenterY + triangleSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Left Arcs
@@ -59,19 +60,19 @@ void RFMenu::drawIcon(float scale) {
         iconCenterX, iconCenterY - radius,
         2.5*radius, 2*radius,
         40, 140,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY - radius,
         2.5*radius + deltaRadius, 2*radius + deltaRadius,
         40, 140,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY - radius,
         2.5*radius + 2*deltaRadius, 2*radius + 2*deltaRadius,
         40, 140,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
 
     // Right Arcs
@@ -79,18 +80,18 @@ void RFMenu::drawIcon(float scale) {
         iconCenterX, iconCenterY - radius,
         2.5*radius, 2*radius,
         220, 320,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY - radius,
         2.5*radius + deltaRadius, 2*radius + deltaRadius,
         220, 320,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY - radius,
         2.5*radius + 2*deltaRadius, 2*radius + 2*deltaRadius,
         220, 320,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
 }

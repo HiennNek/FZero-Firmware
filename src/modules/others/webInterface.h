@@ -719,8 +719,8 @@ const char index_html[] PROGMEM = R"rawliteral(
 <body>
   <div class="container">
     <div class="float-element"><a onclick="logoutButton()" href='javascript:void(0);'>[X]</a></div>
-    <h1 align="center">BRUCE Firmware</h1>
-    <p>Firmware for offensive pranks and pentest studies and analysis. For educational purposes only. Don't use in environments where you are not allowed. All responsibilities for irresponsible usage of this firmware rest on your fin, sharky. Sincerely, Bruce.</p>
+    <h1 align="center">FZEROFIRMWARE Firmware</h1>
+    <p>Firmware for offensive pranks and pentest studies and analysis. For educational purposes only. Don't use in environments where you are not allowed. All responsibilities for irresponsible usage of this firmware rest on your fin, sharky. Sincerely, FZerofirmware.</p>
     <p>Firmware version: %FIRMWARE%</p>
     <p>SD Free Storage: <span id="freeSD">%FREESD%</span> | Used: <span id="usedSD">%USEDSD%</span> | Total: <span id="totalSD">%TOTALSD%</span></p>
     <p>LittleFS Free Storage: <span id="freeSD">%FREELittleFS%</span> | Used: <span id="usedSD">%USEDLittleFS%</span> | Total: <span id="totalSD">%TOTALLittleFS%</span></p>

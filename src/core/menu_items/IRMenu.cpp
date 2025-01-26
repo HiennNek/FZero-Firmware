@@ -16,7 +16,7 @@ void IRMenu::optionsMenu() {
     };
 
     String txt = "Infrared";
-    txt+=" Tx: " + String(bruceConfig.irTx) + " Rx: " + String(bruceConfig.irRx);
+    txt+=" Tx: " + String(fzerofirmwareConfig.irTx) + " Rx: " + String(fzerofirmwareConfig.irRx);
     loopOptions(options,false,true,txt);
 }
 
@@ -44,21 +44,21 @@ void IRMenu::drawIcon(float scale) {
         iconCenterY - iconSize/2,
         iconSize/6,
         iconSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillRect(
         iconCenterX - iconSize/3,
         iconCenterY - iconSize/3,
         iconSize/6,
         2*iconSize/3,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     tft.drawCircle(
         iconCenterX - iconSize/6,
         iconCenterY,
         radius,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     tft.drawArc(
@@ -66,23 +66,23 @@ void IRMenu::drawIcon(float scale) {
         iconCenterY,
         2.5*radius, 2*radius,
         220, 320,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX - iconSize/6,
         iconCenterY,
         2.5*radius + deltaRadius, 2*radius + deltaRadius,
         220, 320,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX - iconSize/6,
         iconCenterY,
         2.5*radius + 2*deltaRadius, 2*radius + 2*deltaRadius,
         220, 320,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 }

@@ -36,7 +36,7 @@ void GPSTracker::setup() {
 }
 
 bool GPSTracker::begin_gps() {
-    GPSserial.begin(bruceConfig.gpsBaudrate, SERIAL_8N1, SERIAL_RX, SERIAL_TX);
+    GPSserial.begin(fzerofirmwareConfig.gpsBaudrate, SERIAL_8N1, SERIAL_RX, SERIAL_TX);
 
     int count = 0;
     padprintln("Waiting for GPS data");
@@ -158,30 +158,30 @@ void GPSTracker::add_initial_file_data(File file) {
     file.println("<?xml-stylesheet type=\"text/xsl\" href=\"details.xsl\"?>");
     file.println("<gpx");
     file.println("  version=\"1.1\"");
-    file.println("  creator=\"Bruce Firmware\"");
+    file.println("  creator=\"FZerofirmware Firmware\"");
     file.println("  xmlns=\"http://www.topografix.com/GPX/1/1\"");
     file.println("  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
     file.println("  xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd\"");
     file.println(">");
     file.println("  <metadata>");
-    file.println("    <name>Bruce GPS Tracker</name>");
-    file.println("    <desc>GPS Tracker using Bruce Firmware</desc>");
-    file.println("    <link href=\"https://bruce.computer\">");
-    file.println("      <text>Bruce Website</text>");
+    file.println("    <name>FZerofirmware GPS Tracker</name>");
+    file.println("    <desc>GPS Tracker using FZerofirmware Firmware</desc>");
+    file.println("    <link href=\"https://fzerofirmware.computer\">");
+    file.println("      <text>FZerofirmware Website</text>");
     file.println("    </link>");
     file.println("  </metadata>");
     file.println("  <trk>");
-    file.println("    <name>Bruce Route</name>");
-    file.println("    <desc>GPS route captured by Bruce firmware</desc>");
+    file.println("    <name>FZerofirmware Route</name>");
+    file.println("    <desc>GPS route captured by FZerofirmware firmware</desc>");
     file.println("    <trkseg>");
 }
 
 void GPSTracker::add_final_file_data() {
     FS *fs;
     if(!getFsStorage(fs)) return;
-    if (filename == "" || !(*fs).exists("/BruceGPS/"+filename)) return;
+    if (filename == "" || !(*fs).exists("/FZerofirmwareGPS/"+filename)) return;
 
-    File file = (*fs).open("/BruceGPS/"+filename, FILE_APPEND);
+    File file = (*fs).open("/FZerofirmwareGPS/"+filename, FILE_APPEND);
 
     if (!file) return;
     file.println("    </trkseg>");
@@ -201,11 +201,11 @@ void GPSTracker::add_coord() {
 
     if (filename == "") create_filename();
 
-    if (!(*fs).exists("/BruceGPS")) (*fs).mkdir("/BruceGPS");
+    if (!(*fs).exists("/FZerofirmwareGPS")) (*fs).mkdir("/FZerofirmwareGPS");
 
     bool is_new_file = false;
-    if(!(*fs).exists("/BruceGPS/"+filename)) is_new_file = true;
-    File file = (*fs).open("/BruceGPS/"+filename, is_new_file ? FILE_WRITE : FILE_APPEND);
+    if(!(*fs).exists("/FZerofirmwareGPS/"+filename)) is_new_file = true;
+    File file = (*fs).open("/FZerofirmwareGPS/"+filename, is_new_file ? FILE_WRITE : FILE_APPEND);
 
     if (!file) {
         padprintln("Failed to open file for writing");

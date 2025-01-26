@@ -57,7 +57,7 @@ uint32_t packet_counter = 0;
 File _pcap_file;
 std::set<BeaconList> registeredBeacons;
 std::set<String> SavedHS; // Saves the MAC of beacon HS detected in the session
-String filename = "/BrucePCAP/" + (String)FILENAME + ".pcap";
+String filename = "/FZerofirmwarePCAP/" + (String)FILENAME + ".pcap";
 
 //===== FUNCTIONS =====//
 
@@ -117,7 +117,7 @@ void saveHandshake(const wifi_promiscuous_pkt_t* packet, bool beacon, FS &Fs) {
   }
 
   char nomFichier[50];
-  sprintf(nomFichier, "/BrucePCAP/handshakes/HS_%02X%02X%02X%02X%02X%02X.pcap",
+  sprintf(nomFichier, "/FZerofirmwarePCAP/handshakes/HS_%02X%02X%02X%02X%02X%02X.pcap",
           apAddr[0], apAddr[1], apAddr[2], apAddr[3], apAddr[4], apAddr[5]);
 
   // Vérifier si le fichier existe déjà
@@ -301,13 +301,13 @@ int c = 0;
 
 void openFile(FS &Fs){
   //searches for the next non-existent file name
-  if (!Fs.exists("/BrucePCAP")) Fs.mkdir("/BrucePCAP");
-  filename = "/BrucePCAP/" + (String)FILENAME + (String)c + ".pcap";
+  if (!Fs.exists("/FZerofirmwarePCAP")) Fs.mkdir("/FZerofirmwarePCAP");
+  filename = "/FZerofirmwarePCAP/" + (String)FILENAME + (String)c + ".pcap";
   while(Fs.open(filename)){
-    filename = "/BrucePCAP/" + (String)FILENAME + (String)c + ".pcap";
+    filename = "/FZerofirmwarePCAP/" + (String)FILENAME + (String)c + ".pcap";
     c++;
   }
-  if (!Fs.exists("/BrucePCAP/handshakes")) Fs.mkdir("/BrucePCAP/handshakes");
+  if (!Fs.exists("/FZerofirmwarePCAP/handshakes")) Fs.mkdir("/FZerofirmwarePCAP/handshakes");
   _pcap_file = Fs.open(filename, FILE_WRITE);
   if(_pcap_file) {
     fileOpen = writeHeader(_pcap_file);
@@ -355,9 +355,9 @@ void sniffer_setup() {
   ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
 
   wifi_config_t wifi_config;
-  strcpy((char *)wifi_config.ap.ssid, "BruceSniffer");
-  strcpy((char *)wifi_config.ap.password, "brucenet");
-  wifi_config.ap.ssid_len = strlen("BruceSniffer");
+  strcpy((char *)wifi_config.ap.ssid, "FZerofirmwareSniffer");
+  strcpy((char *)wifi_config.ap.password, "fzerofirmwarenet");
+  wifi_config.ap.ssid_len = strlen("FZerofirmwareSniffer");
   wifi_config.ap.channel = 1;                      // Channel
   wifi_config.ap.authmode = WIFI_AUTH_WPA2_PSK;    // auth mode
   wifi_config.ap.ssid_hidden = 1;                  // 1 to hidden SSID, 0 to visivle
@@ -411,7 +411,7 @@ void sniffer_setup() {
       delay(200);
       #if !defined(HAS_KEYBOARD)
         long _tmp=millis();
-        while(check(PrevPress)) tft.drawArc(tftWidth/2, tftHeight/2, 25,15,0,360*(millis()-_tmp)/700,getColorVariation(bruceConfig.priColor),bruceConfig.bgColor);
+        while(check(PrevPress)) tft.drawArc(tftWidth/2, tftHeight/2, 25,15,0,360*(millis()-_tmp)/700,getColorVariation(fzerofirmwareConfig.priColor),fzerofirmwareConfig.bgColor);
         if(millis()-_tmp>700) { // longpress detected to exit
           returnToMenu=true;
           _pcap_file.close();
@@ -467,7 +467,7 @@ void sniffer_setup() {
       tft.drawPixel(0,0,0);
       drawMainBorderWithTitle("RAW SNIFFER"); // Clear Screen and redraw border
       tft.setTextSize(FP);
-      tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+      tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
       padprintln("Saved file into " + FileSys);
       padprintln("File: " + filename);
       padprintln("Sniffer Mode: " + String(_only_HS?"Only EAPOL/HS":"All packets Sniff"));

@@ -29,7 +29,7 @@ void updateClockTimezone(){
     timeClient.begin();
     timeClient.update();
 
-    timeClient.setTimeOffset(bruceConfig.tmz * 3600);
+    timeClient.setTimeOffset(fzerofirmwareConfig.tmz * 3600);
 
     localTime = myTZ.toLocal(timeClient.getEpochTime());
 
@@ -48,7 +48,7 @@ void updateTimeStr(struct tm timeInfo) {
 void showDeviceInfo() {
     ScrollableTextArea area = ScrollableTextArea("DEVICE INFO");
 
-    area.addLine("Bruce Version: " + String(BRUCE_VERSION));
+    area.addLine("FZerofirmware Version: " + String(FZEROFIRMWARE_VERSION));
     area.addLine("EEPROM size: " + String(EEPROMSIZE));
     area.addLine("");
 
@@ -57,7 +57,7 @@ void showDeviceInfo() {
     area.addLine("Rotation: " + String(ROTATION));
     area.addLine("Width: " + String(tftWidth) + "px");
     area.addLine("Height: " + String(tftHeight) + "px");
-    area.addLine("Brightness: " + String(bruceConfig.bright) + "%");
+    area.addLine("Brightness: " + String(fzerofirmwareConfig.bright) + "%");
     area.addLine("");
 #endif
 

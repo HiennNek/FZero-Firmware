@@ -7,7 +7,7 @@
 
 String getScriptsFolder(FS *&fs) {
     String folder;
-    String possibleFolders[] = {"/scripts", "/BruceScripts", "/BruceJS"};
+    String possibleFolders[] = {"/scripts", "/FZerofirmwareScripts", "/FZerofirmwareJS"};
     int listSize = sizeof(possibleFolders) / sizeof(possibleFolders[0]);
 
     for (int i = 0; i < listSize; i++) {
@@ -86,20 +86,20 @@ void ScriptsMenu::drawIcon(float scale) {
         iconCenterY - iconH/2,
         iconW,
         iconH,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillRect(
         iconCenterX + iconW/2 - foldSize,
         iconCenterY - iconH/2,
         foldSize,
         foldSize,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.bgColor
     );
     tft.drawTriangle(
         (iconCenterX + iconW/2 - foldSize), (iconCenterY - iconH/2),
         (iconCenterX + iconW/2 - foldSize), (iconCenterY - iconH/2 + foldSize - 1),
         (iconCenterX + iconW/2 - 1), (iconCenterY - iconH/2 + foldSize - 1),
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Left Arrow
@@ -108,14 +108,14 @@ void ScriptsMenu::drawIcon(float scale) {
         iconCenterY + iconH/2 - arrowPadBottom,
         iconCenterX - iconW/2 + arrowPadX + arrowSize,
         iconCenterY + iconH/2 - arrowPadBottom + arrowSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.drawLine(
         iconCenterX - iconW/2 + arrowPadX,
         iconCenterY + iconH/2 - arrowPadBottom,
         iconCenterX - iconW/2 + arrowPadX + arrowSize,
         iconCenterY + iconH/2 - arrowPadBottom - arrowSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Slash
@@ -124,7 +124,7 @@ void ScriptsMenu::drawIcon(float scale) {
         iconCenterY + iconH/2 - arrowPadBottom + arrowSize,
         iconCenterX + slashSize/2,
         iconCenterY + iconH/2 - arrowPadBottom - arrowSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Right Arrow
@@ -133,14 +133,14 @@ void ScriptsMenu::drawIcon(float scale) {
         iconCenterY + iconH/2 - arrowPadBottom,
         iconCenterX + iconW/2 - arrowPadX - arrowSize,
         iconCenterY + iconH/2 - arrowPadBottom + arrowSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.drawLine(
         iconCenterX + iconW/2 - arrowPadX,
         iconCenterY + iconH/2 - arrowPadBottom,
         iconCenterX + iconW/2 - arrowPadX - arrowSize,
         iconCenterY + iconH/2 - arrowPadBottom - arrowSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
 }

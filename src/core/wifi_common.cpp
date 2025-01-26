@@ -8,7 +8,7 @@
 
 bool _wifiConnect(const String& ssid, int encryption)
 {
-  String password = bruceConfig.getWifiPassword(ssid);
+  String password = fzerofirmwareConfig.getWifiPassword(ssid);
   if (password == "" && encryption > 0) {
     password = keyboard(password, 63, "Network Password:");
   }
@@ -37,7 +37,7 @@ bool _wifiConnect(const String& ssid, int encryption)
   if (connected) {
     wifiConnected = true;
     wifiIP = WiFi.localIP().toString();
-    bruceConfig.addWifiCredential(ssid, password);
+    fzerofirmwareConfig.addWifiCredential(ssid, password);
     updateClockTimezone();
   }
 
@@ -77,7 +77,7 @@ bool _setupAP()
 {
   IPAddress AP_GATEWAY(172, 0, 0, 1);
   WiFi.softAPConfig(AP_GATEWAY, AP_GATEWAY, IPAddress(255, 255, 255, 0));
-  WiFi.softAP(bruceConfig.wifiAp.ssid, bruceConfig.wifiAp.pwd, 6, 0, 4, false);
+  WiFi.softAP(fzerofirmwareConfig.wifiAp.ssid, fzerofirmwareConfig.wifiAp.pwd, 6, 0, 4, false);
   wifiIP = WiFi.softAPIP().toString(); // update global var
   Serial.println("IP: " + wifiIP);
   wifiConnected = true;
@@ -147,7 +147,7 @@ void wifiConnectTask(int maxSearch)
 
   for (int i = 0; i < min(nets, maxSearch); i++) {
     ssid = WiFi.SSID(i).c_str();
-    pwd = bruceConfig.getWifiPassword(ssid);
+    pwd = fzerofirmwareConfig.getWifiPassword(ssid);
     if (pwd == "") continue;
 
     WiFi.begin(ssid, pwd);

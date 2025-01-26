@@ -30,41 +30,41 @@ void FileMenu::drawIcon(float scale) {
     int iconDelta = 10;
 
     // Files
-    tft.drawRect(iconX+iconDelta, iconY-iconDelta, iconW, iconH, bruceConfig.priColor);
+    tft.drawRect(iconX+iconDelta, iconY-iconDelta, iconW, iconH, fzerofirmwareConfig.priColor);
 
-    tft.fillRect(iconX, iconY, iconW, iconH, bruceConfig.bgColor);
-    tft.drawRect(iconX, iconY, iconW, iconH, bruceConfig.priColor);
+    tft.fillRect(iconX, iconY, iconW, iconH, fzerofirmwareConfig.bgColor);
+    tft.drawRect(iconX, iconY, iconW, iconH, fzerofirmwareConfig.priColor);
 
-    tft.fillRect(iconX-iconDelta, iconY+iconDelta, iconW, iconH, bruceConfig.bgColor);
-    tft.drawRect(iconX-iconDelta, iconY+iconDelta, iconW, iconH, bruceConfig.priColor);
+    tft.fillRect(iconX-iconDelta, iconY+iconDelta, iconW, iconH, fzerofirmwareConfig.bgColor);
+    tft.drawRect(iconX-iconDelta, iconY+iconDelta, iconW, iconH, fzerofirmwareConfig.priColor);
 
     // Erase corners
-    tft.fillRect(iconX+iconDelta+iconW-foldSize, iconY-iconDelta-1, foldSize, 2, bruceConfig.bgColor);
-    tft.fillRect(iconX+iconDelta+iconW-1, iconY-iconDelta, 2, foldSize, bruceConfig.bgColor);
+    tft.fillRect(iconX+iconDelta+iconW-foldSize, iconY-iconDelta-1, foldSize, 2, fzerofirmwareConfig.bgColor);
+    tft.fillRect(iconX+iconDelta+iconW-1, iconY-iconDelta, 2, foldSize, fzerofirmwareConfig.bgColor);
 
-    tft.fillRect(iconX+iconW-foldSize, iconY-1, foldSize, 2, bruceConfig.bgColor);
-    tft.fillRect(iconX+iconW-1, iconY, 2, foldSize, bruceConfig.bgColor);
+    tft.fillRect(iconX+iconW-foldSize, iconY-1, foldSize, 2, fzerofirmwareConfig.bgColor);
+    tft.fillRect(iconX+iconW-1, iconY, 2, foldSize, fzerofirmwareConfig.bgColor);
 
-    tft.fillRect(iconX-iconDelta+iconW-foldSize, iconY+iconDelta-1, foldSize, 2, bruceConfig.bgColor);
-    tft.fillRect(iconX-iconDelta+iconW-1, iconY+iconDelta, 2, foldSize, bruceConfig.bgColor);
+    tft.fillRect(iconX-iconDelta+iconW-foldSize, iconY+iconDelta-1, foldSize, 2, fzerofirmwareConfig.bgColor);
+    tft.fillRect(iconX-iconDelta+iconW-1, iconY+iconDelta, 2, foldSize, fzerofirmwareConfig.bgColor);
 
     // Folds
     tft.drawTriangle(
         iconX+iconDelta+iconW-foldSize, iconY-iconDelta,
         iconX+iconDelta+iconW-foldSize, iconY-iconDelta+foldSize-1,
         iconX+iconDelta+iconW-1, iconY-iconDelta+foldSize-1,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.drawTriangle(
         iconX+iconW-foldSize, iconY,
         iconX+iconW-foldSize, iconY+foldSize-1,
         iconX+iconW-1, iconY+foldSize-1,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.drawTriangle(
         iconX-iconDelta+iconW-foldSize, iconY+iconDelta,
         iconX-iconDelta+iconW-foldSize, iconY+iconDelta+foldSize-1,
         iconX-iconDelta+iconW-1, iconY+iconDelta+foldSize-1,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }

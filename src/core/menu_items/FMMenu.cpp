@@ -41,14 +41,14 @@ void FMMenu::drawIcon(float scale) {
         caseX, caseY,
         iconW, caseH,
         iconW/10,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Potentiometer
     tft.fillCircle(
         potX, potY,
         iconH/7,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Screen
@@ -56,20 +56,20 @@ void FMMenu::drawIcon(float scale) {
         caseX + iconW/10,
         caseY + iconH/10,
         iconW/2, iconH/3,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Antenna
     tft.drawLine(
         caseX + iconW/10, caseY,
         caseX + iconW/10 + iconH/3, caseY - iconH/6,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillCircle(
         caseX + iconW/10 + iconH/3,
         caseY - iconH/6,
         iconH/30,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     // Buttons
@@ -77,12 +77,12 @@ void FMMenu::drawIcon(float scale) {
         caseX + iconW/10 + iconH/8,
         btnY,
         iconH/12,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillCircle(
         caseX + iconW/10 + iconW/2 - iconH/8,
         btnY,
         iconH/12,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }

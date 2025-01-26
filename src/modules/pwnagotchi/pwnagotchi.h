@@ -8,7 +8,7 @@ Thanks to @bmorcelli for his help doing a better code.
 */
 
 
-void brucegotchi_start();
-void brucegotchi_setup();
-void brucegotchi_update();
+void fzerofirmwaregotchi_start();
+void fzerofirmwaregotchi_setup();
+void fzerofirmwaregotchi_update();
 

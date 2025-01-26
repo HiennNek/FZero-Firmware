@@ -27,14 +27,14 @@ uint8_t current_channel = 1;
 uint32_t last_mood_switch = 10001;
 bool pwnagotchi_exit = false;
 
-void brucegotchi_setup() {
+void fzerofirmwaregotchi_setup() {
     initPwngrid();
     initUi();
     state = STATE_INIT;
-    Serial.println("Brucegotchi Initialized");
+    Serial.println("FZerofirmwaregotchi Initialized");
 }
 
-void brucegotchi_update() {
+void fzerofirmwaregotchi_update() {
     if (state == STATE_HALT) {
       return;
     }
@@ -92,7 +92,7 @@ void set_pwnagotchi_exit(bool new_value) {
   pwnagotchi_exit = new_value;
 }
 
-void brucegotchi_start() {
+void fzerofirmwaregotchi_start() {
   int tmp = 0;            // Control workflow
   bool shot=false;        // Control deauth faces
   bool pwgrid_done=false; // Control to start advertising
@@ -100,13 +100,13 @@ void brucegotchi_start() {
   uint8_t _times=0;       // control delays without impacting control btns
   set_pwnagotchi_exit(false);
 
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   num_HS=0; // restart pwnagotchi counting
   SavedHS.clear();
   registeredBeacons.clear(); // Clear the registeredBeacon array in case it has something
   delay(300);  // Due to select button pressed to enter / quit this feature*
 
-  brucegotchi_setup(); // Starts the thing
+  fzerofirmwaregotchi_setup(); // Starts the thing
   // Draw footer & header
   drawTopCanvas();
   drawBottomCanvas();
@@ -116,16 +116,16 @@ void brucegotchi_start() {
   #if defined(HAS_TOUCH)
     TouchFooter();
   #endif
-  brucegotchi_update();
+  fzerofirmwaregotchi_update();
 
   //Check where to save the Handshakes
   if(setupSdCard()) {
     isLittleFS=false;
-    if (!SD.exists("/BrucePCAP")) SD.mkdir("/BrucePCAP");
-    if (!SD.exists("/BrucePCAP/handshakes")) SD.mkdir("/BrucePCAP/handshakes");
+    if (!SD.exists("/FZerofirmwarePCAP")) SD.mkdir("/FZerofirmwarePCAP");
+    if (!SD.exists("/FZerofirmwarePCAP/handshakes")) SD.mkdir("/FZerofirmwarePCAP/handshakes");
   } else{
-    if (!LittleFS.exists("/BrucePCAP")) LittleFS.mkdir("/BrucePCAP");
-    if (!LittleFS.exists("/BrucePCAP/handshakes")) LittleFS.mkdir("/BrucePCAP/handshakes");
+    if (!LittleFS.exists("/FZerofirmwarePCAP")) LittleFS.mkdir("/FZerofirmwarePCAP");
+    if (!LittleFS.exists("/FZerofirmwarePCAP/handshakes")) LittleFS.mkdir("/FZerofirmwarePCAP/handshakes");
     isLittleFS = true;
   }
   tmp=millis();
@@ -170,7 +170,7 @@ void brucegotchi_start() {
       tmp=millis();
       pwgrid_done=false;
       Deauth_done=false;
-      brucegotchi_update();
+      fzerofirmwaregotchi_update();
     }
     if (check(SelPress)) {
       //moved down here to reset the options, due to use in other parts in pwngrid spam
@@ -182,7 +182,7 @@ void brucegotchi_start() {
       // Display menu
       loopOptions(options);
       // Redraw footer & header
-      tft.fillScreen(bruceConfig.bgColor);
+      tft.fillScreen(fzerofirmwareConfig.bgColor);
       updateUi(true);
     }
     if (pwnagotchi_exit) {

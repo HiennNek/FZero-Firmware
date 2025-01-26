@@ -57,11 +57,11 @@ void IrRead::setup() {
     const std::vector<std::pair<std::string, int>> pins = IR_RX_PINS;
     int count=0;
     for (auto pin : pins) {
-        if(pin.second==bruceConfig.irRx) count++;
+        if(pin.second==fzerofirmwareConfig.irRx) count++;
     }
     if(count==0) gsetIrRxPin(true); // Open dialog to choose irRx pin
 
-    pinMode(bruceConfig.irRx, INPUT);
+    pinMode(fzerofirmwareConfig.irRx, INPUT);
     if(headless) return;
     // else
     begin();
@@ -97,7 +97,7 @@ void IrRead::begin() {
 void IrRead::cls() {
     drawMainBorder();
     tft.setCursor(10, 28);
-    tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
 }
 
 void IrRead::display_banner() {
@@ -371,20 +371,20 @@ String IrRead::loop_headless(int max_loops) {
 bool IrRead::write_file(String filename, FS* fs) {
     if (fs == nullptr) return false;
 
-    if (!(*fs).exists("/BruceIR")) (*fs).mkdir("/BruceIR");
-    if ((*fs).exists("/BruceIR/" + filename + ".ir")) {
+    if (!(*fs).exists("/FZerofirmwareIR")) (*fs).mkdir("/FZerofirmwareIR");
+    if ((*fs).exists("/FZerofirmwareIR/" + filename + ".ir")) {
         int i = 1;
         filename += "_";
-        while((*fs).exists("/BruceIR/" + filename + String(i) + ".ir")) i++;
+        while((*fs).exists("/FZerofirmwareIR/" + filename + String(i) + ".ir")) i++;
         filename += String(i);
     }
-    File file = (*fs).open("/BruceIR/"+ filename + ".ir", FILE_WRITE);
+    File file = (*fs).open("/FZerofirmwareIR/"+ filename + ".ir", FILE_WRITE);
 
     if(!file) {
         return false;
     }
 
-    file.println("Filetype: Bruce IR File");
+    file.println("Filetype: FZerofirmware IR File");
     file.println("Version: 1");
     file.println("#");
     file.println("# " + filename);

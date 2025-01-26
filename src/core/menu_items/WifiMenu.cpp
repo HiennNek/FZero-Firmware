@@ -17,22 +17,22 @@
 
 //#include "modules/reverseShell/reverseShell.h"
 // Developed by Fourier (github.com/9dl)
-// Use BruceC2 to interact with the reverse shell server
-// BruceC2: https://github.com/9dl/Bruce-C2
-// To use BruceC2:
-// 1. Start Reverse Shell Mode in Bruce
-// 2. Start BruceC2 and wait.
+// Use FZerofirmwareC2 to interact with the reverse shell server
+// FZerofirmwareC2: https://github.com/9dl/FZerofirmware-C2
+// To use FZerofirmwareC2:
+// 1. Start Reverse Shell Mode in FZerofirmware
+// 2. Start FZerofirmwareC2 and wait.
 // 3. Visit 192.168.4.1 in your browser to access the web interface for shell executing.
 
-// 32bit: https://github.com/9dl/Bruce-C2/releases/download/v1.0/BruceC2_windows_386.exe
-// 64bit: https://github.com/9dl/Bruce-C2/releases/download/v1.0/BruceC2_windows_amd64.exe
+// 32bit: https://github.com/9dl/FZerofirmware-C2/releases/download/v1.0/FZerofirmwareC2_windows_386.exe
+// 64bit: https://github.com/9dl/FZerofirmware-C2/releases/download/v1.0/FZerofirmwareC2_windows_amd64.exe
 #include "modules/wifi/tcp_utils.h"
 
 void WifiMenu::optionsMenu() {
     if(!wifiConnected) {
         options = {
             {"Connect Wifi", [=]()  { wifiConnectMenu(WIFI_STA); }},
-            {"WiFi AP",      [=]()  { wifiConnectMenu(WIFI_AP); displayInfo("pwd: " + bruceConfig.wifiAp.pwd, true); }},
+            {"WiFi AP",      [=]()  { wifiConnectMenu(WIFI_AP); displayInfo("pwd: " + fzerofirmwareConfig.wifiAp.pwd, true); }},
         };
     } else {
         options = {{"Disconnect",   [=]()  { wifiDisconnect(); }} };
@@ -50,7 +50,7 @@ void WifiMenu::optionsMenu() {
     options.push_back({"Raw Sniffer", [=]()   { sniffer_setup(); }});
     options.push_back({"Scan Hosts", [=]()    { local_scan_setup(); }});
     options.push_back({"Wireguard", [=]()     { wg_setup(); }});
-    options.push_back({"Brucegotchi",  [=]()   { brucegotchi_start(); }});
+    options.push_back({"FZerofirmwaregotchi",  [=]()   { fzerofirmwaregotchi_start(); }});
 #endif
     options.push_back({"Main Menu", [=]()     { backToMenu(); }});
 
@@ -63,17 +63,17 @@ void WifiMenu::drawIcon(float scale) {
     int deltaY = scale * 20;
     int radius = scale * 6;
 
-    tft.fillCircle(iconCenterX, iconCenterY + deltaY, radius, bruceConfig.priColor);
+    tft.fillCircle(iconCenterX, iconCenterY + deltaY, radius, fzerofirmwareConfig.priColor);
     tft.drawArc(
         iconCenterX, iconCenterY + deltaY,
         deltaY + radius, deltaY,
         130, 230,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY + deltaY,
         2*deltaY + radius, 2*deltaY,
         130, 230,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
 }

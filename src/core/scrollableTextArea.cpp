@@ -51,9 +51,9 @@ ScrollableTextArea::~ScrollableTextArea() {
 void ScrollableTextArea::setup() {
 #ifdef HAS_SCREEN
         _scrollBuffer.createSprite(_width, _height);
-        _scrollBuffer.setTextColor(bruceConfig.priColor);
+        _scrollBuffer.setTextColor(fzerofirmwareConfig.priColor);
         _scrollBuffer.setTextSize(_fontSize);
-    _scrollBuffer.fillSprite(bruceConfig.bgColor);
+    _scrollBuffer.fillSprite(fzerofirmwareConfig.bgColor);
 
     _maxCharsInLine = floor(_width / _scrollBuffer.textWidth("w", _fontSize));
         _pxlsPerLine = _scrollBuffer.fontHeight() + 2;
@@ -138,7 +138,7 @@ void ScrollableTextArea::addLine(const String& text) {
 void ScrollableTextArea::draw(bool force) {
     if (!_redraw && !force) return;
 
-    _scrollBuffer.fillSprite(bruceConfig.bgColor);
+    _scrollBuffer.fillSprite(fzerofirmwareConfig.bgColor);
 
     uint16_t yOffset = 0;
     uint16_t lines = 0;

@@ -14,7 +14,7 @@ void GpsMenu::optionsMenu() {
         {"Main Menu",   [=]() { backToMenu(); }}
     };
 
-    String txt = "GPS (" + String(bruceConfig.gpsBaudrate) + " bps)";
+    String txt = "GPS (" + String(fzerofirmwareConfig.gpsBaudrate) + " bps)";
     loopOptions(options,false,true,txt);
 }
 
@@ -40,24 +40,24 @@ void GpsMenu::drawIcon(float scale) {
         iconCenterX,
         iconCenterY - radius/2,
         radius,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillTriangle(
         iconCenterX - tangentX, iconCenterY - radius/2 + tangentY,
         iconCenterX + tangentX, iconCenterY - radius/2 + tangentY,
         iconCenterX, iconCenterY + 1.5*radius,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillCircle(
         iconCenterX,
         iconCenterY - radius/2,
         radius/2,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.bgColor
     );
 
     tft.drawEllipse(
         iconCenterX, iconCenterY + 1.5*radius,
         1.5*radius, radius/2,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }

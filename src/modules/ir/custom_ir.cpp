@@ -115,8 +115,8 @@ bool txIrFile(FS *fs, String filepath) {
 
   File databaseFile = fs->open(filepath, FILE_READ);
 
-  pinMode(bruceConfig.irTx, OUTPUT);
-  //digitalWrite(bruceConfig.irTx, LED_ON);
+  pinMode(fzerofirmwareConfig.irTx, OUTPUT);
+  //digitalWrite(fzerofirmwareConfig.irTx, LED_ON);
 
   if (!databaseFile) {
     Serial.println("Failed to open database file.");
@@ -247,7 +247,7 @@ bool txIrFile(FS *fs, String filepath) {
   Serial.println("EXTRA finished");
 
   resetCodesArray();
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
   return true;
 }
 
@@ -313,8 +313,8 @@ void otherIRcodes() {
   }
   Serial.println("Opened database file.");
 
-  pinMode(bruceConfig.irTx, OUTPUT);
-  //digitalWrite(bruceConfig.irTx, LED_ON);
+  pinMode(fzerofirmwareConfig.irTx, OUTPUT);
+  //digitalWrite(fzerofirmwareConfig.irTx, LED_ON);
 
   // Mode to choose and send command by command limitted to 100 commands
   String line;
@@ -358,7 +358,7 @@ void otherIRcodes() {
   options.push_back({ "Main Menu" , [&](){ exit=true; }});
   databaseFile.close();
 
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
   int idx=0;
   while (1) {
     idx=loopOptions(options,idx);
@@ -382,7 +382,7 @@ void sendIRCommand(IRCode *code) {
 }
 
 void sendNECCommand(String address, String command) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   uint16_t addressValue = strtoul(address.substring(0,2).c_str(), nullptr, 16);
@@ -390,11 +390,11 @@ void sendNECCommand(String address, String command) {
   uint64_t data = irsend.encodeNEC(addressValue, commandValue);
   irsend.sendNEC(data, 32);
   Serial.println("Sent NEC Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendNECextCommand(String address, String command) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   
@@ -420,11 +420,11 @@ void sendNECextCommand(String address, String command) {
   uint32_t data = ((uint32_t)lsbAddress << 16) | lsbCommand;
   irsend.sendNEC(data, 32); // Sends MSB first
   Serial.println("Sent NECext Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendRC5Command(String address, String command) {
-  IRsend irsend(bruceConfig.irTx,true);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx,true);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   uint8_t addressValue = strtoul(address.substring(0,2).c_str(), nullptr, 16);
@@ -432,11 +432,11 @@ void sendRC5Command(String address, String command) {
   uint16_t data = irsend.encodeRC5(addressValue, commandValue);
   irsend.sendRC5(data, 13);
   Serial.println("Sent RC5 command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendRC6Command(String address, String command) {
-  IRsend irsend(bruceConfig.irTx,true);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx,true);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   address.replace(" ", "");
@@ -446,11 +446,11 @@ void sendRC6Command(String address, String command) {
   uint64_t data = irsend.encodeRC6(addressValue, commandValue);
   irsend.sendRC6(data, 20);
   Serial.println("Sent RC5 command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendSamsungCommand(String address, String command) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   uint8_t addressValue = strtoul(address.substring(0,2).c_str(), nullptr, 16);
@@ -459,11 +459,11 @@ void sendSamsungCommand(String address, String command) {
 
   irsend.sendSAMSUNG(data, 32);
   Serial.println("Sent Samsung Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendSonyCommand(String address, String command) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   uint16_t commandValue = strtoul(command.substring(0,2).c_str(), nullptr, 16);
@@ -484,11 +484,11 @@ void sendSonyCommand(String address, String command) {
   // 1 initial + 2 repeat
   irsend.sendSony(data, nbits, 2);
   Serial.println("Sent Sony Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 void sendPanasonicCommand(String address, String command) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
   uint8_t first_zero_byte_pos = address.indexOf("00", 2);
@@ -510,7 +510,7 @@ void sendPanasonicCommand(String address, String command) {
   // sendPanasonic(const uint16_t address, const uint32_t data, const uint16_t nbits = kPanasonicBits, const uint16_t repeat = kNoRepeat);
   delay(20);
   Serial.println("Sent Panasonic Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }
 
 bool sendDecodedCommand(String protocol, String value, uint8_t bits) {
@@ -519,7 +519,7 @@ bool sendDecodedCommand(String protocol, String value, uint8_t bits) {
   decode_type_t type = strToDecodeType(protocol.c_str());
   if(type == decode_type_t::UNKNOWN) return false;
 
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   bool success = false;
   displayTextLine("Sending..");
@@ -547,12 +547,12 @@ bool sendDecodedCommand(String protocol, String value, uint8_t bits) {
 
   delay(20);
   Serial.println("Sent Decoded Command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
   return success;
 }
 
 void sendRawCommand(uint16_t frequency, String rawData) {
-  IRsend irsend(bruceConfig.irTx);  // Set the GPIO to be used to sending the message.
+  IRsend irsend(fzerofirmwareConfig.irTx);  // Set the GPIO to be used to sending the message.
   irsend.begin();
   displayTextLine("Sending..");
 
@@ -585,5 +585,5 @@ void sendRawCommand(uint16_t frequency, String rawData) {
   free(dataBuffer);
 
   Serial.println("Sent Raw command");
-  digitalWrite(bruceConfig.irTx, LED_OFF);
+  digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
 }

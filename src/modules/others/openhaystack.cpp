@@ -120,9 +120,9 @@ void drawErrorMessage(esp_err_t status, char *text)
 {
     Serial.printf("%s: %s\n", text, esp_err_to_name(status));
     tft.setCursor(0, 60);
-    tft.setTextColor(TFT_RED, bruceConfig.bgColor);
+    tft.setTextColor(TFT_RED, fzerofirmwareConfig.bgColor);
     tft.printf("%s: %s\n", text, esp_err_to_name(status));
-    tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
     delay(200);
 }
 
@@ -165,11 +165,11 @@ void openhaystack_loop(){
 }
 
 void openhaystack_setup() {
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     tft.setCursor(0, 0);
-    tft.setTextColor(TFT_GREEN, bruceConfig.bgColor);
+    tft.setTextColor(TFT_GREEN, fzerofirmwareConfig.bgColor);
     tft.println("Running openhaystack");
-    tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
 
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
     esp_err_t status;
@@ -204,10 +204,10 @@ void openhaystack_setup() {
     if (!file) {
       tft.setCursor(0, 0);
 
-        tft.setTextColor(TFT_RED, bruceConfig.bgColor);
+        tft.setTextColor(TFT_RED, fzerofirmwareConfig.bgColor);
         Serial.println("Failed to open file");
         tft.println("No pub.key file\nfound on\nthe SD");
-        tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+        tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
         delay(60000);
         return;
     }

@@ -17,11 +17,11 @@ void ReverseShell() {
     options.clear();
 
     // Display initialization messages
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     tft.setTextSize(FM);
-    tft.setTextColor(TFT_RED, bruceConfig.bgColor);
+    tft.setTextColor(TFT_RED, fzerofirmwareConfig.bgColor);
     tft.drawCentreString("Reverse Shell", tftWidth / 2, 10, 1);
-    tft.setTextColor(TFT_WHITE, bruceConfig.bgColor);
+    tft.setTextColor(TFT_WHITE, fzerofirmwareConfig.bgColor);
     tft.setTextSize(FP);
     tft.setCursor(15,33);
     tft.println("Developed by Fourier (github.com/9dl)");
@@ -33,12 +33,12 @@ void ReverseShell() {
         return;
     }
 
-    if (!WiFi.softAP("BruceShell", "", 1)) {
+    if (!WiFi.softAP("FZerofirmwareShell", "", 1)) {
         tft.println("Failed to start AP");
         return;
     }
 
-    tft.println("Wi-Fi AP Started: BruceShell");
+    tft.println("Wi-Fi AP Started: FZerofirmwareShell");
 
     delay(3000);
 
@@ -50,7 +50,7 @@ void ReverseShell() {
             <!DOCTYPE html>
             <html>
             <head>
-                <title>BruceShell Web Interface</title>
+                <title>FZerofirmwareShell Web Interface</title>
                 <style>
                     body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #282c34; color: #61dafb; font-family: Arial, sans-serif; }
                     .container { text-align: center; }
@@ -61,7 +61,7 @@ void ReverseShell() {
             </head>
             <body>
                 <div class="container">
-                    <h1>BruceShell Executor</h1>
+                    <h1>FZerofirmwareShell Executor</h1>
                     <form action="/execute" method="GET">
                         <input type="text" name="command" placeholder="Enter command" required>
                         <br>
@@ -108,7 +108,7 @@ void ReverseShell() {
             tcpClient = tcpServer.available();
             if (tcpClient) {
                 tft.println("Client connected.");
-                tcpClient.println("~Welcome to BruceShell.");
+                tcpClient.println("~Welcome to FZerofirmwareShell.");
                 tcpClient.println("~Developed by Fourier (github.com/9dl)");
                 shellConnected = true;
             }

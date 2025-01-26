@@ -87,7 +87,7 @@ void wifi_atk_info(String tssid, String mac, uint8_t channel)
 {
   // desenhar a tela
   drawMainBorder();
-  tft.setTextColor(bruceConfig.priColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor);
   tft.drawCentreString("-=Information=-", tft.width() / 2, 28, SMOOTH_FONT);
   tft.drawString("AP: " + tssid, 10, 48);
   tft.drawString("Channel: " + String(channel), 10, 66);
@@ -275,7 +275,7 @@ void target_atk(String tssid, String mac, uint8_t channel)
   delay(200);
   check(SelPress);
 
-  tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
   tft.setTextSize(FM);
   setCpuFrequencyMhz(240);
   while (1)
@@ -284,7 +284,7 @@ void target_atk(String tssid, String mac, uint8_t channel)
     {
       // desenhar a tela
       drawMainBorderWithTitle("Target Deauth");
-      tft.setTextColor(bruceConfig.priColor,bruceConfig.bgColor);
+      tft.setTextColor(fzerofirmwareConfig.priColor,fzerofirmwareConfig.bgColor);
       padprintln("");
       padprintln("AP: " + tssid);
       padprintln("Channel: " + String(channel));
@@ -389,7 +389,7 @@ const char Beacons[] PROGMEM = {
     "Virus-Infected Wi-Fi\n"
     "Starbucks Wi-Fi\n"
     "Text 64ALL for Password\n"
-    "Yell BRUCE for Password\n"
+    "Yell FZEROFIRMWARE for Password\n"
     "The Password Is 1234\n"
     "Free Public Wi-Fi\n"
     "No Free Wi-Fi Here\n"

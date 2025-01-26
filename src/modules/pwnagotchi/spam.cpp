@@ -152,10 +152,10 @@ void displaySpamStatus() {
   tft.fillScreen(TFT_BLACK);
   drawTopCanvas();
   drawBottomCanvas();
-  tft.fillRect(0, 20, tftWidth, tftHeight - 40, bruceConfig.bgColor);
+  tft.fillRect(0, 20, tftWidth, tftHeight - 40, fzerofirmwareConfig.bgColor);
   tft.setTextSize(1.5);
   tft.setCursor(0, 20);
-  tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
   tft.println("PwnGrid Spam Running...");
 
   #if defined(HAS_TOUCH)
@@ -244,7 +244,7 @@ Default: // This is default pwngrid faces to spam, removing the necessity to hav
     faces[i++]="♬♪♬♪♬♪♬";
     faces[i++]="(X‿‿X)";
     faces[i++]="(u W u)";
-    faces[i++]="(BRUCE)";
+    faces[i++]="(FZEROFIRMWARE)";
     faces[i++]="(.)(.)";
     faces[i++]="ლ(o_oლ)";
     faces[i++]="(O﹏o)";
@@ -255,14 +255,14 @@ Default: // This is default pwngrid faces to spam, removing the necessity to hav
     faces[i++]="NOPWND!\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■";
     num_faces=i;
     i=0;
-    names[i++]="my name is... BRUCE!";
-    names[i++]="Check M5 Bruce Project";
+    names[i++]="my name is... FZEROFIRMWARE!";
+    names[i++]="Check M5 FZerofirmware Project";
     names[i++]="┌∩┐(◣_◢)┌∩┐","(╯°□°)╯╭╮(XoX)";
     names[i++]="STOP DEAUTH SKIDZ!";
     names[i++]="System Breached oups";
     names[i++]="Unauthorized  Access";
     names[i++]="Security  Compromised.. reboot";
-    names[i++]="Warning...Bruce's here","Critical Error need reboot";
+    names[i++]="Warning...FZerofirmware's here","Critical Error need reboot";
     names[i++]="No more Battery","Never gonna give you up";
     names[i++]="Never gonna let you down";
     names[i++]="Never gonna run around";
@@ -354,7 +354,7 @@ void send_pwnagotchi_beacon_main() {
   spamRunning = true;
 
   // Clear screen
-  tft.fillRect(0, 20, tftWidth, tftHeight - 40, bruceConfig.bgColor);
+  tft.fillRect(0, 20, tftWidth, tftHeight - 40, fzerofirmwareConfig.bgColor);
 
   // Créer la tâche beacon
   xTaskCreate(&beacon_task, "beacon_task", 4096, NULL, 5, NULL);

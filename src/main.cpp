@@ -10,7 +10,7 @@
 #include "core/powerSave.h"
 
 
-BruceConfig bruceConfig;
+FZerofirmwareConfig fzerofirmwareConfig;
 
 StartupApp startupApp;
 MainMenu mainMenu;
@@ -122,7 +122,7 @@ uint8_t buff[1024] = {0};
 void begin_storage() {
   if(!LittleFS.begin(true)) { LittleFS.format(), LittleFS.begin();}
   setupSdCard();
-  bruceConfig.fromFile();
+  fzerofirmwareConfig.fromFile();
 }
 
 /*********************************************************************
@@ -153,7 +153,7 @@ void setup_gpio() {
         initCC1101once(&tft.getSPIinstance());
     #elif CC1101_MOSI_PIN==SDCARD_MOSI // (ARDUINO_M5STACK_CARDPUTER) and (ESP32S3DEVKITC1) and devices that share CC1101 pin with only SDCard
         initCC1101once(&sdcardSPI);
-    #else // (ARDUINO_M5STICK_C_PLUS) || (ARDUINO_M5STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when Bruce board comes to shore)
+    #else // (ARDUINO_M5STICK_C_PLUS) || (ARDUINO_M5STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when FZerofirmware board comes to shore)
         initCC1101once(NULL);
     #endif
   #endif
@@ -165,8 +165,8 @@ void setup_gpio() {
 **  Config tft
 *********************************************************************/
 void begin_tft(){
-  tft.setRotation(bruceConfig.rotation); //sometimes it misses the first command
-  tft.setRotation(bruceConfig.rotation);
+  tft.setRotation(fzerofirmwareConfig.rotation); //sometimes it misses the first command
+  tft.setRotation(fzerofirmwareConfig.rotation);
   tftWidth = tft.width();
   #ifdef HAS_TOUCH
     tftHeight = tft.height() - 20;
@@ -174,71 +174,13 @@ void begin_tft(){
     tftHeight = tft.height();
   #endif
   resetTftDisplay();
-  setBrightness(bruceConfig.bright);
+  setBrightness(fzerofirmwareConfig.bright);
 }
 
 
 /*********************************************************************
-**  Function: boot_screen
-**  Draw boot screen
+**  Deleted boot screen / boot animation. It was taking too much time
 *********************************************************************/
-void boot_screen() {
-  tft.setTextColor(bruceConfig.priColor, TFT_BLACK);
-  tft.setTextSize(FM);
-  tft.drawPixel(0,0,TFT_BLACK);
-  tft.drawCentreString("Bruce", tftWidth / 2, 10, SMOOTH_FONT);
-  tft.setTextSize(FP);
-  tft.drawCentreString(BRUCE_VERSION, tftWidth / 2, 25, SMOOTH_FONT);
-  tft.setTextSize(FM);
-  tft.drawCentreString("PREDATORY FIRMWARE", tftWidth / 2, tftHeight+2, SMOOTH_FONT); // will draw outside the screen on non touch devices
-}
-
-/*********************************************************************
-**  Function: boot_screen_anim
-**  Draw boot screen
-*********************************************************************/
-void boot_screen_anim() {
-  boot_screen();
-  int i = millis();
-  // checks for boot.jpg in SD and LittleFS for customization
-  int boot_img=0;
-  bool drawn=false;
-  if(SD.exists("/boot.jpg"))            boot_img = 1;
-  else if(LittleFS.exists("/boot.jpg")) boot_img = 2;
-  else if(SD.exists("/boot.gif"))       boot_img = 3;
-  else if(LittleFS.exists("/boot.gif")) boot_img = 4;
-  // Start image loop
-  while(millis()<i+7000) { // boot image lasts for 5 secs
-    if((millis()-i>2000) && !drawn) {
-      tft.fillRect(0,45,tftWidth,tftHeight-45,bruceConfig.bgColor);
-      if(boot_img > 0 && !drawn) {
-        tft.fillScreen(bruceConfig.bgColor);
-        if(boot_img==1)       { showJpeg(SD,"/boot.jpg",0,0,true);           Serial.println("Image from SD"); }
-        else if (boot_img==2) { showJpeg(LittleFS,"/boot.jpg",0,0,true);     Serial.println("Image from LittleFS"); }
-        else if (boot_img==3) { showGif(&SD,"/boot.gif",0,0,true,3600);       Serial.println("Image from SD"); }
-        else if (boot_img==4) { showGif(&LittleFS,"/boot.gif",0,0,true,3600); Serial.println("Image from LittleFS"); }
-      }
-      drawn=true;
-    }
- #if !defined(LITE_VERSION)
-    if(!boot_img && (millis()-i>2200) && (millis()-i)<2700) tft.drawRect(2*tftWidth/3,tftHeight/2,2,2,bruceConfig.priColor);
-    if(!boot_img && (millis()-i>2700) && (millis()-i)<2900) tft.fillRect(0,45,tftWidth,tftHeight-45,bruceConfig.bgColor);
-    if(!boot_img && (millis()-i>2900) && (millis()-i)<3400) tft.drawXBitmap(2*tftWidth/3 - 30 ,5+tftHeight/2,bruce_small_bits, bruce_small_width, bruce_small_height,bruceConfig.bgColor,bruceConfig.priColor);
-    if(!boot_img && (millis()-i>3400) && (millis()-i)<3600) tft.fillScreen(bruceConfig.bgColor);
-    if(!boot_img && (millis()-i>3600)) tft.drawXBitmap((tftWidth-238)/2,(tftHeight-133)/2,bits, bits_width, bits_height,bruceConfig.bgColor,bruceConfig.priColor);
-  #endif
-    if(check(AnyKeyPress))  // If any key or M5 key is pressed, it'll jump the boot screen
-    {
-      tft.fillScreen(TFT_BLACK);
-      delay(10);
-      return;
-    }
-  }
-
-  // Clear splashscreen
-  tft.fillScreen(TFT_BLACK);
-}
-
 
 /*********************************************************************
 **  Function: init_clock
@@ -311,19 +253,19 @@ void setup() {
 
   setup_gpio();
 
-  bruceConfig.bright=100; // theres is no value yet
+  fzerofirmwareConfig.bright=100; // theres is no value yet
 
   #if defined(HAS_SCREEN)
     tft.init();
     tft.setRotation(ROTATION);
-    tft.fillScreen(TFT_BLACK); // bruceConfig is not read yet.. just to show something on screen due to long boot time
-    tft.setTextColor(TFT_PURPLE,TFT_BLACK);
-    tft.drawCentreString("Booting",tft.width()/2, tft.height()/2,1);
+    tft.fillScreen(TFT_BLACK); // fzerofirmwareConfig is not read yet.. just to show something on screen due to long boot time
+    tft.setTextColor(TFT_ORANGE,TFT_BLACK);
+    tft.drawCentreString("FZ Firmware",tft.width()/2, tft.height()/2,1);
   #else
     tft.begin();
   #endif
   begin_storage();
-  bruceConfig.fromFile();
+  fzerofirmwareConfig.fromFile();
   begin_tft();
   init_clock();
   init_led();
@@ -341,14 +283,13 @@ void setup() {
         2,                  // Task priority (0 to 3), loopTask has priority 2.
         &xHandle            // Task handle (not used)
     );
-  boot_screen_anim();
 
-  startup_sound();
+  //startup_sound(); nah, it's annoying
 
-  if (bruceConfig.wifiAtStartup) {
+  if (fzerofirmwareConfig.wifiAtStartup) {
     displayInfo("Connecting WiFi...");
     wifiConnectTask();
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
   }
 
   #if ! defined(HAS_SCREEN)
@@ -359,8 +300,8 @@ void setup() {
   delay(200);
   wakeUpScreen();
 
-  if (bruceConfig.startupApp != "" && !startupApp.startApp(bruceConfig.startupApp)) {
-    bruceConfig.setStartupApp("");
+  if (fzerofirmwareConfig.startupApp != "" && !startupApp.startApp(fzerofirmwareConfig.startupApp)) {
+    fzerofirmwareConfig.setStartupApp("");
   }
 }
 
@@ -389,20 +330,20 @@ void loop() {
     }
   #endif
 #endif
-  tft.fillScreen(bruceConfig.bgColor);
-  bruceConfig.fromFile();
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
+  fzerofirmwareConfig.fromFile();
 
 
   while(1){
     if(interpreter_start) goto END;
     if (returnToMenu) {
       returnToMenu = false;
-      tft.fillScreen(bruceConfig.bgColor); //fix any problem with the mainMenu screen when coming back from submenus or functions
+      tft.fillScreen(fzerofirmwareConfig.bgColor); //fix any problem with the mainMenu screen when coming back from submenus or functions
       redraw=true;
     }
 
     if (redraw) {
-      if(bruceConfig.rotation & 0b01) mainMenu.draw(float((float)tftHeight/(float)135));
+      if(fzerofirmwareConfig.rotation & 0b01) mainMenu.draw(float((float)tftHeight/(float)135));
       else mainMenu.draw(float((float)tftWidth/(float)240));
       clock_update=0; // forces clock drawing
       redraw = false;
@@ -437,18 +378,18 @@ void loop() {
       if (clock_set) {
         #if defined(HAS_RTC)
           _rtc.GetTime(&_time);
-          setTftDisplay(12, 12, bruceConfig.priColor, 1, bruceConfig.bgColor);
+          setTftDisplay(12, 12, fzerofirmwareConfig.priColor, 1, fzerofirmwareConfig.bgColor);
           snprintf(timeStr, sizeof(timeStr), "%02d:%02d", _time.Hours, _time.Minutes);
           tft.print(timeStr);
         #else
           updateTimeStr(rtc.getTimeStruct());
-          setTftDisplay(12, 12, bruceConfig.priColor, 1, bruceConfig.bgColor);
+          setTftDisplay(12, 12, fzerofirmwareConfig.priColor, 1, fzerofirmwareConfig.bgColor);
           tft.print(timeStr);
         #endif
       }
       else {
-        setTftDisplay(12, 12, bruceConfig.priColor, 1, bruceConfig.bgColor);
-        tft.print("BRUCE " + String(BRUCE_VERSION));
+        setTftDisplay(12, 12, fzerofirmwareConfig.priColor, 1, fzerofirmwareConfig.bgColor);
+        tft.print("FZero Firmware " + String(FZEROFIRMWARE_VERSION));
       }
       clock_update=millis();
     }
@@ -463,7 +404,7 @@ void loop() {
 
 void loop() {
   setupSdCard();
-  bruceConfig.fromFile();
+  fzerofirmwareConfig.fromFile();
 
   if(!wifiConnected) {
     Serial.println("wifiConnect");

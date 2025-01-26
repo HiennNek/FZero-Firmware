@@ -1,7 +1,7 @@
 /**
  * @file startup_app.cpp
  * @author Rennan Cockles (https://github.com/rennancockles)
- * @brief Bruce startup apps
+ * @brief FZerofirmware startup apps
  * @version 0.1
  * @date 2024-11-20
  */
@@ -29,7 +29,7 @@ bool StartupApp::startApp(const String& appName) const {
     it->second();
 
     delay(200);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
 
     return true;
 }

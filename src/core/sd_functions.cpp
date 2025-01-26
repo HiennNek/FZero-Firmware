@@ -165,7 +165,7 @@ bool copyToFs(FS from, FS to, String path, bool draw) {
     displayError("Not enought space", true);
     return false;
   }
-  //tft.drawRect(5,tftHeight-12, (tftWidth-10), 9, bruceConfig.priColor);
+  //tft.drawRect(5,tftHeight-12, (tftWidth-10), 9, fzerofirmwareConfig.priColor);
   while ((bytesRead = source.read(buff, bufSize)) > 0) {
     if (dest.write(buff, bytesRead) != bytesRead) {
       //Serial.println("Falha ao escrever no arquivo de destino");
@@ -176,7 +176,7 @@ bool copyToFs(FS from, FS to, String path, bool draw) {
     } else {
       prog+=bytesRead;
       float rad = 360*prog/tot;
-      if(draw) tft.drawArc(tftWidth/2,tftHeight/2,tftHeight/4,tftHeight/5,0,int(rad),ALCOLOR,bruceConfig.bgColor,true);
+      if(draw) tft.drawArc(tftWidth/2,tftHeight/2,tftHeight/4,tftHeight/5,0,int(rad),ALCOLOR,fzerofirmwareConfig.bgColor,true);
     }
   }
   if(prog==tot) result = true;
@@ -231,7 +231,7 @@ bool pasteFile(FS fs, String path) {
   size_t bytesRead;
   int tot=sourceFile.size();
   int prog=0;
-  //tft.drawRect(5,tftHeight-12, (tftWidth-10), 9, bruceConfig.priColor);
+  //tft.drawRect(5,tftHeight-12, (tftWidth-10), 9, fzerofirmwareConfig.priColor);
   while ((bytesRead = sourceFile.read(buff, bufSize)) > 0) {
     if (destFile.write(buff, bytesRead) != bytesRead) {
       //Serial.println("Falha ao escrever no arquivo de destino");
@@ -241,8 +241,8 @@ bool pasteFile(FS fs, String path) {
     } else {
       prog+=bytesRead;
       float rad = 360*prog/tot;
-      tft.drawArc(tftWidth/2,tftHeight/2,tftHeight/4,tftHeight/5,0,int(rad),ALCOLOR,bruceConfig.bgColor,true);
-      //tft.fillRect(7,tftHeight-10, (tftWidth-14)*prog/tot, 5, bruceConfig.priColor);
+      tft.drawArc(tftWidth/2,tftHeight/2,tftHeight/4,tftHeight/5,0,int(rad),ALCOLOR,fzerofirmwareConfig.bgColor,true);
+      //tft.fillRect(7,tftHeight-10, (tftWidth-14)*prog/tot, 5, fzerofirmwareConfig.priColor);
     }
   }
 
@@ -454,8 +454,8 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
   int maxFiles = 0;
   String Folder = rootPath;
   String PreFolder = rootPath;
-  tft.fillScreen(bruceConfig.bgColor);
-  tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,bruceConfig.priColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
+  tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,fzerofirmwareConfig.priColor);
   if(&fs==&SD) {
     if(!setupSdCard()){
       displayError("Fail Mounting SD", true);
@@ -477,8 +477,8 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
     if(redraw) {
       if(strcmp(PreFolder.c_str(),Folder.c_str()) != 0 || reload){
         index=0;
-        tft.fillScreen(bruceConfig.bgColor);
-        tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,bruceConfig.priColor);
+        tft.fillScreen(fzerofirmwareConfig.bgColor);
+        tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,fzerofirmwareConfig.priColor);
         Serial.println("reload to read: " + Folder);
         readFs(fs, Folder, allowed_ext);
         PreFolder = Folder;
@@ -571,7 +571,7 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
             {"Main Menu",  [&]() { exit = true; }},
           };
           loopOptions(options);
-          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,bruceConfig.priColor);
+          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,fzerofirmwareConfig.priColor);
           reload = true;
           redraw = true;
         } else if(fileList[index].folder==false && fileList[index].operation==false){
@@ -583,7 +583,7 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
           if(fileToCopy!="") options.push_back({"Paste", [=]() { pasteFile(fs, Folder); }});
           options.push_back({"Main Menu", [&]() { exit = true; }});
           loopOptions(options);
-          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,bruceConfig.priColor);
+          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,fzerofirmwareConfig.priColor);
           reload = true;
           redraw = true;
         }
@@ -719,7 +719,7 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
             result = filepath;
             break;
           }
-          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,bruceConfig.priColor);
+          tft.drawRoundRect(5,5,tftWidth-10,tftHeight-10,5,fzerofirmwareConfig.priColor);
           reload = true;
           redraw = true;
         } else {

@@ -21,3 +21,5 @@ FLAFS:
 
 
 void nrf_jammer();
+
+void nrf_jammer_all_ch();

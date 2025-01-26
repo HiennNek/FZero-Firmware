@@ -4,11 +4,11 @@
 
 /* Check if it's time to put the device to sleep */
 void checkPowerSaveTime(){
-  if(bruceConfig.dimmerSet!=0){
-    if((millis() - previousMillis) >= (bruceConfig.dimmerSet * 1000) && dimmer == false && isSleeping == false){
+  if(fzerofirmwareConfig.dimmerSet!=0){
+    if((millis() - previousMillis) >= (fzerofirmwareConfig.dimmerSet * 1000) && dimmer == false && isSleeping == false){
       dimmer = true;
       setBrightness(5, false);
-    }else if((millis() - previousMillis) >= ((bruceConfig.dimmerSet * 1000) + 5000) && isScreenOff == false && isSleeping == false){
+    }else if((millis() - previousMillis) >= ((fzerofirmwareConfig.dimmerSet * 1000) + 5000) && isScreenOff == false && isSleeping == false){
       isScreenOff = true;
       turnOffDisplay();
     }

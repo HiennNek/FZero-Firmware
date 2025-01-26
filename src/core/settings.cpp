@@ -20,12 +20,12 @@ void _setBrightness(uint8_t brightval) { }
 **  set brightness value
 **********************************************************************/
 void setBrightness(uint8_t brightval, bool save) {
-  if(bruceConfig.bright>100) bruceConfig.setBright(100);
+  if(fzerofirmwareConfig.bright>100) fzerofirmwareConfig.setBright(100);
   _setBrightness(brightval);
   delay(10);
 
   if(save){
-    bruceConfig.setBright(brightval);
+    fzerofirmwareConfig.setBright(brightval);
   }
 }
 
@@ -34,14 +34,14 @@ void setBrightness(uint8_t brightval, bool save) {
 **  get brightness value
 **********************************************************************/
 void getBrightness() {
-  if(bruceConfig.bright>100) {
-    bruceConfig.setBright(100);
-    _setBrightness(bruceConfig.bright);
+  if(fzerofirmwareConfig.bright>100) {
+    fzerofirmwareConfig.setBright(100);
+    _setBrightness(fzerofirmwareConfig.bright);
     delay(10);
     setBrightness(100);
   }
 
-  _setBrightness(bruceConfig.bright);
+  _setBrightness(fzerofirmwareConfig.bright);
   delay(10);
 }
 
@@ -50,7 +50,7 @@ void getBrightness() {
 **  get/set rotation value
 **********************************************************************/
 int gsetRotation(bool set){
-  int getRot = bruceConfig.rotation;
+  int getRot = fzerofirmwareConfig.rotation;
   int result = ROTATION;
 
   #if TFT_WIDTH>=240 && TFT_HEIGHT>=240
@@ -73,7 +73,7 @@ int gsetRotation(bool set){
   #endif
 
   if(set) {
-    bruceConfig.setRotation(result);
+    fzerofirmwareConfig.setRotation(result);
     tft.setRotation(result);
     tft.setRotation(result); // must repeat, sometimes ESP32S3 miss one SPI command and it just jumps this step and don't rotate
   }
@@ -103,18 +103,18 @@ int gsetRotation(bool set){
 **********************************************************************/
 void setBrightnessMenu() {
   int idx=0;
-  if(bruceConfig.bright==100) idx=0;
-  else if(bruceConfig.bright==75) idx=1;
-  else if(bruceConfig.bright==50) idx=2;
-  else if(bruceConfig.bright==25) idx=3;
-  else if(bruceConfig.bright== 1) idx=4;
+  if(fzerofirmwareConfig.bright==100) idx=0;
+  else if(fzerofirmwareConfig.bright==75) idx=1;
+  else if(fzerofirmwareConfig.bright==50) idx=2;
+  else if(fzerofirmwareConfig.bright==25) idx=3;
+  else if(fzerofirmwareConfig.bright== 1) idx=4;
 
   options = {
-    {"100%", [=]() { setBrightness((uint8_t)100); }, bruceConfig.bright == 100 },
-    {"75 %", [=]() { setBrightness((uint8_t)75);  }, bruceConfig.bright == 75 },
-    {"50 %", [=]() { setBrightness((uint8_t)50);  }, bruceConfig.bright == 50 },
-    {"25 %", [=]() { setBrightness((uint8_t)25);  }, bruceConfig.bright == 25 },
-    {" 1 %", [=]() { setBrightness((uint8_t)1);   }, bruceConfig.bright == 1 },
+    {"100%", [=]() { setBrightness((uint8_t)100); }, fzerofirmwareConfig.bright == 100 },
+    {"75 %", [=]() { setBrightness((uint8_t)75);  }, fzerofirmwareConfig.bright == 75 },
+    {"50 %", [=]() { setBrightness((uint8_t)50);  }, fzerofirmwareConfig.bright == 50 },
+    {"25 %", [=]() { setBrightness((uint8_t)25);  }, fzerofirmwareConfig.bright == 25 },
+    {" 1 %", [=]() { setBrightness((uint8_t)1);   }, fzerofirmwareConfig.bright == 1 },
     {"Main Menu", [=]() { backToMenu(); }}, // this one bugs the brightness selection
   };
   loopOptions(options, true,false,"",idx);
@@ -142,17 +142,17 @@ void setSleepMode() {
 **********************************************************************/
 void setDimmerTimeMenu() {
   int idx=0;
-  if(bruceConfig.dimmerSet==10) idx=0;
-  else if(bruceConfig.dimmerSet==20) idx=1;
-  else if(bruceConfig.dimmerSet==30) idx=2;
-  else if(bruceConfig.dimmerSet==60) idx=3;
-  else if(bruceConfig.dimmerSet== 0) idx=4;
+  if(fzerofirmwareConfig.dimmerSet==10) idx=0;
+  else if(fzerofirmwareConfig.dimmerSet==20) idx=1;
+  else if(fzerofirmwareConfig.dimmerSet==30) idx=2;
+  else if(fzerofirmwareConfig.dimmerSet==60) idx=3;
+  else if(fzerofirmwareConfig.dimmerSet== 0) idx=4;
   options = {
-    {"10s", [=]() { bruceConfig.setDimmer(10); }, bruceConfig.dimmerSet == 10 },
-    {"20s", [=]() { bruceConfig.setDimmer(20); }, bruceConfig.dimmerSet == 20 },
-    {"30s", [=]() { bruceConfig.setDimmer(30); }, bruceConfig.dimmerSet == 30 },
-    {"60s", [=]() { bruceConfig.setDimmer(60); }, bruceConfig.dimmerSet == 60 },
-    {"Disabled", [=]() { bruceConfig.setDimmer(0); }, bruceConfig.dimmerSet == 0 },
+    {"10s", [=]() { fzerofirmwareConfig.setDimmer(10); }, fzerofirmwareConfig.dimmerSet == 10 },
+    {"20s", [=]() { fzerofirmwareConfig.setDimmer(20); }, fzerofirmwareConfig.dimmerSet == 20 },
+    {"30s", [=]() { fzerofirmwareConfig.setDimmer(30); }, fzerofirmwareConfig.dimmerSet == 30 },
+    {"60s", [=]() { fzerofirmwareConfig.setDimmer(60); }, fzerofirmwareConfig.dimmerSet == 60 },
+    {"Disabled", [=]() { fzerofirmwareConfig.setDimmer(0); }, fzerofirmwareConfig.dimmerSet == 0 },
   };
   loopOptions(options,idx);
 }
@@ -164,34 +164,34 @@ void setDimmerTimeMenu() {
 #define LIGHT_BLUE 0x96FE
 void setUIColor(){
   int idx=0;
-  if(bruceConfig.priColor==DEFAULT_PRICOLOR) idx=0;
-  else if(bruceConfig.priColor==TFT_WHITE) idx=1;
-  else if(bruceConfig.priColor==TFT_RED) idx=2;
-  else if(bruceConfig.priColor==TFT_DARKGREEN) idx=3;
-  else if(bruceConfig.priColor==TFT_BLUE) idx=4;
-  else if(bruceConfig.priColor==LIGHT_BLUE) idx=5;
-  else if(bruceConfig.priColor==TFT_YELLOW) idx=6;
-  else if(bruceConfig.priColor==TFT_MAGENTA) idx=7;
-  else if(bruceConfig.priColor==TFT_ORANGE) idx=8;
+  if(fzerofirmwareConfig.priColor==DEFAULT_PRICOLOR) idx=0;
+  else if(fzerofirmwareConfig.priColor==TFT_WHITE) idx=1;
+  else if(fzerofirmwareConfig.priColor==TFT_RED) idx=2;
+  else if(fzerofirmwareConfig.priColor==TFT_DARKGREEN) idx=3;
+  else if(fzerofirmwareConfig.priColor==TFT_BLUE) idx=4;
+  else if(fzerofirmwareConfig.priColor==LIGHT_BLUE) idx=5;
+  else if(fzerofirmwareConfig.priColor==TFT_YELLOW) idx=6;
+  else if(fzerofirmwareConfig.priColor==TFT_MAGENTA) idx=7;
+  else if(fzerofirmwareConfig.priColor==TFT_ORANGE) idx=8;
   else idx=9;  // custom theme
 
   options = {
-    {"Default",   [=]() { bruceConfig.setTheme(DEFAULT_PRICOLOR);}, bruceConfig.priColor==DEFAULT_PRICOLOR},
-    {"White",     [=]() { bruceConfig.setTheme(TFT_WHITE);     }, bruceConfig.priColor==TFT_WHITE     },
-    {"Red",       [=]() { bruceConfig.setTheme(TFT_RED);       }, bruceConfig.priColor==TFT_RED       },
-    {"Green",     [=]() { bruceConfig.setTheme(TFT_DARKGREEN); }, bruceConfig.priColor==TFT_DARKGREEN },
-    {"Blue",      [=]() { bruceConfig.setTheme(TFT_BLUE);      }, bruceConfig.priColor==TFT_BLUE      },
-    {"Light Blue",[=]() { bruceConfig.setTheme(LIGHT_BLUE);    }, bruceConfig.priColor==LIGHT_BLUE    },
-    {"Yellow",    [=]() { bruceConfig.setTheme(TFT_YELLOW);    }, bruceConfig.priColor==TFT_YELLOW    },
-    {"Magenta",   [=]() { bruceConfig.setTheme(TFT_MAGENTA);   }, bruceConfig.priColor==TFT_MAGENTA   },
-    {"Orange",    [=]() { bruceConfig.setTheme(TFT_ORANGE);    }, bruceConfig.priColor==TFT_ORANGE    },
+    {"Default",   [=]() { fzerofirmwareConfig.setTheme(DEFAULT_PRICOLOR);}, fzerofirmwareConfig.priColor==DEFAULT_PRICOLOR},
+    {"White",     [=]() { fzerofirmwareConfig.setTheme(TFT_WHITE);     }, fzerofirmwareConfig.priColor==TFT_WHITE     },
+    {"Red",       [=]() { fzerofirmwareConfig.setTheme(TFT_RED);       }, fzerofirmwareConfig.priColor==TFT_RED       },
+    {"Green",     [=]() { fzerofirmwareConfig.setTheme(TFT_DARKGREEN); }, fzerofirmwareConfig.priColor==TFT_DARKGREEN },
+    {"Blue",      [=]() { fzerofirmwareConfig.setTheme(TFT_BLUE);      }, fzerofirmwareConfig.priColor==TFT_BLUE      },
+    {"Light Blue",[=]() { fzerofirmwareConfig.setTheme(LIGHT_BLUE);    }, fzerofirmwareConfig.priColor==LIGHT_BLUE    },
+    {"Yellow",    [=]() { fzerofirmwareConfig.setTheme(TFT_YELLOW);    }, fzerofirmwareConfig.priColor==TFT_YELLOW    },
+    {"Magenta",   [=]() { fzerofirmwareConfig.setTheme(TFT_MAGENTA);   }, fzerofirmwareConfig.priColor==TFT_MAGENTA   },
+    {"Orange",    [=]() { fzerofirmwareConfig.setTheme(TFT_ORANGE);    }, fzerofirmwareConfig.priColor==TFT_ORANGE    },
   };
 
   if (idx == 9) options.push_back({"Custom Theme", [=]() { backToMenu(); }, true});
   options.push_back({"Main Menu", [=]() { backToMenu(); }});
 
   loopOptions(options, idx);
-  tft.setTextColor(bruceConfig.bgColor, bruceConfig.priColor);
+  tft.setTextColor(fzerofirmwareConfig.bgColor, fzerofirmwareConfig.priColor);
 }
 
 /*********************************************************************
@@ -200,10 +200,10 @@ void setUIColor(){
 **********************************************************************/
 void setSoundConfig() {
   options = {
-    {"Sound off", [=]() { bruceConfig.setSoundEnabled(0); }, bruceConfig.soundEnabled == 0},
-    {"Sound on",  [=]() { bruceConfig.setSoundEnabled(1); }, bruceConfig.soundEnabled == 1},
+    {"Sound off", [=]() { fzerofirmwareConfig.setSoundEnabled(0); }, fzerofirmwareConfig.soundEnabled == 0},
+    {"Sound on",  [=]() { fzerofirmwareConfig.setSoundEnabled(1); }, fzerofirmwareConfig.soundEnabled == 1},
   };
-  loopOptions(options, bruceConfig.soundEnabled);
+  loopOptions(options, fzerofirmwareConfig.soundEnabled);
 }
 
 /*********************************************************************
@@ -212,10 +212,10 @@ void setSoundConfig() {
 **********************************************************************/
 void setWifiStartupConfig() {
   options = {
-    {"Disable", [=]() { bruceConfig.setWifiAtStartup(0); }, bruceConfig.wifiAtStartup == 0},
-    {"Enable",  [=]() { bruceConfig.setWifiAtStartup(1); }, bruceConfig.wifiAtStartup == 1},
+    {"Disable", [=]() { fzerofirmwareConfig.setWifiAtStartup(0); }, fzerofirmwareConfig.wifiAtStartup == 0},
+    {"Enable",  [=]() { fzerofirmwareConfig.setWifiAtStartup(1); }, fzerofirmwareConfig.wifiAtStartup == 1},
   };
-  loopOptions(options, bruceConfig.wifiAtStartup);
+  loopOptions(options, fzerofirmwareConfig.wifiAtStartup);
 }
 
 /*********************************************************************
@@ -225,8 +225,8 @@ void setWifiStartupConfig() {
 void setRFModuleMenu() {
   int result = 0;
   int idx=0;
-  if(bruceConfig.rfModule==M5_RF_MODULE) idx=0;
-  else if(bruceConfig.rfModule==CC1101_SPI_MODULE) idx=1;
+  if(fzerofirmwareConfig.rfModule==M5_RF_MODULE) idx=0;
+  else if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) idx=1;
 
   options = {
     {"M5 RF433T/R",    [&]() { result = M5_RF_MODULE; }},
@@ -244,7 +244,7 @@ void setRFModuleMenu() {
     #ifdef USE_CC1101_VIA_SPI
     ELECHOUSE_cc1101.Init();
     if (ELECHOUSE_cc1101.getCC1101()){
-      bruceConfig.setRfModule(CC1101_SPI_MODULE);
+      fzerofirmwareConfig.setRfModule(CC1101_SPI_MODULE);
       return;
     }
     #endif
@@ -253,7 +253,7 @@ void setRFModuleMenu() {
     while(!check(AnyKeyPress));
   }
   // fallback to "M5 RF433T/R" on errors
-  bruceConfig.setRfModule(M5_RF_MODULE);
+  fzerofirmwareConfig.setRfModule(M5_RF_MODULE);
 }
 
 /*********************************************************************
@@ -262,17 +262,17 @@ void setRFModuleMenu() {
 **********************************************************************/
 void setRFFreqMenu() {
   float result = 433.92;
-  String freq_str = keyboard(String(bruceConfig.rfFreq), 10, "Default frequency:");
+  String freq_str = keyboard(String(fzerofirmwareConfig.rfFreq), 10, "Default frequency:");
   if(freq_str.length() > 1) {
     result = freq_str.toFloat();  // returns 0 if not valid
     if(result>=300 && result<=928) { // TODO: check valid freq according to current module?
-      bruceConfig.setRfFreq(result);
+      fzerofirmwareConfig.setRfFreq(result);
       return;
     }
   }
   // else
   displayError("Invalid frequency");
-  bruceConfig.setRfFreq(433.92);  // reset to default
+  fzerofirmwareConfig.setRfFreq(433.92);  // reset to default
   delay(1000);
 }
 
@@ -282,11 +282,11 @@ void setRFFreqMenu() {
 **********************************************************************/
 void setRFIDModuleMenu() {
   options = {
-    {"M5 RFID2",      [=]() { bruceConfig.setRfidModule(M5_RFID2_MODULE); },  bruceConfig.rfidModule == M5_RFID2_MODULE},
-    {"PN532 on I2C",  [=]() { bruceConfig.setRfidModule(PN532_I2C_MODULE); }, bruceConfig.rfidModule == PN532_I2C_MODULE},
-    {"PN532 on SPI",  [=]() { bruceConfig.setRfidModule(PN532_SPI_MODULE); }, bruceConfig.rfidModule == PN532_SPI_MODULE},
+    {"M5 RFID2",      [=]() { fzerofirmwareConfig.setRfidModule(M5_RFID2_MODULE); },  fzerofirmwareConfig.rfidModule == M5_RFID2_MODULE},
+    {"PN532 on I2C",  [=]() { fzerofirmwareConfig.setRfidModule(PN532_I2C_MODULE); }, fzerofirmwareConfig.rfidModule == PN532_I2C_MODULE},
+    {"PN532 on SPI",  [=]() { fzerofirmwareConfig.setRfidModule(PN532_SPI_MODULE); }, fzerofirmwareConfig.rfidModule == PN532_SPI_MODULE},
   };
-  loopOptions(options, bruceConfig.rfidModule);
+  loopOptions(options, fzerofirmwareConfig.rfidModule);
 }
 
 /*********************************************************************
@@ -295,7 +295,7 @@ void setRFIDModuleMenu() {
 **********************************************************************/
 void addMifareKeyMenu() {
   String key = keyboard("", 12, "MIFARE key");
-  bruceConfig.addMifareKey(key);
+  fzerofirmwareConfig.addMifareKey(key);
 }
 
 
@@ -336,19 +336,19 @@ void setClock() {
     if(!wifiConnected) wifiConnectMenu();
 
     options = {
-      {"Los Angeles", [&]() { bruceConfig.setTmz(-8); }, bruceConfig.tmz==-8 },
-      {"Chicago",     [&]() { bruceConfig.setTmz(-6); }, bruceConfig.tmz==-6 },
-      {"New York",    [&]() { bruceConfig.setTmz(-5); }, bruceConfig.tmz==-5 },
-      {"Brasilia",    [&]() { bruceConfig.setTmz(-3); }, bruceConfig.tmz==-3 },
-      {"Pernambuco",  [&]() { bruceConfig.setTmz(-2); }, bruceConfig.tmz==-2 },
-      {"Lisbon",      [&]() { bruceConfig.setTmz(0);  }, bruceConfig.tmz==0  },
-      {"Paris",       [&]() { bruceConfig.setTmz(1);  }, bruceConfig.tmz==1  },
-      {"Athens",      [&]() { bruceConfig.setTmz(2);  }, bruceConfig.tmz==2  },
-      {"Moscow",      [&]() { bruceConfig.setTmz(3);  }, bruceConfig.tmz==3  },
-      {"Dubai",       [&]() { bruceConfig.setTmz(4);  }, bruceConfig.tmz==4  },
-      {"Hong Kong",   [&]() { bruceConfig.setTmz(8);  }, bruceConfig.tmz==8  },
-      {"Tokyo",       [&]() { bruceConfig.setTmz(9);  }, bruceConfig.tmz==9  },
-      {"Sydney",      [&]() { bruceConfig.setTmz(10); }, bruceConfig.tmz==10 },
+      {"Los Angeles", [&]() { fzerofirmwareConfig.setTmz(-8); }, fzerofirmwareConfig.tmz==-8 },
+      {"Chicago",     [&]() { fzerofirmwareConfig.setTmz(-6); }, fzerofirmwareConfig.tmz==-6 },
+      {"New York",    [&]() { fzerofirmwareConfig.setTmz(-5); }, fzerofirmwareConfig.tmz==-5 },
+      {"Brasilia",    [&]() { fzerofirmwareConfig.setTmz(-3); }, fzerofirmwareConfig.tmz==-3 },
+      {"Pernambuco",  [&]() { fzerofirmwareConfig.setTmz(-2); }, fzerofirmwareConfig.tmz==-2 },
+      {"Lisbon",      [&]() { fzerofirmwareConfig.setTmz(0);  }, fzerofirmwareConfig.tmz==0  },
+      {"Paris",       [&]() { fzerofirmwareConfig.setTmz(1);  }, fzerofirmwareConfig.tmz==1  },
+      {"Athens",      [&]() { fzerofirmwareConfig.setTmz(2);  }, fzerofirmwareConfig.tmz==2  },
+      {"Moscow",      [&]() { fzerofirmwareConfig.setTmz(3);  }, fzerofirmwareConfig.tmz==3  },
+      {"Dubai",       [&]() { fzerofirmwareConfig.setTmz(4);  }, fzerofirmwareConfig.tmz==4  },
+      {"Hong Kong",   [&]() { fzerofirmwareConfig.setTmz(8);  }, fzerofirmwareConfig.tmz==8  },
+      {"Tokyo",       [&]() { fzerofirmwareConfig.setTmz(9);  }, fzerofirmwareConfig.tmz==9  },
+      {"Sydney",      [&]() { fzerofirmwareConfig.setTmz(10); }, fzerofirmwareConfig.tmz==10 },
       {"Main Menu",   [=]() { backToMenu(); }},
     };
 
@@ -358,7 +358,7 @@ void setClock() {
 
     if (returnToMenu) return;
 
-    timeClient.setTimeOffset(bruceConfig.tmz * 3600);
+    timeClient.setTimeOffset(fzerofirmwareConfig.tmz * 3600);
     timeClient.begin();
     timeClient.update();
     localTime = myTZ.toLocal(timeClient.getEpochTime());
@@ -421,8 +421,8 @@ void runClockLoop() {
   #endif
 
   // Delay due to SelPress() detected on run
-  tft.fillScreen(bruceConfig.bgColor);
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   delay(300);
 
   for (;;){
@@ -432,8 +432,8 @@ void runClockLoop() {
     #endif
     Serial.print("Current time: ");
     Serial.println(timeStr);
-    tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
-    tft.drawRect(10, 10, tftWidth-15,tftHeight-15, bruceConfig.priColor);
+    tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
+    tft.drawRect(10, 10, tftWidth-15,tftHeight-15, fzerofirmwareConfig.priColor);
     tft.setCursor(64, tftHeight/3+5);
     tft.setTextSize(4);
     #if defined(HAS_RTC)
@@ -450,7 +450,7 @@ void runClockLoop() {
 
     // Checks para sair do loop
     if(check(SelPress) or check(EscPress)) { // Apertar o botão power dos sticks
-      tft.fillScreen(bruceConfig.bgColor);
+      tft.fillScreen(fzerofirmwareConfig.bgColor);
       returnToMenu=true;
       break;
       //goto Exit;
@@ -464,9 +464,9 @@ void runClockLoop() {
 **  get or set IR Tx Pin
 **********************************************************************/
 int gsetIrTxPin(bool set){
-  int result = bruceConfig.irTx;
+  int result = fzerofirmwareConfig.irTx;
 
-  if(result>50) bruceConfig.setIrTxPin(LED);
+  if(result>50) fzerofirmwareConfig.setIrTxPin(LED);
   if(set) {
     options.clear();
     std::vector<std::pair<std::string, int>> pins;
@@ -474,22 +474,22 @@ int gsetIrTxPin(bool set){
     int idx=100;
     int j=0;
     for (auto pin : pins) {
-      if(pin.second==bruceConfig.irTx && idx==100) idx=j;
+      if(pin.second==fzerofirmwareConfig.irTx && idx==100) idx=j;
       j++;
       #ifdef ALLOW_ALL_GPIO_FOR_IR_RF
       int i=pin.second;
       if(i!=TFT_CS && i!=TFT_RST && i!=TFT_SCLK && i!=TFT_MOSI && i!=TFT_BL && i!=TOUCH_CS && i!=SDCARD_CS && i!=SDCARD_MOSI && i!=SDCARD_MISO)
       #endif
-        options.push_back({pin.first, [=]() { bruceConfig.setIrTxPin(pin.second); }, pin.second==bruceConfig.irTx });
+        options.push_back({pin.first, [=]() { fzerofirmwareConfig.setIrTxPin(pin.second); }, pin.second==fzerofirmwareConfig.irTx });
     }
 
     loopOptions(options, idx);
 
-    Serial.println("Saved pin: " + String(bruceConfig.irTx));
+    Serial.println("Saved pin: " + String(fzerofirmwareConfig.irTx));
   }
 
   returnToMenu=true;
-  return bruceConfig.irTx;
+  return fzerofirmwareConfig.irTx;
 }
 
 /*********************************************************************
@@ -497,9 +497,9 @@ int gsetIrTxPin(bool set){
 **  get or set IR Rx Pin
 **********************************************************************/
 int gsetIrRxPin(bool set){
-  int result = bruceConfig.irRx;
+  int result = fzerofirmwareConfig.irRx;
 
-  if(result>45) bruceConfig.setIrRxPin(GROVE_SCL);
+  if(result>45) fzerofirmwareConfig.setIrRxPin(GROVE_SCL);
   if(set) {
     options.clear();
     std::vector<std::pair<std::string, int>> pins;
@@ -507,13 +507,13 @@ int gsetIrRxPin(bool set){
     int idx=-1;
     int j=0;
     for (auto pin : pins) {
-      if(pin.second==bruceConfig.irRx && idx<0) idx=j;
+      if(pin.second==fzerofirmwareConfig.irRx && idx<0) idx=j;
       j++;
       #ifdef ALLOW_ALL_GPIO_FOR_IR_RF
       int i=pin.second;
       if(i!=TFT_CS && i!=TFT_RST && i!=TFT_SCLK && i!=TFT_MOSI && i!=TFT_BL && i!=TOUCH_CS && i!=SDCARD_CS && i!=SDCARD_MOSI && i!=SDCARD_MISO)
       #endif
-        options.push_back({pin.first, [=]() {bruceConfig.setIrRxPin(pin.second);}, pin.second==bruceConfig.irRx });
+        options.push_back({pin.first, [=]() {fzerofirmwareConfig.setIrRxPin(pin.second);}, pin.second==fzerofirmwareConfig.irRx });
     }
 
     loopOptions(options);
@@ -521,7 +521,7 @@ int gsetIrRxPin(bool set){
   }
 
   returnToMenu=true;
-  return bruceConfig.irRx;
+  return fzerofirmwareConfig.irRx;
 }
 
 /*********************************************************************
@@ -529,9 +529,9 @@ int gsetIrRxPin(bool set){
 **  get or set RF Tx Pin
 **********************************************************************/
 int gsetRfTxPin(bool set){
-  int result = bruceConfig.rfTx;
+  int result = fzerofirmwareConfig.rfTx;
 
-  if(result>45) bruceConfig.setRfTxPin(GROVE_SDA);
+  if(result>45) fzerofirmwareConfig.setRfTxPin(GROVE_SDA);
   if(set) {
     options.clear();
     std::vector<std::pair<std::string, int>> pins;
@@ -539,13 +539,13 @@ int gsetRfTxPin(bool set){
     int idx=-1;
     int j=0;
     for (auto pin : pins) {
-      if(pin.second==bruceConfig.rfTx && idx<0) idx=j;
+      if(pin.second==fzerofirmwareConfig.rfTx && idx<0) idx=j;
       j++;
       #ifdef ALLOW_ALL_GPIO_FOR_IR_RF
       int i=pin.second;
       if(i!=TFT_CS && i!=TFT_RST && i!=TFT_SCLK && i!=TFT_MOSI && i!=TFT_BL && i!=TOUCH_CS && i!=SDCARD_CS && i!=SDCARD_MOSI && i!=SDCARD_MISO)
       #endif
-        options.push_back({pin.first, [=]() {bruceConfig.setRfTxPin(pin.second);}, pin.second==bruceConfig.rfTx });
+        options.push_back({pin.first, [=]() {fzerofirmwareConfig.setRfTxPin(pin.second);}, pin.second==fzerofirmwareConfig.rfTx });
     }
 
     loopOptions(options);
@@ -553,7 +553,7 @@ int gsetRfTxPin(bool set){
   }
 
   returnToMenu=true;
-  return bruceConfig.rfTx;
+  return fzerofirmwareConfig.rfTx;
 }
 
 /*********************************************************************
@@ -561,9 +561,9 @@ int gsetRfTxPin(bool set){
 **  get or set FR Rx Pin
 **********************************************************************/
 int gsetRfRxPin(bool set){
-  int result = bruceConfig.rfRx;
+  int result = fzerofirmwareConfig.rfRx;
 
-  if(result>36) bruceConfig.setRfRxPin(GROVE_SCL);
+  if(result>36) fzerofirmwareConfig.setRfRxPin(GROVE_SCL);
   if(set) {
     options.clear();
     std::vector<std::pair<std::string, int>> pins;
@@ -571,13 +571,13 @@ int gsetRfRxPin(bool set){
     int idx=-1;
     int j=0;
     for (auto pin : pins) {
-      if(pin.second==bruceConfig.rfRx && idx<0) idx=j;
+      if(pin.second==fzerofirmwareConfig.rfRx && idx<0) idx=j;
       j++;
       #ifdef ALLOW_ALL_GPIO_FOR_IR_RF
       int i=pin.second;
       if(i!=TFT_CS && i!=TFT_RST && i!=TFT_SCLK && i!=TFT_MOSI && i!=TFT_BL && i!=TOUCH_CS && i!=SDCARD_CS && i!=SDCARD_MOSI && i!=SDCARD_MISO)
       #endif
-        options.push_back({pin.first, [=]() {bruceConfig.setRfRxPin(pin.second);}, pin.second==bruceConfig.rfRx });
+        options.push_back({pin.first, [=]() {fzerofirmwareConfig.setRfRxPin(pin.second);}, pin.second==fzerofirmwareConfig.rfRx });
     }
 
     loopOptions(options);
@@ -585,7 +585,7 @@ int gsetRfRxPin(bool set){
   }
 
   returnToMenu=true;
-  return bruceConfig.rfRx;
+  return fzerofirmwareConfig.rfRx;
 }
 
 /*********************************************************************
@@ -594,20 +594,20 @@ int gsetRfRxPin(bool set){
 **********************************************************************/
 void setStartupApp() {
   int idx = 0;
-  if (bruceConfig.startupApp == "") idx=0;
+  if (fzerofirmwareConfig.startupApp == "") idx=0;
 
   options = {
-    {"None", [=]() { bruceConfig.setStartupApp(""); }, bruceConfig.startupApp == "" }
+    {"None", [=]() { fzerofirmwareConfig.setStartupApp(""); }, fzerofirmwareConfig.startupApp == "" }
   };
 
   int index = 1;
   for (String appName : startupApp.getAppNames()) {
-    if (bruceConfig.startupApp == appName) idx=index++;
+    if (fzerofirmwareConfig.startupApp == appName) idx=index++;
 
     options.emplace_back(
       appName.c_str(),
-      [=]() { bruceConfig.setStartupApp(appName); },
-      bruceConfig.startupApp == appName
+      [=]() { fzerofirmwareConfig.setStartupApp(appName); },
+      fzerofirmwareConfig.startupApp == appName
     );
   }
 
@@ -622,12 +622,12 @@ void setStartupApp() {
 **********************************************************************/
 void setGpsBaudrateMenu() {
   options = {
-    {"9600 bps",   [=]() { bruceConfig.setGpsBaudrate(9600); }, bruceConfig.gpsBaudrate == 9600},
-    {"19200 bps",  [=]() { bruceConfig.setGpsBaudrate(19200); }, bruceConfig.gpsBaudrate == 19200},
-    {"57600 bps",  [=]() { bruceConfig.setGpsBaudrate(57600); }, bruceConfig.gpsBaudrate == 57600},
-    {"115200 bps", [=]() { bruceConfig.setGpsBaudrate(115200); }, bruceConfig.gpsBaudrate == 115200},
+    {"9600 bps",   [=]() { fzerofirmwareConfig.setGpsBaudrate(9600); }, fzerofirmwareConfig.gpsBaudrate == 9600},
+    {"19200 bps",  [=]() { fzerofirmwareConfig.setGpsBaudrate(19200); }, fzerofirmwareConfig.gpsBaudrate == 19200},
+    {"57600 bps",  [=]() { fzerofirmwareConfig.setGpsBaudrate(57600); }, fzerofirmwareConfig.gpsBaudrate == 57600},
+    {"115200 bps", [=]() { fzerofirmwareConfig.setGpsBaudrate(115200); }, fzerofirmwareConfig.gpsBaudrate == 115200},
   };
 
-  loopOptions(options, bruceConfig.gpsBaudrate);
+  loopOptions(options, fzerofirmwareConfig.gpsBaudrate);
 
 }

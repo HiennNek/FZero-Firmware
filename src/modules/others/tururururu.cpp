@@ -23,24 +23,24 @@ void initSprites() {
     //sprite para desenhar a tela toda
     //tft.deleteSprite();
     //tft.createSprite(tftWidth,tftHeight);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
 
     //menu_op para desenhar o tubarao
     sprite.deleteSprite();
     sprite.createSprite(32,26);
-    sprite.fillScreen(bruceConfig.bgColor);
+    sprite.fillScreen(fzerofirmwareConfig.bgColor);
     sprite.fillEllipse(19,16,10,5,TFT_DARKGREY);
     sprite.fillCircle(17,23,5,TFT_LIGHTGREY);
     sprite.fillTriangle(0,9,0,21,9,16, TFT_DARKGREY);
     sprite.fillTriangle(17,5,17,13,22,13, TFT_DARKGREY);
     sprite.fillCircle(25,13,1,TFT_RED);
     sprite.fillTriangle(23,17,29,17,24,20,TFT_RED);
-    sprite.fillRect(0,21,32,5,bruceConfig.bgColor);
+    sprite.fillRect(0,21,32,5,fzerofirmwareConfig.bgColor);
 
     //draw para desenhar o peixe
     draw.deleteSprite();
     draw.createSprite(20,8);
-    draw.fillScreen(bruceConfig.bgColor);
+    draw.fillScreen(fzerofirmwareConfig.bgColor);
     draw.fillEllipse(6,4, 6, 3, TFT_ORANGE);
     draw.fillTriangle(16,0,16,8,11,5,TFT_ORANGE);
     draw.drawFastVLine(6,1,7,TFT_WHITE);
@@ -90,7 +90,7 @@ void moveShark() {
 void moveFish(Fish &f) {
     f.x -= 2;  // Move o peixe para a esquerda
     if (f.x < -10) {
-        tft.fillRect(f.x,f.y,22,11,bruceConfig.bgColor);
+        tft.fillRect(f.x,f.y,22,11,fzerofirmwareConfig.bgColor);
         f.x = tftWidth + random(20, 100);
         f.y = random(10, tftHeight - 20);
     }
@@ -102,7 +102,7 @@ void checkCollisions() {
         if ((sharkX < fish[i].x + fish[i].size) && (sharkX + sharkSize > fish[i].x) &&
             (sharkY < fish[i].y + fish[i].size) && (sharkY + sharkSize > fish[i].y)) {
             // Colidiu com um peixe
-            tft.fillRect(fish[i].x,fish[i].y,18,8,bruceConfig.bgColor);
+            tft.fillRect(fish[i].x,fish[i].y,18,8,fzerofirmwareConfig.bgColor);
             fish[i].x = tftWidth + random(20, 100);
             fish[i].y = random(10, tftHeight - 20);
             score++;
@@ -112,7 +112,7 @@ void checkCollisions() {
 
 // Função para exibir a pontuação
 void displayScore() {
-    tft.setTextColor(TFT_WHITE,bruceConfig.bgColor);
+    tft.setTextColor(TFT_WHITE,fzerofirmwareConfig.bgColor);
     tft.setTextSize(2);
     tft.setCursor(0, 0);
     tft.printf("Score: %d", score);
@@ -152,37 +152,12 @@ void shark_loop() {
         checkCollisions();
 
         // Pequeno atraso para controlar a velocidade do loop
-        if(score<10) delay(50);
-        if(score>=10 && score<20) delay(40);
-        if(score>=20 && score<30) delay(35);
-        if(score>=30 && score<40) delay(30);
-        if(score>=40 && score<50) delay(25);
+        if(score<10) delay(15);
+        if(score>=10 && score<20) delay(15);
+        if(score>=20 && score<30) delay(15);
+        if(score>=30 && score<40) delay(15);
+        if(score>=40 && score<50) delay(15);
         if(score>=50) { delay(15); }
-
-        if(score==99) {
-            displaySuccess("So...");
-            while(!check(SelPress)) { yield(); }
-            while(check(SelPress)) { yield(); } //debounce
-            displaySuccess("you just found");
-            while(!check(SelPress)) { yield(); }
-            while(check(SelPress)) { yield(); } //debounce
-            displayInfo("hidden credits!");
-            while(!check(SelPress)) { yield(); }
-            while(check(SelPress)) { yield(); } //debounce
-            displayInfo("main devs:");
-            while(!check(SelPress)) { yield(); }
-            while(check(SelPress)) { yield(); } //debounce
-            options = {
-                {"bmorcelli", [=]() { displayRedStripe("github.com/bmorcelli");delay(2000); }},
-                {"pr3y", [=]() { displayRedStripe("github.com/pr3y");delay(2000); }},
-                {"IncursioHack", [=]() { displayRedStripe("github.com/IncursioHack");delay(2000); }},
-            };
-
-            loopOptions(options);
-
-            initSprites();
-            score++;
-        }
 
         if(check(EscPress)) {
             returnToMenu=true;

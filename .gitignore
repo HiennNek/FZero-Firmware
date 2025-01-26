@@ -4,8 +4,8 @@
 .vscode/launch.json
 .vscode/extensions.json
 .vscode/ipch
-Bruce3_*.bin
-bruce.conf
+FZerofirmware3_*.bin
+fzero.conf
 _*.sh
 tmp
 ISSUES.md

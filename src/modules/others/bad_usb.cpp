@@ -59,7 +59,7 @@ void key_input(FS fs, String bad_script) {
       Kb.releaseAll();
       tft.setTextSize(1);
       tft.setCursor(0, 0);
-      tft.fillScreen(bruceConfig.bgColor);
+      tft.fillScreen(fzerofirmwareConfig.bgColor);
       line = 0;
 
       while (payloadFile.available()) {
@@ -180,7 +180,7 @@ void key_input(FS fs, String bad_script) {
 
           if (tft.getCursorY()>(tftHeight-LH)) {
             tft.setCursor(0, 0);
-            tft.fillScreen(bruceConfig.bgColor);
+            tft.fillScreen(fzerofirmwareConfig.bgColor);
           }
 
           if (cmdFail == 57) {
@@ -195,7 +195,7 @@ void key_input(FS fs, String bad_script) {
               Kb.println(Command);
             }
           } else {
-            tft.setTextColor(bruceConfig.priColor);
+            tft.setTextColor(fzerofirmwareConfig.priColor);
             tft.print(Command);
           }
           if(Argument.length()>0) {
@@ -243,12 +243,12 @@ void chooseKb(const uint8_t *layout) {
 
 void usb_setup() {
   Serial.println("BadUSB begin");
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
 
   FS *fs;
   bool first_time=true;
 NewScript:
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   String bad_script = "";
   bad_script = "/badpayload.txt";
 
@@ -265,7 +265,7 @@ NewScript:
 
   if(fs!=nullptr) {
     bad_script = loopSD(*fs,true);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     if(first_time) {
       options = {
         {"US International", [=]() { chooseKb(KeyboardLayout_en_US); }},
@@ -364,7 +364,7 @@ void key_input_from_string(String text) {
 void usb_keyboard() {
   drawMainBorder();
   tft.setTextSize(2);
-  tft.setTextColor(bruceConfig.priColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor);
   tft.drawString("Keyboard Started",
                   tftWidth / 2,
                   tftHeight / 2);
@@ -388,7 +388,7 @@ void usb_keyboard() {
   if(returnToMenu) return;
   USB.begin();
 
-  tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
   tft.setTextSize(FP);
   drawMainBorder();
   tft.setCursor(10,28);

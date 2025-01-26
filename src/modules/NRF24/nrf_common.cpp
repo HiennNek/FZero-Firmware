@@ -5,16 +5,16 @@ RF24 NRFradio(NRF24_CE_PIN, NRF24_SS_PIN);
 SPIClass* NRFSPI;
 
 void nrf_info() {
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   tft.setTextSize(FM);
-  tft.setTextColor(TFT_RED, bruceConfig.bgColor);
+  tft.setTextColor(TFT_RED, fzerofirmwareConfig.bgColor);
   tft.drawCentreString("_Disclaimer_",tftWidth/2,10,1);
-  tft.setTextColor(TFT_WHITE, bruceConfig.bgColor);
+  tft.setTextColor(TFT_WHITE, fzerofirmwareConfig.bgColor);
   tft.setTextSize(FP);
   tft.setCursor(15,33);
   tft.println("These functions were made to be used in a controlled environment for STUDY only.");
   tft.println("\nDO NOT use these functions to harm people or companies, you can go to jail!");
-  tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+  tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
   tft.println("\nThis device is VERY sensible to noise, so long wires or passing near VCC line can make things go wrong.");
   delay(1000);
   while(!check(AnyKeyPress));

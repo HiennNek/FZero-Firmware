@@ -19,7 +19,7 @@ Timer::Timer() {
 
 
 Timer::~Timer() {
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     backToMenu();
 }
 
@@ -32,7 +32,7 @@ void Timer::setup() {
 
     char timeString[9];
 
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
 
     delay(DELAY_VALUE);
 
@@ -92,7 +92,7 @@ void Timer::loop() {
 
     char timeString[9];
 
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
 
     while (true) {
         currentMillis = millis();
@@ -109,7 +109,7 @@ void Timer::loop() {
         drawMainBorder(false);
 
         tft.setTextSize(4);
-        tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+        tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
         tft.drawCentreString(timeString, timerX, timerY, 1);
 
         if (check(EscPress)) {
@@ -130,7 +130,7 @@ void Timer::clearUnderline() {
     tft.drawLine(
         BORDER_PAD_X, underlineY,
         tftWidth - BORDER_PAD_X, underlineY,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.bgColor
     );
 }
 
@@ -139,7 +139,7 @@ void Timer::underlineHours() {
     tft.drawLine(
         timerX - (4 * LW * fontSize), underlineY,
         timerX - (2 * LW * fontSize), underlineY,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }
 
@@ -148,7 +148,7 @@ void Timer::underlineMinutes() {
     tft.drawLine(
         timerX - (LW * fontSize), underlineY,
         timerX + (LW * fontSize), underlineY,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }
 
@@ -157,6 +157,6 @@ void Timer::underlineSeconds() {
     tft.drawLine(
         timerX + (2 * LW * fontSize), underlineY,
         timerX + (4 * LW * fontSize), underlineY,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }

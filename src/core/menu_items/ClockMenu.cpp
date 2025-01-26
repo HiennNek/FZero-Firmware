@@ -18,22 +18,22 @@ void ClockMenu::drawIcon(float scale) {
         iconCenterY,
         1.1*radius, radius,
         0, 360,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 
     // Pivot center
-    tft.fillCircle(iconCenterX, iconCenterY, radius/10, bruceConfig.priColor);
+    tft.fillCircle(iconCenterX, iconCenterY, radius/10, fzerofirmwareConfig.priColor);
 
     // Hours & minutes
     tft.drawLine(
         iconCenterX, iconCenterY,
         iconCenterX - 2*pointerSize/3, iconCenterY - 2*pointerSize/3,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.drawLine(
         iconCenterX, iconCenterY,
         iconCenterX + pointerSize, iconCenterY - pointerSize,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 }

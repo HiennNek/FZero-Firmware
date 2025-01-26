@@ -14,7 +14,6 @@
 void OthersMenu::optionsMenu() {
     options = {
         {"QRCodes",      [=]() { qrcode_menu(); }},
-        {"Megalodon",    [=]() { shark_setup(); }},
     #ifdef MIC_SPM1423
         {"Mic Spectrum", [=]() { mic_test(); }},
     #endif
@@ -45,30 +44,30 @@ void OthersMenu::drawIcon(float scale) {
 
     int radius = scale * 7;
 
-    tft.fillCircle(iconCenterX, iconCenterY, radius, bruceConfig.priColor);
+    tft.fillCircle(iconCenterX, iconCenterY, radius, fzerofirmwareConfig.priColor);
 
     tft.drawArc(
         iconCenterX, iconCenterY,
         2.5*radius, 2*radius,
         0, 340,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY,
         3.5*radius, 3*radius,
         20, 360,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY,
         4.5*radius, 4*radius,
         0, 200,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX, iconCenterY,
         4.5*radius, 4*radius,
         240, 360,
-        bruceConfig.priColor, bruceConfig.bgColor
+        fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor
     );
 }

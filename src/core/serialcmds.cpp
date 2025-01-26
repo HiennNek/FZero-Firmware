@@ -225,7 +225,7 @@ bool processSerialCommand(String cmd_str) {
     if(cmd_str.startsWith("ir tx")) {
       // make sure it is initted
       gsetIrTxPin(false);
-      //if(bruceConfig.irTx==0) bruceConfig.irTx = LED;  // quickfix init issue? CARDPUTR is 44
+      //if(fzerofirmwareConfig.irTx==0) fzerofirmwareConfig.irTx = LED;  // quickfix init issue? CARDPUTR is 44
 
       // ir tx <protocol> <address> <command>
       // <protocol>: NEC, NECext, NEC42, NEC42ext, Samsung32, RC6, RC5, RC5X, SIRC, SIRC15, SIRC20, Kaseikyo, RCA
@@ -333,7 +333,7 @@ bool processSerialCommand(String cmd_str) {
     }
 
     // turn off the led
-    digitalWrite(bruceConfig.irTx, LED_OFF);
+    digitalWrite(fzerofirmwareConfig.irTx, LED_OFF);
     //backToMenu();
     return false;
   }  // end of ir commands
@@ -343,11 +343,11 @@ bool processSerialCommand(String cmd_str) {
     if(cmd_str.startsWith("subghz rx")) {
       /*
       const char* args = cmd_str.c_str() + strlen("subghz rx");
-      float frequency=bruceConfig.rfFreq;  // global default
+      float frequency=fzerofirmwareConfig.rfFreq;  // global default
       if(strlen(args)>1) sscanf(args, " %f", &frequency);
       * */
       String args = cmd_str.substring(cmd_str.indexOf(" ", strlen("subghz rx")));
-      float frequency=bruceConfig.rfFreq;  // global default
+      float frequency=fzerofirmwareConfig.rfFreq;  // global default
       if(args.length()>1) {
         sscanf(args.c_str(), " %f", &frequency);
         frequency /= 1000000; // passed as a long int (e.g. 433920000)
@@ -586,7 +586,7 @@ bool processSerialCommand(String cmd_str) {
     uint16_t hexColor = tft.color565(r, g, b);  // Use the TFT_eSPI function to convert RGB to 16-bit color
     //Serial.print("converted color:");
     //SerialPrintHexString(hexColor);
-    bruceConfig.priColor = hexColor;  // change global var, dont save in config
+    fzerofirmwareConfig.priColor = hexColor;  // change global var, dont save in config
     return true;
   }
   if(cmd_str == "clock" ) {
@@ -624,10 +624,10 @@ bool processSerialCommand(String cmd_str) {
   //TODO: if(cmd_str == "webui stop" ) {
 
 /*
-   // WIP https://github.com/pr3y/Bruce/issues/162#issuecomment-2308788115
+   // WIP https://github.com/pr3y/FZerofirmware/issues/162#issuecomment-2308788115
 
    if(cmd_str.startsWith("serial2 write")) {
-    setupBruceDaughterboard();
+    setupFZerofirmwareDaughterboard();
     String args = cmd_str.substring(strlen("serial2 write"));
     Serial2.println(args);  // wakeup
     Serial2.flush();
@@ -635,7 +635,7 @@ bool processSerialCommand(String cmd_str) {
   }
 
    if(cmd_str.startsWith("serial2 read")) {
-    setupBruceDaughterboard();
+    setupFZerofirmwareDaughterboard();
     String curr_line = "";
     while (Serial2.available()) {
       curr_line = Serial.readStringUntil('\n');
@@ -723,14 +723,14 @@ bool processSerialCommand(String cmd_str) {
 
   if(cmd_str == "factory_reset") {
       // remove config file and recreate
-      if(SD.exists(bruceConfig.filepath)) SD.remove(bruceConfig.filepath);
-      if(LittleFS.exists(bruceConfig.filepath)) LittleFS.remove(bruceConfig.filepath);
-      bruceConfig.fromFile();  // recreate config file if it does not exists
+      if(SD.exists(fzerofirmwareConfig.filepath)) SD.remove(fzerofirmwareConfig.filepath);
+      if(LittleFS.exists(fzerofirmwareConfig.filepath)) LittleFS.remove(fzerofirmwareConfig.filepath);
+      fzerofirmwareConfig.fromFile();  // recreate config file if it does not exists
       return true;
   }
 
   if(cmd_str.startsWith("settings")) {
-    JsonDocument jsonDoc = bruceConfig.toJson();
+    JsonDocument jsonDoc = fzerofirmwareConfig.toJson();
     JsonObject setting = jsonDoc.as<JsonObject>();
 
     String args = cmd_str.substring(strlen("settings "));
@@ -757,49 +757,49 @@ bool processSerialCommand(String cmd_str) {
       return true;
     }
     // else change the passed config
-    if(setting_name=="priColor") bruceConfig.setTheme(setting_value.toInt());
-    if(setting_name=="rot") bruceConfig.setRotation(setting_value.toInt());
-    if(setting_name=="dimmerSet") bruceConfig.setDimmer(setting_value.toInt());
-    if(setting_name=="bright") bruceConfig.setBright(setting_value.toInt());
-    if(setting_name=="tmz") bruceConfig.setTmz(setting_value.toInt());
-    if(setting_name=="soundEnabled") bruceConfig.setSoundEnabled(setting_value.toInt());
-    if(setting_name=="wifiAtStartup") bruceConfig.setWifiAtStartup(setting_value.toInt());
+    if(setting_name=="priColor") fzerofirmwareConfig.setTheme(setting_value.toInt());
+    if(setting_name=="rot") fzerofirmwareConfig.setRotation(setting_value.toInt());
+    if(setting_name=="dimmerSet") fzerofirmwareConfig.setDimmer(setting_value.toInt());
+    if(setting_name=="bright") fzerofirmwareConfig.setBright(setting_value.toInt());
+    if(setting_name=="tmz") fzerofirmwareConfig.setTmz(setting_value.toInt());
+    if(setting_name=="soundEnabled") fzerofirmwareConfig.setSoundEnabled(setting_value.toInt());
+    if(setting_name=="wifiAtStartup") fzerofirmwareConfig.setWifiAtStartup(setting_value.toInt());
     if(setting_name=="webUI") {
-      bruceConfig.setWebUICreds(
+      fzerofirmwareConfig.setWebUICreds(
         setting_value.substring(0, setting_value.indexOf(",")),
         setting_value.substring(setting_value.indexOf(",")+1)
       );
     }
     if(setting_name=="wifiAp") {
-      bruceConfig.setWifiApCreds(
+      fzerofirmwareConfig.setWifiApCreds(
         setting_value.substring(0, setting_value.indexOf(",")),
         setting_value.substring(setting_value.indexOf(",")+1)
       );
     }
     if(setting_name=="wifi") {
-      bruceConfig.addWifiCredential(
+      fzerofirmwareConfig.addWifiCredential(
         setting_value.substring(0, setting_value.indexOf(",")),
         setting_value.substring(setting_value.indexOf(",")+1)
       );
     }
-    if(setting_name=="irTx") bruceConfig.setIrTxPin(setting_value.toInt());
-    if(setting_name=="irRx") bruceConfig.setIrRxPin(setting_value.toInt());
-    if(setting_name=="rfTx") bruceConfig.setRfTxPin(setting_value.toInt());
-    if(setting_name=="rfRx") bruceConfig.setRfRxPin(setting_value.toInt());
-    if(setting_name=="rfModule") bruceConfig.setRfModule(static_cast<RFModules>(setting_value.toInt()));
-    if(setting_name=="rfFreq" && setting_value.toFloat()) bruceConfig.setRfFreq(setting_value.toFloat());
-    if(setting_name=="rfFxdFreq") bruceConfig.setRfFxdFreq(setting_value.toInt());
-    if(setting_name=="rfScanRange") bruceConfig.setRfScanRange(setting_value.toInt());
-    if(setting_name=="rfidModule") bruceConfig.setRfidModule(static_cast<RFIDModules>(setting_value.toInt()));
-    if(setting_name=="wigleBasicToken") bruceConfig.setWigleBasicToken(setting_value);
-    if(setting_name=="devMode") bruceConfig.setDevMode(setting_value.toInt());
-    if(setting_name=="disabledMenus") bruceConfig.addDisabledMenu(setting_value);
+    if(setting_name=="irTx") fzerofirmwareConfig.setIrTxPin(setting_value.toInt());
+    if(setting_name=="irRx") fzerofirmwareConfig.setIrRxPin(setting_value.toInt());
+    if(setting_name=="rfTx") fzerofirmwareConfig.setRfTxPin(setting_value.toInt());
+    if(setting_name=="rfRx") fzerofirmwareConfig.setRfRxPin(setting_value.toInt());
+    if(setting_name=="rfModule") fzerofirmwareConfig.setRfModule(static_cast<RFModules>(setting_value.toInt()));
+    if(setting_name=="rfFreq" && setting_value.toFloat()) fzerofirmwareConfig.setRfFreq(setting_value.toFloat());
+    if(setting_name=="rfFxdFreq") fzerofirmwareConfig.setRfFxdFreq(setting_value.toInt());
+    if(setting_name=="rfScanRange") fzerofirmwareConfig.setRfScanRange(setting_value.toInt());
+    if(setting_name=="rfidModule") fzerofirmwareConfig.setRfidModule(static_cast<RFIDModules>(setting_value.toInt()));
+    if(setting_name=="wigleBasicToken") fzerofirmwareConfig.setWigleBasicToken(setting_value);
+    if(setting_name=="devMode") fzerofirmwareConfig.setDevMode(setting_value.toInt());
+    if(setting_name=="disabledMenus") fzerofirmwareConfig.addDisabledMenu(setting_value);
     return true;
   }
 
   if(cmd_str == "info device" || cmd_str == "!") {
-    Serial.print("Bruce v");
-    Serial.println(BRUCE_VERSION);
+    Serial.print("FZerofirmware v");
+    Serial.println(FZEROFIRMWARE_VERSION);
     Serial.println(GIT_COMMIT_HASH);
     Serial.printf("SDK: %s\n", ESP.getSdkVersion());
     // TODO: read mac addresses https://lastminuteengineers.com/esp32-mac-address-tutorial/
@@ -922,7 +922,7 @@ bool processSerialCommand(String cmd_str) {
     //Serial.println(file.getLastWrite());
 
     //ALT.: use <sys/stat.h> directly https://github.com/espressif/arduino-esp32/blob/66c9c0b1a6a36b85d27cdac0fb52098368de1a09/libraries/FS/src/vfs_api.cpp#L348#L348
-    // missing in Core2? https://github.com/pr3y/Bruce/actions/runs/10469748217/job/28993441958?pr=196
+    // missing in Core2? https://github.com/pr3y/FZerofirmware/actions/runs/10469748217/job/28993441958?pr=196
     /*
     #if !defined(M5STACK)
     if(SD.exists(filepath)) filepath = "/sd" + filepath;
@@ -960,7 +960,7 @@ bool processSerialCommand(String cmd_str) {
     return true;
   }
   if(cmd_str.startsWith("storage list ")) {
-    // storage list BruceRF
+    // storage list FZerofirmwareRF
     String filepath = cmd_str.substring(strlen("storage list "));
     filepath.trim();
     //if(filepath.length()==0) return false;  // missing arg
@@ -1045,7 +1045,7 @@ bool processSerialCommand(String cmd_str) {
   }
   if(cmd_str.startsWith("storage copy ")) {
     // storage copy HelloWorld.txt /dest/path
-    // storage copy bruce.conf badusb
+    // storage copy fzero.conf badusb
     String args = cmd_str.substring(strlen("storage copy "));
     String filepath = args.substring(0, args.indexOf(" "));
     filepath.trim();
@@ -1204,13 +1204,13 @@ bool processSerialCommand(String cmd_str) {
    }
 
    if(cmd_str.startsWith("rtl433")) {
-    // https://github.com/pr3y/Bruce/issues/192
+    // https://github.com/pr3y/FZerofirmware/issues/192
     rtl433_setup();
     return rtl433_loop(10000*3);
   }
 
   if(cmd_str.startsWith("mass_storage")) {
-    // WIP https://github.com/pr3y/Bruce/issues/210
+    // WIP https://github.com/pr3y/FZerofirmware/issues/210
     // https://github.com/espressif/arduino-esp32/blob/master/libraries/SD_MMC/examples/SD2USBMSC/SD2USBMSC.ino
   }
 

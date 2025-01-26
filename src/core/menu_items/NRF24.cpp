@@ -16,7 +16,8 @@ void NRF24Menu::optionsMenu() {
   #else
     options.push_back({"Spectrum",     [=]() { nrf_spectrum(&SPI); }});
   #endif
-    options.push_back({"Jammer 2.4G",  [=]() { nrf_jammer(); }});
+    options.push_back({"Jammer 2.4GHz",  [=]() { nrf_jammer(); }});
+    options.push_back({"Jammer All Channel", [=]() { nrf_jammer_all_ch(); }});
 
     options.push_back({"Main Menu",    [=]() { backToMenu(); }});
 
@@ -41,37 +42,37 @@ void NRF24Menu::drawIcon(float scale) {
     int connR = iconH / 20;
 
     // Case
-    tft.drawRect(caseX, caseY, caseW, caseH, bruceConfig.priColor);
+    tft.drawRect(caseX, caseY, caseW, caseH, fzerofirmwareConfig.priColor);
 
     // Antenna
     tft.fillRect(
       caseX + caseW, caseY + caseH/2 - antW/2,
       antW, antW,
-      bruceConfig.priColor
+      fzerofirmwareConfig.priColor
     );
     tft.fillRoundRect(
       caseX + caseW + antW, caseY + caseH - iconH,
       antW, iconH - caseH/2 + antW/2,
       antW/2,
-      bruceConfig.priColor
+      fzerofirmwareConfig.priColor
     );
 
     // Connectors
-    tft.fillCircle(caseX + caseW/6, caseY + 1*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/6, caseY + 2*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/6, caseY + 3*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/6, caseY + 4*caseH/5, connR, bruceConfig.priColor);
+    tft.fillCircle(caseX + caseW/6, caseY + 1*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/6, caseY + 2*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/6, caseY + 3*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/6, caseY + 4*caseH/5, connR, fzerofirmwareConfig.priColor);
 
-    tft.fillCircle(caseX + caseW/3, caseY + 1*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/3, caseY + 2*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/3, caseY + 3*caseH/5, connR, bruceConfig.priColor);
-    tft.fillCircle(caseX + caseW/3, caseY + 4*caseH/5, connR, bruceConfig.priColor);
+    tft.fillCircle(caseX + caseW/3, caseY + 1*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/3, caseY + 2*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/3, caseY + 3*caseH/5, connR, fzerofirmwareConfig.priColor);
+    tft.fillCircle(caseX + caseW/3, caseY + 4*caseH/5, connR, fzerofirmwareConfig.priColor);
 
     // Chip
     tft.fillRect(
       caseX + caseW - 2*antW - connR,
       caseY + caseH/2 - antW/2,
       antW, antW,
-      bruceConfig.priColor
+      fzerofirmwareConfig.priColor
     );
 }

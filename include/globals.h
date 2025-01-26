@@ -43,7 +43,7 @@
 
 extern bool interpreter_start;
 
-extern BruceConfig bruceConfig;
+extern FZerofirmwareConfig fzerofirmwareConfig;
 extern StartupApp startupApp;
 
 extern char timeStr[10];

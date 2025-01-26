@@ -836,9 +836,9 @@ static duk_ret_t native_subghzRead(duk_context *ctx) {
   // returns a string of the generated sub file, empty string on timeout or other errors (decoding failed)
   String r = "";
   if(duk_is_number(ctx, 0))
-    r = RCSwitch_Read(bruceConfig.rfFreq, duk_to_int(ctx, 0));   // custom timeout
+    r = RCSwitch_Read(fzerofirmwareConfig.rfFreq, duk_to_int(ctx, 0));   // custom timeout
   else
-    r = RCSwitch_Read(bruceConfig.rfFreq, 10);
+    r = RCSwitch_Read(fzerofirmwareConfig.rfFreq, 10);
   duk_push_string(ctx, r.c_str());
   return 1;
 }
@@ -846,9 +846,9 @@ static duk_ret_t native_subghzRead(duk_context *ctx) {
 static duk_ret_t native_subghzReadRaw(duk_context *ctx) {
   String r = "";
   if(duk_is_number(ctx, 0))
-    r = RCSwitch_Read(bruceConfig.rfFreq, duk_to_int(ctx, 0), true);   // custom timeout
+    r = RCSwitch_Read(fzerofirmwareConfig.rfFreq, duk_to_int(ctx, 0), true);   // custom timeout
   else
-    r = RCSwitch_Read(bruceConfig.rfFreq, 10, true);
+    r = RCSwitch_Read(fzerofirmwareConfig.rfFreq, 10, true);
   duk_push_string(ctx, r.c_str());
   return 1;
 }
@@ -857,7 +857,7 @@ static duk_ret_t native_subghzReadRaw(duk_context *ctx) {
 static duk_ret_t native_subghzSetFrequency(duk_context *ctx) {
   // usage: subghzSetFrequency(freq_as_float);
   if(duk_is_number(ctx, 0))
-    bruceConfig.rfFreq = duk_to_number(ctx, 0);  // float global var
+    fzerofirmwareConfig.rfFreq = duk_to_number(ctx, 0);  // float global var
   return 0;
 }
 
@@ -1055,7 +1055,7 @@ static void registerInt(duk_context *ctx, const char *name, duk_int_t val) {
 // Code interpreter, must be called in the loop() function to work
 bool interpreter() {
         tft.fillScreen(TFT_BLACK);
-        tft.setRotation(bruceConfig.rotation);
+        tft.setRotation(fzerofirmwareConfig.rotation);
         tft.setTextSize(FM);
         tft.setTextColor(TFT_WHITE);
         // Create context.
@@ -1180,11 +1180,11 @@ bool interpreter() {
 
         duk_push_string(ctx, script.c_str());
         if (duk_peval(ctx) != 0) {
-            tft.fillScreen(bruceConfig.bgColor);
+            tft.fillScreen(fzerofirmwareConfig.bgColor);
             tft.setTextSize(FM);
-            tft.setTextColor(TFT_RED, bruceConfig.bgColor);
+            tft.setTextColor(TFT_RED, fzerofirmwareConfig.bgColor);
             tft.drawCentreString("Error", tftWidth / 2, 10, 1);
-            tft.setTextColor(TFT_WHITE, bruceConfig.bgColor);
+            tft.setTextColor(TFT_WHITE, fzerofirmwareConfig.bgColor);
             tft.setTextSize(FP);
             tft.setCursor(0,33);
             tft.println(duk_safe_to_string(ctx, -1));

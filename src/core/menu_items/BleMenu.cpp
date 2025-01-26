@@ -51,8 +51,8 @@ void BleMenu::drawIcon(float scale) {
         iconCenterX - iconW,
         iconCenterY - iconH/4,
         lineWidth,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawWideLine(
         iconCenterX,
@@ -60,8 +60,8 @@ void BleMenu::drawIcon(float scale) {
         iconCenterX - iconW,
         iconCenterY + iconH/4,
         lineWidth,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawWideLine(
         iconCenterX,
@@ -69,8 +69,8 @@ void BleMenu::drawIcon(float scale) {
         iconCenterX - iconW/2,
         iconCenterY + iconH/2,
         lineWidth,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawWideLine(
         iconCenterX,
@@ -78,8 +78,8 @@ void BleMenu::drawIcon(float scale) {
         iconCenterX - iconW/2,
         iconCenterY - iconH/2,
         lineWidth,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 
     tft.drawWideLine(
@@ -88,8 +88,8 @@ void BleMenu::drawIcon(float scale) {
         iconCenterX - iconW/2,
         iconCenterY + iconH/2,
         lineWidth,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 
     tft.fillTriangle(
@@ -99,7 +99,7 @@ void BleMenu::drawIcon(float scale) {
         iconCenterY + lineWidth/2,
         iconCenterX - iconW/2,
         iconCenterY - iconH/2 - lineWidth/2,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
     tft.fillTriangle(
         iconCenterX + lineWidth/2,
@@ -108,7 +108,7 @@ void BleMenu::drawIcon(float scale) {
         iconCenterY - lineWidth/2,
         iconCenterX - iconW/2,
         iconCenterY + iconH/2 + lineWidth/2,
-        bruceConfig.priColor
+        fzerofirmwareConfig.priColor
     );
 
     tft.drawArc(
@@ -116,24 +116,24 @@ void BleMenu::drawIcon(float scale) {
         iconCenterY,
         2.5*radius, 2*radius,
         210, 330,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX,
         iconCenterY,
         2.5*radius + deltaRadius, 2*radius + deltaRadius,
         210, 330,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
     tft.drawArc(
         iconCenterX,
         iconCenterY,
         2.5*radius + 2*deltaRadius, 2*radius + 2*deltaRadius,
         210, 330,
-        bruceConfig.priColor,
-        bruceConfig.bgColor
+        fzerofirmwareConfig.priColor,
+        fzerofirmwareConfig.bgColor
     );
 
 }

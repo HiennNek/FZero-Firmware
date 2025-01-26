@@ -14,6 +14,28 @@
 #include <string>
 #include <sstream>
 
+
+// Static array of sub-GHz frequencies in MHz
+static const float subghz_frequency_list[] = {
+  /* 300 - 348 MHz Frequency Range */
+  300.000f, 302.757f, 303.875f, 303.900f, 304.250f,
+  307.000f, 307.500f, 307.800f, 309.000f, 310.000f,
+  312.000f, 312.100f, 312.200f, 313.000f, 313.850f,
+  314.000f, 314.350f, 314.980f, 315.000f, 318.000f,
+  330.000f, 345.000f, 348.000f, 350.000f,
+
+  /* 387 - 464 MHz Frequency Range */
+  387.000f, 390.000f, 418.000f, 430.000f, 430.500f,
+  431.000f, 431.500f, 433.075f, 433.220f, 433.420f,
+  433.657f, 433.889f, 433.920f, 434.075f, 434.177f,
+  434.190f, 434.390f, 434.420f, 434.620f, 434.775f,
+  438.900f, 440.175f, 464.000f, 467.750f,
+
+  /* 779 - 928 MHz Frequency Range */
+  779.000f, 868.350f, 868.400f, 868.800f, 868.950f,
+  906.400f, 915.000f, 925.000f, 928.000f
+};
+
 // Cria um objeto PCA9554 com o endereço I2C do PCA9554PW
 // PCA9554 extIo1(pca9554pw_address);
 
@@ -56,9 +78,9 @@ void initRMT() {
     rmt_config_t rxconfig;
     rxconfig.rmt_mode            = RMT_MODE_RX;
     rxconfig.channel             = RMT_RX_CHANNEL;
-    rxconfig.gpio_num            = gpio_num_t(bruceConfig.rfRx);
+    rxconfig.gpio_num            = gpio_num_t(fzerofirmwareConfig.rfRx);
     #ifdef USE_CC1101_VIA_SPI
-    if(bruceConfig.rfModule==CC1101_SPI_MODULE)
+    if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE)
         rxconfig.gpio_num            = gpio_num_t(CC1101_GDO0_PIN);
     #endif
     rxconfig.clk_div             = RMT_CLK_DIV; // RMT_DEFAULT_CLK_DIV=32
@@ -78,11 +100,11 @@ void initRMT() {
 
 void rf_spectrum() { //@IncursioHack - https://github.com/IncursioHack ----thanks @aat440hz - RF433ANY-M5Cardputer
 
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     tft.setTextSize(1);
     tft.println("");
     tft.println("  RF - Spectrum");
-    if(!initRfModule("rx", bruceConfig.rfFreq)) return;
+    if(!initRfModule("rx", fzerofirmwareConfig.rfFreq)) return;
     initRMT();
 
     RingbufHandle_t rb = nullptr;
@@ -94,7 +116,7 @@ void rf_spectrum() { //@IncursioHack - https://github.com/IncursioHack ----thank
         if (item != nullptr) {
             if (rx_size != 0) {
                 // Clear the display area
-                tft.fillRect(0, 20, tftWidth, tftHeight, bruceConfig.bgColor);
+                tft.fillRect(0, 20, tftWidth, tftHeight, fzerofirmwareConfig.bgColor);
                 // Draw waveform based on signal strength
                 for (size_t i = 0; i < rx_size; i++) {
                     int lineHeight = map(item[i].duration0 + item[i].duration1, 0, SIGNAL_STRENGTH_THRESHOLD, 0, tftHeight/2);
@@ -102,7 +124,7 @@ void rf_spectrum() { //@IncursioHack - https://github.com/IncursioHack ----thank
                     // Ensure drawing coordinates stay within the box bounds
                     int startY = constrain(20 + tftHeight / 2 - lineHeight / 2, 20, 20 + tftHeight);
                     int endY = constrain(20 + tftHeight / 2 + lineHeight / 2, 20, 20 + tftHeight);
-                    tft.drawLine(lineX, startY, lineX, endY, bruceConfig.priColor);
+                    tft.drawLine(lineX, startY, lineX, endY, fzerofirmwareConfig.priColor);
                 }
             }
             vRingbufferReturnItem(rb, (void*)item);
@@ -121,16 +143,16 @@ void rf_spectrum() { //@IncursioHack - https://github.com/IncursioHack ----thank
 void rf_SquareWave() { //@Pirata
 
     RCSwitch rcswitch;
-    if(!initRfModule("rx", bruceConfig.rfFreq)) return;
+    if(!initRfModule("rx", fzerofirmwareConfig.rfFreq)) return;
     #if defined(USE_CC1101_VIA_SPI)
-    if(bruceConfig.rfModule==CC1101_SPI_MODULE)
+    if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE)
         rcswitch.enableReceive(CC1101_GDO0_PIN);
     else
     #endif
-        rcswitch.enableReceive(bruceConfig.rfRx);
+        rcswitch.enableReceive(fzerofirmwareConfig.rfRx);
 
     tft.drawPixel(0,0,0);
-    tft.fillScreen(bruceConfig.bgColor);
+    tft.fillScreen(fzerofirmwareConfig.bgColor);
     tft.setTextSize(1);
     tft.println("");
     tft.setCursor(3,2);
@@ -142,7 +164,7 @@ void rf_SquareWave() { //@Pirata
         if (rcswitch.RAWavailable()) {
                 raw=rcswitch.getRAWReceivedRawdata();
                 // Clear the display area
-                // tft.fillRect(0, 0, tftWidth, tftHeight, bruceConfig.bgColor);
+                // tft.fillRect(0, 0, tftWidth, tftHeight, fzerofirmwareConfig.bgColor);
                 // Draw waveform based on signal strength
                 for (int i = 0; i < RCSWITCH_RAW_MAX_CHANGES-1; i+=2) {
                     if(raw[i]==0) break;
@@ -152,13 +174,13 @@ void rf_SquareWave() { //@Pirata
                     if(line_w+(raw[i]+raw[i+1])/TIME_DIVIDER>tftWidth) { line_w=10; line_h+=10; }
                     if(line_h>tftHeight) {
                         line_h = 15;
-                        tft.fillRect(0, 12, tftWidth, tftHeight, bruceConfig.bgColor);
+                        tft.fillRect(0, 12, tftWidth, tftHeight, fzerofirmwareConfig.bgColor);
                     }
-                    tft.drawFastVLine(line_w                    ,line_h     ,6                      ,bruceConfig.priColor);
-                    tft.drawFastHLine(line_w                    ,line_h     ,raw[i]/TIME_DIVIDER    ,bruceConfig.priColor);
+                    tft.drawFastVLine(line_w                    ,line_h     ,6                      ,fzerofirmwareConfig.priColor);
+                    tft.drawFastHLine(line_w                    ,line_h     ,raw[i]/TIME_DIVIDER    ,fzerofirmwareConfig.priColor);
 
-                    tft.drawFastVLine(line_w+raw[i]/TIME_DIVIDER,line_h     ,6                      ,bruceConfig.priColor);
-                    tft.drawFastHLine(line_w+raw[i]/TIME_DIVIDER,line_h+6   ,raw[i+1]/TIME_DIVIDER  ,bruceConfig.priColor);
+                    tft.drawFastVLine(line_w+raw[i]/TIME_DIVIDER,line_h     ,6                      ,fzerofirmwareConfig.priColor);
+                    tft.drawFastHLine(line_w+raw[i]/TIME_DIVIDER,line_h+6   ,raw[i+1]/TIME_DIVIDER  ,fzerofirmwareConfig.priColor);
                     line_w+=(raw[i] + raw[i+1])/TIME_DIVIDER;
                 }
             rcswitch.resetAvailable();
@@ -213,9 +235,9 @@ void setMHZ(float frequency) {
 
 void rf_jammerFull() { //@IncursioHack - https://github.com/IncursioHack -  thanks @EversonPereira - rfcardputer
     // init rf module
-    int nTransmitterPin = bruceConfig.rfTx;
+    int nTransmitterPin = fzerofirmwareConfig.rfTx;
     if(!initRfModule("tx")) return;
-    if(bruceConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
         #ifdef USE_CC1101_VIA_SPI
             nTransmitterPin = CC1101_GDO0_PIN;
         #else
@@ -236,7 +258,7 @@ void rf_jammerFull() { //@IncursioHack - https://github.com/IncursioHack -  than
     int tmr0=millis();             // control total jammer time;
     padprintln("Sending... Press ESC to stop.");
     while (sendRF) {
-        if (check(EscPress) || (millis() - tmr0 >20000)) {
+        if (check(EscPress)) {
             sendRF = false;
             returnToMenu=true;
             break;
@@ -247,9 +269,9 @@ void rf_jammerFull() { //@IncursioHack - https://github.com/IncursioHack -  than
 
 
 void rf_jammerIntermittent() { //@IncursioHack - https://github.com/IncursioHack -  thanks @EversonPereira - rfcardputer
-    int nTransmitterPin = bruceConfig.rfTx;
+    int nTransmitterPin = fzerofirmwareConfig.rfTx;
     if(!initRfModule("tx")) return;
-    if(bruceConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
         #ifdef USE_CC1101_VIA_SPI
             nTransmitterPin = CC1101_GDO0_PIN;
         #else
@@ -270,7 +292,7 @@ void rf_jammerIntermittent() { //@IncursioHack - https://github.com/IncursioHack
         for (int sequence = 1; sequence < 50; sequence++) {
             for (int duration = 1; duration <= 3; duration++) {
                 // Moved Escape check into this loop to check every cycle
-                if (check(EscPress) || (millis()-tmr0)>20000) {
+                if (check(EscPress)) {
                     sendRF = false;
                     returnToMenu=true;
                     break;
@@ -293,11 +315,73 @@ void rf_jammerIntermittent() { //@IncursioHack - https://github.com/IncursioHack
     deinitRfModule();
 }
 
+void rf_jammerAllFreq() { //@HiennNek - https://github.com/HiennNek
+    // init rf module 
+    int nTransmitterPin = fzerofirmwareConfig.rfTx;
+    if(!initRfModule("tx")) return;
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+        #ifdef USE_CC1101_VIA_SPI
+            nTransmitterPin = CC1101_GDO0_PIN;
+        #else
+            return;
+        #endif
+    }
+
+    tft.fillScreen(TFT_BLACK);
+    drawMainBorder(); 
+    tft.setCursor(10,30);
+    tft.setTextSize(FP);
+    padprintln("RF - All Freq Jammer");
+    tft.println("");
+    tft.println("");
+    tft.setTextSize(FP);
+    sendRF = true;
+    
+    // Get size of frequency list
+    int freq_count = sizeof(subghz_frequency_list) / sizeof(subghz_frequency_list[0]);
+    int current_freq_idx = 0;
+
+    digitalWrite(nTransmitterPin, HIGH);
+    padprintln("Jamming across all bands...");
+    padprintln("Press ESC to stop.");
+
+    while (sendRF) {
+        if (check(EscPress)) {
+            sendRF = false;
+            returnToMenu=true;
+            break;
+        }
+
+        #ifdef USE_CC1101_VIA_SPI
+            // Set new frequency from list
+            setMHZ(subghz_frequency_list[current_freq_idx]);
+            // Brief transmission at current frequency
+            delayMicroseconds(500);
+
+            // Move to next frequency in list
+            current_freq_idx = (current_freq_idx + 1) % freq_count;
+        #endif
+
+        // Update display every 100ms
+        static unsigned long last_update = 0;
+        if (millis() - last_update > 100) {
+            int text_y = tft.getCursorY();
+            // Clear the previous text area (adjust width and height as needed)
+            tft.fillRect(10, text_y, 200, 10, fzerofirmwareConfig.bgColor);
+            tft.setCursor(10, text_y);
+            tft.printf("Current freq: %.3f MHz", subghz_frequency_list[current_freq_idx]);
+            last_update = millis();
+        }
+    }
+
+    deinitRfModule();
+}
+
 String rf_scan(float start_freq, float stop_freq, int max_loops)
 {
     // derived from https://github.com/mcore1976/cc1101-tool/blob/main/cc1101-tool-esp32.ino#L480
 
-    if(bruceConfig.rfModule != CC1101_SPI_MODULE) {
+    if(fzerofirmwareConfig.rfModule != CC1101_SPI_MODULE) {
         displayError("rf scanning is available with CC1101 only", true);
         return ""; // only CC1101 is supported for this
     }
@@ -330,7 +414,7 @@ String rf_scan(float start_freq, float stop_freq, int max_loops)
                 };
           };
 
-       freq+=0.01;
+       freq+=0.005;
 
        if (freq > settingf2)
           {
@@ -372,7 +456,7 @@ void RCSwitch_send(uint64_t data, unsigned int bits, int pulse, int protocol, in
 
     RCSwitch mySwitch = RCSwitch();
 
-    if(bruceConfig.rfModule==CC1101_SPI_MODULE) {
+    if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) {
         #ifdef USE_CC1101_VIA_SPI
             mySwitch.enableTransmit(CC1101_GDO0_PIN);
         #else
@@ -380,7 +464,7 @@ void RCSwitch_send(uint64_t data, unsigned int bits, int pulse, int protocol, in
             return;  // not enabled for this board
         #endif
     } else {
-        mySwitch.enableTransmit(bruceConfig.rfTx);
+        mySwitch.enableTransmit(fzerofirmwareConfig.rfTx);
     }
 
     mySwitch.setProtocol(protocol);  // override
@@ -550,11 +634,11 @@ void initCC1101once(SPIClass* SSPI) {
 }
 
 void deinitRfModule() {
-    if(bruceConfig.rfModule==CC1101_SPI_MODULE)
+    if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE)
         #ifdef USE_CC1101_VIA_SPI
             #if CC1101_MOSI_PIN==TFT_MOSI || CC1101_MOSI_PIN==SDCARD_MOSI // (T_EMBED), CORE2 and others
                 ELECHOUSE_cc1101.setSidle();
-            #else // (STICK_C_PLUS) || (STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when Bruce board comes to shore)
+            #else // (STICK_C_PLUS) || (STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when FZerofirmware board comes to shore)
                 ELECHOUSE_cc1101.getSPIinstance()->end();
             #endif
         #else
@@ -562,7 +646,7 @@ void deinitRfModule() {
         #endif
     else
 
-        digitalWrite(bruceConfig.rfTx, LED_OFF);
+        digitalWrite(fzerofirmwareConfig.rfTx, LED_OFF);
 
 }
 
@@ -574,15 +658,15 @@ bool initRfModule(String mode, float frequency) {
     #elif defined(SMOOCHIEE_BOARD) 	// This board uses the same Bus for NRF and CC1101, but with different CS pins, different from Stick_Cs down below.. 
 					// It will be like that until we fin a better solution or other board come with a setup like that.
 	ELECHOUSE_cc1101.setSPIinstance(&CC_NRF_SPI);
-    #else // (STICK_C_PLUS) || (STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when Bruce board comes to shore)
+    #else // (STICK_C_PLUS) || (STICK_C_PLUS2) and others that doesn´t share SPI with other devices (need to change it when FZerofirmware board comes to shore)
         ELECHOUSE_cc1101.setBeginEndLogic(true); // make sure to use BeginEndLogic for StickCs in the shared pins (not bus) config
         initCC1101once(NULL);
     #endif
 
     // use default frequency if no one is passed
-    if(!frequency) frequency = bruceConfig.rfFreq;
+    if(!frequency) frequency = fzerofirmwareConfig.rfFreq;
 
-    if(bruceConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
         #ifdef USE_CC1101_VIA_SPI
             ELECHOUSE_cc1101.Init();
             if (ELECHOUSE_cc1101.getCC1101()){       // Check the CC1101 Spi connection.
@@ -641,21 +725,21 @@ bool initRfModule(String mode, float frequency) {
 
     } else {
         // single-pinned module
-        if(frequency!=bruceConfig.rfFreq) {
+        if(frequency!=fzerofirmwareConfig.rfFreq) {
             Serial.println("unsupported frequency");
             return false;
         }
 
         if(mode=="tx") {
             gsetRfTxPin(false);
-            pinMode(bruceConfig.rfTx, OUTPUT);
-            digitalWrite(bruceConfig.rfTx, LOW);
+            pinMode(fzerofirmwareConfig.rfTx, OUTPUT);
+            digitalWrite(fzerofirmwareConfig.rfTx, LOW);
 
         }
         else if(mode=="rx") {
             // Rx Mode
             gsetRfRxPin(false);
-            pinMode(bruceConfig.rfRx, INPUT);
+            pinMode(fzerofirmwareConfig.rfRx, INPUT);
         }
     }
     // no error
@@ -666,7 +750,7 @@ String RCSwitch_Read(float frequency, int max_loops, bool raw) {
     RCSwitch rcswitch = RCSwitch();
     RfCodes received;
 
-    if(!frequency) frequency = bruceConfig.rfFreq; // default from config
+    if(!frequency) frequency = fzerofirmwareConfig.rfFreq; // default from config
 
     char hexString[64];
 
@@ -678,7 +762,7 @@ RestartRec:
 
     // init receive
     if(!initRfModule("rx", frequency)) return "";
-    if(bruceConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
         #ifdef USE_CC1101_VIA_SPI
             #ifdef CC1101_GDO2_PIN
                 rcswitch.enableReceive(CC1101_GDO2_PIN);
@@ -690,7 +774,7 @@ RestartRec:
             return "";
         #endif
     } else {
-        rcswitch.enableReceive(bruceConfig.rfRx);
+        rcswitch.enableReceive(fzerofirmwareConfig.rfRx);
     }
     while(!check(EscPress)) {
         if(rcswitch.available()) {
@@ -763,7 +847,7 @@ RestartRec:
                     // TODO: show a dialog/warning?
                     // raw = yesNoDialog("decoding failed, save as RAW?");
                 }
-                String subfile_out = "Filetype: Bruce SubGhz File\nVersion 1\n";
+                String subfile_out = "Filetype: FZerofirmware SubGhz File\nVersion 1\n";
                 subfile_out += "Frequency: " + String(int(frequency*1000000)) + "\n";
                 if(!raw) {
                     subfile_out += "Preset: " + String(received.preset) + "\n";
@@ -843,7 +927,7 @@ bool RCSwitch_SaveSignal(float frequency, RfCodes codes, bool raw, char* key)
         return false;
     }
 
-    String subfile_out = "Filetype: Bruce SubGhz File\nVersion 1\n";
+    String subfile_out = "Filetype: FZerofirmware SubGhz File\nVersion 1\n";
     subfile_out += "Frequency: " + String(int(frequency * 1000000)) + "\n";
     if(!raw) {
         subfile_out += "Preset: " + String(codes.preset) + "\n";
@@ -871,14 +955,14 @@ bool RCSwitch_SaveSignal(float frequency, RfCodes codes, bool raw, char* key)
     int i = 0;
     File file;
 
-    if (!(*fs).exists("/BruceRF")) (*fs).mkdir("/BruceRF");
-    while((*fs).exists("/BruceRF/" + filename + String(i) + ".sub")) i++;
+    if (!(*fs).exists("/FZerofirmwareRF")) (*fs).mkdir("/FZerofirmwareRF");
+    while((*fs).exists("/FZerofirmwareRF/" + filename + String(i) + ".sub")) i++;
     
-    file = (*fs).open("/BruceRF/" + filename + String(i) + ".sub", FILE_WRITE);
+    file = (*fs).open("/FZerofirmwareRF/" + filename + String(i) + ".sub", FILE_WRITE);
 
     if (file) {
         file.println(subfile_out);
-        displaySuccess("/BruceRF/" + filename + String(i) + ".sub");
+        displaySuccess("/FZerofirmwareRF/" + filename + String(i) + ".sub");
     } else {
         displayError("Error saving file", true);
     }
@@ -889,8 +973,8 @@ bool RCSwitch_SaveSignal(float frequency, RfCodes codes, bool raw, char* key)
 
 // ported from https://github.com/sui77/rc-switch/blob/3a536a172ab752f3c7a58d831c5075ca24fd920b/RCSwitch.cpp
 void RCSwitch_RAW_Bit_send(RfCodes data) {
-  int nTransmitterPin = bruceConfig.rfTx;
-  if(bruceConfig.rfModule==CC1101_SPI_MODULE) {
+  int nTransmitterPin = fzerofirmwareConfig.rfTx;
+  if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) {
       #ifdef USE_CC1101_VIA_SPI
          nTransmitterPin = CC1101_GDO0_PIN;
       #else
@@ -932,8 +1016,8 @@ void RCSwitch_RAW_Bit_send(RfCodes data) {
 
 
 void RCSwitch_RAW_send(int * ptrtransmittimings) {
-  int nTransmitterPin = bruceConfig.rfTx;
-  if(bruceConfig.rfModule==CC1101_SPI_MODULE) {
+  int nTransmitterPin = fzerofirmwareConfig.rfTx;
+  if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) {
       #ifdef USE_CC1101_VIA_SPI
          nTransmitterPin = CC1101_GDO0_PIN;
       #else
@@ -1056,7 +1140,7 @@ void sendRfCommand(struct RfCodes rfcode) {
 
     // init transmitter
     if(!initRfModule("", frequency/1000000.0)) return;
-    if(bruceConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
+    if(fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) { // CC1101 in use
         #ifdef USE_CC1101_VIA_SPI
             // derived from https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/examples/Rc-Switch%20examples%20cc1101/SendDemo_cc1101/SendDemo_cc1101.ino
             ELECHOUSE_cc1101.setModulation(modulation);
@@ -1148,7 +1232,7 @@ void sendRfCommand(struct RfCodes rfcode) {
         return;
     }
 
-    //digitalWrite(bruceConfig.rfTx, LED_OFF);
+    //digitalWrite(fzerofirmwareConfig.rfTx, LED_OFF);
     deinitRfModule();
 }
 
@@ -1273,7 +1357,7 @@ bool txSubFile(FS *fs, String filepath) {
 
         // To send the signal using CC1101 sharing the SPI Bus with SDCard, we need to close the file first
         // Does not apply for Smoochiee board and StickCPlus for now.
-        if(bruceConfig.rfModule==CC1101_SPI_MODULE) {
+        if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) {
             #if SDCARD_MOSI==CC1101_MOSI_PIN
                 size_t point = databaseFile.position(); // Save the last position read
                 databaseFile.close();                   // Close the File
@@ -1305,27 +1389,6 @@ bool txSubFile(FS *fs, String filepath) {
   return true;
 }
 
-// Static array of sub-GHz frequencies in MHz
-static const float subghz_frequency_list[] = {
-  /* 300 - 348 MHz Frequency Range */
-  300.000f, 302.757f, 303.875f, 303.900f, 304.250f,
-  307.000f, 307.500f, 307.800f, 309.000f, 310.000f,
-  312.000f, 312.100f, 312.200f, 313.000f, 313.850f,
-  314.000f, 314.350f, 314.980f, 315.000f, 318.000f,
-  330.000f, 345.000f, 348.000f, 350.000f,
-
-  /* 387 - 464 MHz Frequency Range */
-  387.000f, 390.000f, 418.000f, 430.000f, 430.500f,
-  431.000f, 431.500f, 433.075f, 433.220f, 433.420f,
-  433.657f, 433.889f, 433.920f, 434.075f, 434.177f,
-  434.190f, 434.390f, 434.420f, 434.620f, 434.775f,
-  438.900f, 440.175f, 464.000f, 467.750f,
-
-  /* 779 - 928 MHz Frequency Range */
-  779.000f, 868.350f, 868.400f, 868.800f, 868.950f,
-  906.400f, 915.000f, 925.000f, 928.000f
-};
-
 #define _MAX_TRIES 5
 
 struct FreqFound {
@@ -1355,7 +1418,7 @@ void rf_scan_copy_draw_signal(RfCodes received, int signals, bool ReadRAW) {
 
     tft.println("Key: " + String(hexString));
 
-    if (bruceConfig.rfModule == CC1101_SPI_MODULE) {
+    if (fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) {
         tft.setCursor(10, tft.getCursorY());
         int rssi=ELECHOUSE_cc1101.getRssi();
         tft.drawPixel(0,0,0);
@@ -1382,9 +1445,9 @@ void rf_scan_copy_draw_signal(RfCodes received, int signals, bool ReadRAW) {
     tft.println("Total signals found: " + String(signals));
     if(ReadRAW) {
         tft.setCursor(10, tft.getCursorY()+LH);
-        tft.setTextColor(getColorVariation(bruceConfig.priColor), bruceConfig.bgColor);
+        tft.setTextColor(getColorVariation(fzerofirmwareConfig.priColor), fzerofirmwareConfig.bgColor);
         tft.println("Reading RAW data.");
-        tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+        tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
     }
     tft.setCursor(10, tft.getCursorY()+LH);
     tft.println("Press [NEXT] for options.");
@@ -1404,7 +1467,7 @@ void rf_scan_copy() {
 	};
 	uint8_t _try = 0;
 	char hexString[64];
-	int signals = 0, idx = range_limits[bruceConfig.rfScanRange][0];
+	int signals = 0, idx = range_limits[fzerofirmwareConfig.rfScanRange][0];
 	float found_freq = 0.f, frequency = 0.f;
 	int rssi=-80, rssiThreshold = -55;
 	FreqFound _freqs[_MAX_TRIES]; // get the best RSSI out of 5 tries
@@ -1415,11 +1478,11 @@ RestartScan:
     for(int i=0; i<_MAX_TRIES;i++) {_freqs[i].freq=433.92; _freqs[i].rssi=-75; }
     _try=0;
 
-	if (!initRfModule("rx",bruceConfig.rfFreq)) {
+	if (!initRfModule("rx",fzerofirmwareConfig.rfFreq)) {
 		return;
 	}
 
-	if (bruceConfig.rfModule == CC1101_SPI_MODULE) {
+	if (fzerofirmwareConfig.rfModule == CC1101_SPI_MODULE) {
 		#ifdef USE_CC1101_VIA_SPI
 			#ifdef CC1101_GDO2_PIN
 				rcswitch.enableReceive(CC1101_GDO2_PIN);
@@ -1431,15 +1494,15 @@ RestartScan:
 			return;
 		#endif
 	} else {
-		rcswitch.enableReceive(bruceConfig.rfRx);
+		rcswitch.enableReceive(fzerofirmwareConfig.rfRx);
 	}
 
-	if (bruceConfig.rfScanRange < 0 || bruceConfig.rfScanRange > 3) {
-		bruceConfig.setRfScanRange(3);
+	if (fzerofirmwareConfig.rfScanRange < 0 || fzerofirmwareConfig.rfScanRange > 3) {
+		fzerofirmwareConfig.setRfScanRange(3);
 	}
 
-	if (bruceConfig.rfModule != CC1101_SPI_MODULE) {
-		bruceConfig.setRfFxdFreq(1);
+	if (fzerofirmwareConfig.rfModule != CC1101_SPI_MODULE) {
+		fzerofirmwareConfig.setRfFxdFreq(1);
 	}
 
 	drawMainBorder();
@@ -1449,48 +1512,48 @@ RestartScan:
     else {
         tft.println("Waiting for signal.");
         tft.setCursor(10, tft.getCursorY());
-        if (bruceConfig.rfFxdFreq) {
+        if (fzerofirmwareConfig.rfFxdFreq) {
             if (_try >= _MAX_TRIES) {
-                tft.setTextColor(getColorVariation(bruceConfig.priColor), bruceConfig.bgColor);
+                tft.setTextColor(getColorVariation(fzerofirmwareConfig.priColor), fzerofirmwareConfig.bgColor);
             }
 
-            tft.println("Freq: " + String(bruceConfig.rfFreq) + " MHz");
+            tft.println("Freq: " + String(fzerofirmwareConfig.rfFreq) + " MHz");
 
             if (_try >= _MAX_TRIES) {
-                tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+                tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
             }
         }
         else {
-            tft.println("Range: " + String(sz_range[bruceConfig.rfScanRange]));
+            tft.println("Range: " + String(sz_range[fzerofirmwareConfig.rfScanRange]));
         }
 
         if(ReadRAW) {
             tft.setCursor(10, tft.getCursorY()+LH);
-            tft.setTextColor(getColorVariation(bruceConfig.priColor), bruceConfig.bgColor);
+            tft.setTextColor(getColorVariation(fzerofirmwareConfig.priColor), fzerofirmwareConfig.bgColor);
             tft.println("Reading RAW data.");
-            tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+            tft.setTextColor(fzerofirmwareConfig.priColor, fzerofirmwareConfig.bgColor);
         }
         tft.setCursor(10, tft.getCursorY()+LH*2);
         tft.println("Press [NEXT] for range.");
     }
 
-	if (bruceConfig.rfFxdFreq) {
-		frequency = bruceConfig.rfFreq;
+	if (fzerofirmwareConfig.rfFxdFreq) {
+		frequency = fzerofirmwareConfig.rfFreq;
 	}
     // Clear cache for RAW signal
     rcswitch.resetAvailable();
     returnToMenu=false;
 	for (;;) {
 	FastScan:
-		if (idx < range_limits[bruceConfig.rfScanRange][0] || idx > range_limits[bruceConfig.rfScanRange][1]) {
-			idx = range_limits[bruceConfig.rfScanRange][0];
+		if (idx < range_limits[fzerofirmwareConfig.rfScanRange][0] || idx > range_limits[fzerofirmwareConfig.rfScanRange][1]) {
+			idx = range_limits[fzerofirmwareConfig.rfScanRange][0];
 		}
 
 		if (check(EscPress) || returnToMenu) {
 			break;
 		}
 
-		if (!bruceConfig.rfFxdFreq) { // Try FastScan
+		if (!fzerofirmwareConfig.rfFxdFreq) { // Try FastScan
         #if defined(USE_CC1101_VIA_SPI)
 			frequency = subghz_frequency_list[idx];
 
@@ -1515,7 +1578,7 @@ RestartScan:
 						}
 					}
 
-					bruceConfig.setRfFreq(_freqs[max_index].freq, true);
+					fzerofirmwareConfig.setRfFreq(_freqs[max_index].freq, true);
 					frequency = _freqs[max_index].freq;
 					Serial.println("Frequency Found: " + String(frequency));
                     deinitRfModule();
@@ -1535,7 +1598,7 @@ RestartScan:
 			}
         #else
         displayWarning("Freq Scan not available", true);
-        bruceConfig.setRfFreq(433.92, 1);
+        fzerofirmwareConfig.setRfFreq(433.92, 1);
         #endif
 		}
 
@@ -1610,12 +1673,12 @@ RestartScan:
                                                         options.push_back({ "Save Signal",  [&]()  { option = 2; } });
                                                         options.push_back({ "Reset Signal", [&]()  { option = 3; } });
             }
-            if(bruceConfig.rfModule==CC1101_SPI_MODULE) options.push_back({ "Range",        [&]()  { option = 1; } });
+            if(fzerofirmwareConfig.rfModule==CC1101_SPI_MODULE) options.push_back({ "Range",        [&]()  { option = 1; } });
             
             if(ReadRAW)                                 options.push_back({ "Stop RAW",     [&]()  {  ReadRAW=false; } });
             else                                        options.push_back({ "Read RAW",     [&]()  {  ReadRAW=true; } });
-            if(bruceConfig.devMode && !OnlyRAW)         options.push_back({ "Only RAW",     [&]()  {  ReadRAW=true; OnlyRAW=true; } });
-            else if(bruceConfig.devMode && OnlyRAW)     options.push_back({ "RAW+Decode",   [&]()  {  ReadRAW=true; OnlyRAW=false; } });
+            if(fzerofirmwareConfig.devMode && !OnlyRAW)         options.push_back({ "Only RAW",     [&]()  {  ReadRAW=true; OnlyRAW=true; } });
+            else if(fzerofirmwareConfig.devMode && OnlyRAW)     options.push_back({ "RAW+Decode",   [&]()  {  ReadRAW=true; OnlyRAW=false; } });
                                                         options.push_back({ "Close Menu",   [&]()  {  option =-1; } });
                                                         options.push_back({ "Main Menu",    [&]()  {  option =-2; } });
 
@@ -1640,12 +1703,12 @@ RestartScan:
 			if (option == 1) { // Range submenu
                 option=0;
 				options = {
-					{ String("Fxd [" + String(bruceConfig.rfFreq) + "]").c_str(), [=]()  { bruceConfig.setRfScanRange(bruceConfig.rfScanRange, 1); } },
+					{ String("Fxd [" + String(fzerofirmwareConfig.rfFreq) + "]").c_str(), [=]()  { fzerofirmwareConfig.setRfScanRange(fzerofirmwareConfig.rfScanRange, 1); } },
                     { String("Choose Fxd").c_str(), [&]()  { option = 1; } },
-					{ sz_range[0], [=]()  { bruceConfig.setRfScanRange(0); } },
-					{ sz_range[1], [=]()  { bruceConfig.setRfScanRange(1); } },
-					{ sz_range[2], [=]()  { bruceConfig.setRfScanRange(2); } },
-					{ sz_range[3], [=]()  { bruceConfig.setRfScanRange(3); } },
+					{ sz_range[0], [=]()  { fzerofirmwareConfig.setRfScanRange(0); } },
+					{ sz_range[1], [=]()  { fzerofirmwareConfig.setRfScanRange(1); } },
+					{ sz_range[2], [=]()  { fzerofirmwareConfig.setRfScanRange(2); } },
+					{ sz_range[3], [=]()  { fzerofirmwareConfig.setRfScanRange(3); } },
 				};
 
 				loopOptions(options);
@@ -1655,15 +1718,15 @@ RestartScan:
                     int ind=0;
                     int arraySize = sizeof(subghz_frequency_list) / sizeof(subghz_frequency_list[0]);
                     for(int i=0; i<arraySize;i++) {
-                        options.push_back({ String(String(subghz_frequency_list[i],2) + "Mhz").c_str(), [=]()  { bruceConfig.rfFreq=subghz_frequency_list[i]; } });
+                        options.push_back({ String(String(subghz_frequency_list[i],2) + "Mhz").c_str(), [=]()  { fzerofirmwareConfig.rfFreq=subghz_frequency_list[i]; } });
                         if(int(frequency*100)==int(subghz_frequency_list[i]*100)) ind=i;
                     }
 				    loopOptions(options,ind);
-                    bruceConfig.setRfScanRange(bruceConfig.rfScanRange, 1);
+                    fzerofirmwareConfig.setRfScanRange(fzerofirmwareConfig.rfScanRange, 1);
                 }
 
-				if (bruceConfig.rfFxdFreq) displayTextLine("Scan freq set to " + String(bruceConfig.rfFreq));
-				else displayTextLine("Range set to " + String(sz_range[bruceConfig.rfScanRange]));
+				if (fzerofirmwareConfig.rfFxdFreq) displayTextLine("Scan freq set to " + String(fzerofirmwareConfig.rfFreq));
+				else displayTextLine("Range set to " + String(sz_range[fzerofirmwareConfig.rfScanRange]));
                 
                 deinitRfModule();
 				delay(1500);

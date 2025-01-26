@@ -13,8 +13,8 @@ struct Opt_Coord {
   uint16_t x=0;
   uint16_t y=0;
   uint16_t size=10;
-  uint16_t fgcolor=bruceConfig.priColor;
-  uint16_t bgcolor=bruceConfig.bgColor;
+  uint16_t fgcolor=fzerofirmwareConfig.priColor;
+  uint16_t bgcolor=fzerofirmwareConfig.bgColor;
 };
 void displayScrollingText(const String& text, Opt_Coord& coord);
 
@@ -90,7 +90,7 @@ uint16_t getComplementaryColor(uint16_t color);
 uint16_t getComplementaryColor2(uint16_t color);
 uint16_t getColorVariation(uint16_t color, int delta = 10, int direction = 0);
 
-void resetTftDisplay(int x = 0, int y = 0, uint16_t fc = bruceConfig.priColor, int size = FM, uint16_t bg = bruceConfig.bgColor, uint16_t screen = bruceConfig.bgColor);
+void resetTftDisplay(int x = 0, int y = 0, uint16_t fc = fzerofirmwareConfig.priColor, int size = FM, uint16_t bg = fzerofirmwareConfig.bgColor, uint16_t screen = fzerofirmwareConfig.bgColor);
 void setTftDisplay(int x = 0, int y = 0, uint16_t fc = tft.textcolor, int size = tft.textsize, uint16_t bg = tft.textbgcolor);
 
 void turnOffDisplay();
@@ -167,14 +167,14 @@ void drawGPS(int x, int y);
 
 void drawGpsSmall(int x, int y);
 
-void TouchFooter(uint16_t color = bruceConfig.priColor);
+void TouchFooter(uint16_t color = fzerofirmwareConfig.priColor);
 
-void MegaFooter(uint16_t color = bruceConfig.priColor);
+void MegaFooter(uint16_t color = fzerofirmwareConfig.priColor);
 
 #if !defined(LITE_VERSION)
-#define bruce_small_width 60
-#define bruce_small_height 34
-PROGMEM const unsigned char bruce_small_bits[] = {
+#define fzerofirmware_small_width 60
+#define fzerofirmware_small_height 34
+PROGMEM const unsigned char fzerofirmware_small_bits[] = {
   0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F, 0xFF, 0xFF, 0x7F, 0x0F,
   0xFE, 0xFF, 0xFF, 0x0F, 0xFF, 0xFF, 0x7F, 0x6A, 0xF0, 0xFF, 0xFF, 0x0F,
   0xFF, 0xFF, 0x3F, 0xD6, 0x27, 0xFF, 0xFF, 0x0F, 0x9F, 0xFF, 0x1F, 0x76,

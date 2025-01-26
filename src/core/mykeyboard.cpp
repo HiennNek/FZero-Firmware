@@ -23,7 +23,7 @@ struct box_t
   {
     for (int i = 0; i < 8; ++i)
     {
-      tft.fillRect(x, y, w, h,bruceConfig.bgColor);
+      tft.fillRect(x, y, w, h,fzerofirmwareConfig.bgColor);
     }
   }
   void draw(void)
@@ -228,7 +228,7 @@ String keyboard(String mytext, int maxSize, String msg) {
     for(y2=0; y2<4; y2++) {
       box_list[k].key=keys[y2][x2][0];
       box_list[k].key_sh=keys[y2][x2][1];
-      box_list[k].color = ~bruceConfig.bgColor;
+      box_list[k].color = ~fzerofirmwareConfig.bgColor;
       box_list[k].x=x2*_x;
       box_list[k].y=y2*_y+54;
       box_list[k].w=_x;
@@ -239,7 +239,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   // OK
   box_list[k].key=' ';
   box_list[k].key_sh=' ';
-  box_list[k].color = ~bruceConfig.bgColor;
+  box_list[k].color = ~fzerofirmwareConfig.bgColor;
   box_list[k].x=0;
   box_list[k].y=0;
   box_list[k].w=53;
@@ -248,7 +248,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   // CAP
   box_list[k].key=' ';
   box_list[k].key_sh=' ';
-  box_list[k].color = ~bruceConfig.bgColor;
+  box_list[k].color = ~fzerofirmwareConfig.bgColor;
   box_list[k].x=55;
   box_list[k].y=0;
   box_list[k].w=50;
@@ -257,7 +257,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   // DEL
   box_list[k].key=' ';
   box_list[k].key_sh=' ';
-  box_list[k].color = ~bruceConfig.bgColor;
+  box_list[k].color = ~fzerofirmwareConfig.bgColor;
   box_list[k].x=107;
   box_list[k].y=0;
   box_list[k].w=50;
@@ -266,7 +266,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   // SPACE
   box_list[k].key=' ';
   box_list[k].key_sh=' ';
-  box_list[k].color = ~bruceConfig.bgColor;
+  box_list[k].color = ~fzerofirmwareConfig.bgColor;
   box_list[k].x=159;
   box_list[k].y=0;
   box_list[k].w=tftWidth-164;
@@ -277,7 +277,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   y2=0;
 #endif
 
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
 
 #if defined(HAS_3_BUTTONS) // StickCs and Core for long press detection logic
   bool longNextPress = false;
@@ -287,7 +287,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   while(1) {
     if(redraw) {
       tft.setCursor(0,0);
-      tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+      tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
       tft.setTextSize(FM);
 
       //Draw the rectangles
@@ -309,44 +309,44 @@ String keyboard(String mytext, int maxSize, String msg) {
             {77, 50, 80},
           };
         #endif
-        tft.fillRect(0,1,tftWidth,22,bruceConfig.bgColor);
-        tft.drawRect(ofs[0][0],2,ofs[0][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));       // Ok Rectangle
-        tft.drawRect(ofs[1][0],2,ofs[1][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));      // CAP Rectangle
-        tft.drawRect(ofs[2][0],2,ofs[2][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));     // DEL Rectangle
-        tft.drawRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));     // SPACE Rectangle
-        tft.drawRect(3,KBLH+12,tftWidth-3,KBLH,bruceConfig.priColor); // mystring Rectangle
+        tft.fillRect(0,1,tftWidth,22,fzerofirmwareConfig.bgColor);
+        tft.drawRect(ofs[0][0],2,ofs[0][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor));       // Ok Rectangle
+        tft.drawRect(ofs[1][0],2,ofs[1][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor));      // CAP Rectangle
+        tft.drawRect(ofs[2][0],2,ofs[2][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor));     // DEL Rectangle
+        tft.drawRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor));     // SPACE Rectangle
+        tft.drawRect(3,KBLH+12,tftWidth-3,KBLH,fzerofirmwareConfig.priColor); // mystring Rectangle
 
 
-        if(x==0 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[0][0],2,ofs[0][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
-        else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+        if(x==0 && y==-1) { tft.setTextColor(fzerofirmwareConfig.bgColor, getComplementaryColor2(fzerofirmwareConfig.bgColor)); tft.fillRect(ofs[0][0],2,ofs[0][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor)); }
+        else tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
         tft.drawString("OK", ofs[0][2], 4);
 
 
-        if(x==1 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[1][0],2,ofs[1][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
-        else if(caps) { tft.fillRect(ofs[1][0],2,ofs[1][1],KBLH,TFT_DARKGREY); tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), TFT_DARKGREY); }
-        else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+        if(x==1 && y==-1) { tft.setTextColor(fzerofirmwareConfig.bgColor, getComplementaryColor2(fzerofirmwareConfig.bgColor)); tft.fillRect(ofs[1][0],2,ofs[1][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor)); }
+        else if(caps) { tft.fillRect(ofs[1][0],2,ofs[1][1],KBLH,TFT_DARKGREY); tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), TFT_DARKGREY); }
+        else tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
         tft.drawString("CAP", ofs[1][2], 4);
 
 
-        if(x==2 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[2][0],2,ofs[2][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
-        else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+        if(x==2 && y==-1) { tft.setTextColor(fzerofirmwareConfig.bgColor, getComplementaryColor2(fzerofirmwareConfig.bgColor)); tft.fillRect(ofs[2][0],2,ofs[2][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor)); }
+        else tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
         tft.drawString("DEL", ofs[2][2], 4);
 
-        if(x>2 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
-        else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+        if(x>2 && y==-1) { tft.setTextColor(fzerofirmwareConfig.bgColor, getComplementaryColor2(fzerofirmwareConfig.bgColor)); tft.fillRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(fzerofirmwareConfig.bgColor)); }
+        else tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
         tft.drawString("SPACE", ofs[3][2], 4);
       }
 
       tft.setTextSize(FP);
-      tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), 0x5AAB);
+      tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), 0x5AAB);
       tft.drawString(msg.substring(0,38), 3, KBLH+4);
 
       tft.setTextSize(FM);
 
       // reseta o quadrado do texto
-      if (mytext.length() == 19 || mytext.length() == 20 || mytext.length() == 38 || mytext.length() == 39) tft.fillRect(3,KBLH+12,tftWidth-3,KBLH,bruceConfig.bgColor); // mystring Rectangle
+      if (mytext.length() == 19 || mytext.length() == 20 || mytext.length() == 38 || mytext.length() == 39) tft.fillRect(3,KBLH+12,tftWidth-3,KBLH,fzerofirmwareConfig.bgColor); // mystring Rectangle
       // escreve o texto
-      tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor));
+      tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor));
       if(mytext.length()>19) {
         tft.setTextSize(FP);
         if(mytext.length()>38) {
@@ -360,19 +360,19 @@ String keyboard(String mytext, int maxSize, String msg) {
         tft.drawString(mytext, 5, KBLH+14);
       }
       //desenha o retangulo colorido
-      tft.drawRect(3,32,tftWidth-3,KBLH,bruceConfig.priColor); // mystring Rectangle
+      tft.drawRect(3,32,tftWidth-3,KBLH,fzerofirmwareConfig.priColor); // mystring Rectangle
 
 
-      tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+      tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), fzerofirmwareConfig.bgColor);
       tft.setTextSize(FM);
 
 
       for(int i=0;i<4;i++) {
         for(int j=0;j<12;j++) {
           //use last coordenate to paint only this letter
-          if(x2==j && y2==i) { tft.setTextColor(~bruceConfig.bgColor, bruceConfig.bgColor); tft.fillRect(j*_x,i*_y+KBLH*2+14,_x,_y,bruceConfig.bgColor);}
+          if(x2==j && y2==i) { tft.setTextColor(~fzerofirmwareConfig.bgColor, fzerofirmwareConfig.bgColor); tft.fillRect(j*_x,i*_y+KBLH*2+14,_x,_y,fzerofirmwareConfig.bgColor);}
           /* If selected, change font color and draw Rectangle*/
-          if(x==j && y==i) { tft.setTextColor(bruceConfig.bgColor, ~bruceConfig.bgColor); tft.fillRect(j*_x,i*_y+KBLH*2+14,_x,_y,~bruceConfig.bgColor);}
+          if(x==j && y==i) { tft.setTextColor(fzerofirmwareConfig.bgColor, ~fzerofirmwareConfig.bgColor); tft.fillRect(j*_x,i*_y+KBLH*2+14,_x,_y,~fzerofirmwareConfig.bgColor);}
 
 
           /* Print the letters */
@@ -380,7 +380,7 @@ String keyboard(String mytext, int maxSize, String msg) {
           else tft.drawChar(keys[i][j][1], (j*_x+_xo), (i*_y+KBLH*2+16));
 
           /* Return colors to normal to print the other letters */
-          if(x==j && y==i) { tft.setTextColor(~bruceConfig.bgColor, bruceConfig.bgColor); }
+          if(x==j && y==i) { tft.setTextColor(~fzerofirmwareConfig.bgColor, fzerofirmwareConfig.bgColor); }
         }
       }
       // save actual key coordenate
@@ -412,7 +412,7 @@ String keyboard(String mytext, int maxSize, String msg) {
       if (t.pressed)
       {
         if (box_list[48].contain(t.x, t.y)) { break; }      // Ok
-        if (box_list[49].contain(t.x, t.y)) { caps=!caps; tft.fillRect(0,54,tftWidth,tftHeight-54,bruceConfig.bgColor); goto THIS_END; } // CAP
+        if (box_list[49].contain(t.x, t.y)) { caps=!caps; tft.fillRect(0,54,tftWidth,tftHeight-54,fzerofirmwareConfig.bgColor); goto THIS_END; } // CAP
         if (box_list[50].contain(t.x, t.y)) goto DEL;               // DEL
         if (box_list[51].contain(t.x, t.y)) { mytext += box_list[51].key; goto THIS_END; } // SPACE
         for(k=0;k<48;k++){
@@ -552,9 +552,9 @@ String keyboard(String mytext, int maxSize, String msg) {
             if(mytext.length()>19) { tft.setTextSize(FP); fS=FP; }
             else tft.setTextSize(FM);
             tft.setCursor((cX-fS*LW),cY);
-            tft.setTextColor(bruceConfig.priColor,bruceConfig.bgColor);
+            tft.setTextColor(fzerofirmwareConfig.priColor,fzerofirmwareConfig.bgColor);
             tft.print(" "); 
-            tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), 0x5AAB);
+            tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), 0x5AAB);
             tft.setCursor(cX-fS*LW,cY);
             cX=tft.getCursorX();
             cY=tft.getCursorY();
@@ -585,9 +585,9 @@ String keyboard(String mytext, int maxSize, String msg) {
           if(mytext.length()>19) { tft.setTextSize(FP); fS=FP; }
           else tft.setTextSize(FM);
           tft.setCursor((cX-fS*LW),cY);
-          tft.setTextColor(bruceConfig.priColor,bruceConfig.bgColor);
+          tft.setTextColor(fzerofirmwareConfig.priColor,fzerofirmwareConfig.bgColor);
           tft.print(" ");
-          tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), 0x5AAB);
+          tft.setTextColor(getComplementaryColor2(fzerofirmwareConfig.bgColor), 0x5AAB);
           tft.setCursor(cX-fS*LW,cY);
           cX=tft.getCursorX();
           cY=tft.getCursorY();
@@ -609,7 +609,7 @@ String keyboard(String mytext, int maxSize, String msg) {
   }
 
   //Resets screen when finished writing
-  tft.fillScreen(bruceConfig.bgColor);
+  tft.fillScreen(fzerofirmwareConfig.bgColor);
   resetTftDisplay();
 
   return mytext;

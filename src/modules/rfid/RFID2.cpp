@@ -108,8 +108,8 @@ int RFID2::load() {
     FS *fs;
 
     if(!getFsStorage(fs)) return FAILURE;
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    filepath = loopSD(*fs, true, "RFID|NFC", "/BruceRFID");
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    filepath = loopSD(*fs, true, "RFID|NFC", "/FZerofirmwareRFID");
     file = fs->open(filepath, FILE_READ);
 
     if (!file) {
@@ -145,20 +145,20 @@ int RFID2::save(String filename) {
     FS *fs;
     if(!getFsStorage(fs)) return FAILURE;
 
-    if (!(*fs).exists("/BruceRFID")) (*fs).mkdir("/BruceRFID");
-    if ((*fs).exists("/BruceRFID/" + filename + ".rfid")) {
+    if (!(*fs).exists("/FZerofirmwareRFID")) (*fs).mkdir("/FZerofirmwareRFID");
+    if ((*fs).exists("/FZerofirmwareRFID/" + filename + ".rfid")) {
         int i = 1;
         filename += "_";
-        while((*fs).exists("/BruceRFID/" + filename + String(i) + ".rfid")) i++;
+        while((*fs).exists("/FZerofirmwareRFID/" + filename + String(i) + ".rfid")) i++;
         filename += String(i);
     }
-    File file = (*fs).open("/BruceRFID/"+ filename + ".rfid", FILE_WRITE);
+    File file = (*fs).open("/FZerofirmwareRFID/"+ filename + ".rfid", FILE_WRITE);
 
     if(!file) {
         return FAILURE;
     }
 
-    file.println("Filetype: Bruce RFID File");
+    file.println("Filetype: FZerofirmware RFID File");
     file.println("Version 1");
     file.println("Device type: " + printableUID.picc_type);
     file.println("# UID, ATQA and SAK are common for all formats");
@@ -381,7 +381,7 @@ bool RFID2::authenticate_mifare_classic(byte block) {
     }
 
     if (statusA != MFRC522::STATUS_OK) {
-        for (const auto& mifKey : bruceConfig.mifareKeys) {
+        for (const auto& mifKey : fzerofirmwareConfig.mifareKeys) {
             for (size_t i = 0; i < mifKey.length(); i += 2) {
                 keyA.keyByte[i/2] = strtoul(mifKey.substring(i, i + 2).c_str(), NULL, 16);
             }
@@ -407,7 +407,7 @@ bool RFID2::authenticate_mifare_classic(byte block) {
     }
 
     if (statusB != MFRC522::STATUS_OK) {
-        for (const auto& mifKey : bruceConfig.mifareKeys) {
+        for (const auto& mifKey : fzerofirmwareConfig.mifareKeys) {
             for (size_t i = 0; i < mifKey.length(); i += 2) {
                 keyB.keyByte[i/2] = strtoul(mifKey.substring(i, i + 2).c_str(), NULL, 16);
             }

@@ -91,7 +91,7 @@ String readDecryptedFile(FS &fs, String filepath) {
   
   while (cyphertextFile.available() ) {
       line = cyphertextFile.readStringUntil('\n');
-      if(line.startsWith("Filetype:") && !line.endsWith("Bruce Encrypted File")) unsupported_params = true;
+      if(line.startsWith("Filetype:") && !line.endsWith("FZerofirmware Encrypted File")) unsupported_params = true;
       if(line.startsWith("Algo:") && !line.endsWith("XOR")) unsupported_params = true;
       if(line.startsWith("KeyDerivationAlgo:") && !line.endsWith("MD5")) unsupported_params = true;
       if(line.startsWith("KeyDerivationPasses:") && !line.endsWith("10")) unsupported_params = true;  // TODO: parse
@@ -168,7 +168,7 @@ String encryptString(String& plaintext, const String& password_str) {
   dataStrHex.toUpperCase();
   dataStrHex.trim();
   
-  String out = "Filetype: Bruce Encrypted File\nVersion: 1\n";
+  String out = "Filetype: FZerofirmware Encrypted File\nVersion: 1\n";
   out += "Algo: XOR\n";  // TODO: add AES
   out += "KeyDerivationAlgo: MD5\n";
   out += "KeyDerivationPasses: 10\n";
