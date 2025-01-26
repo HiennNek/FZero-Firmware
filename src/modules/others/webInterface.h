@@ -201,7 +201,7 @@ const char index_css[] PROGMEM =R"rawliteral(
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     margin: 0;
     padding: 5px;
-    color: #ff3ec8;
+    color: #ffffff;
     background-color: #202124;
   }
 
@@ -214,18 +214,18 @@ const char index_css[] PROGMEM =R"rawliteral(
   h3 {
     margin: 0;
     padding: 10px 0;
-    border-bottom: 1px solid #7b007b;
+    border-bottom: 1px solid #ffffff;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    border-bottom: 1px solid #7b007b;
+    border-bottom: 1px solid #ffffff;
   }
 
   th, td {
     padding: 5px;
-    border-bottom: 1px solid #7b007b;
+    border-bottom: 1px solid #ffffff;
   }
 
   th {
@@ -233,7 +233,7 @@ const char index_css[] PROGMEM =R"rawliteral(
   }
 
   a {
-    color: #ffbee0;
+    color: #ffffff;
     text-decoration: none;
   }
 
@@ -243,17 +243,17 @@ const char index_css[] PROGMEM =R"rawliteral(
 
   button {
     background-color: #303134;
-    color: #ff3ec8;
+    color: #ffffff;
     border: 2px solid;
     padding: 4px 8px;
     border-radius: 4px;
-    border-color: #ef007b;
+    border-color: #ffffff;
     cursor: pointer;
     margin: 5px;
   }
 
   button:hover {
-    background-color: #ffabd7;
+    background-color: #ffffff;
   }
 
   #detailsheader, #updetailsheader {
@@ -294,7 +294,7 @@ const char index_css[] PROGMEM =R"rawliteral(
 }
 
 .drop-area {
-  border: 2px dashed #ad007b;
+  border: 2px dashed #ffffff;
   padding: 100px;
   margin-top: 50px;
   display: none;
@@ -302,7 +302,7 @@ const char index_css[] PROGMEM =R"rawliteral(
 
 .highlight {
   background-color: #303134;
-  color: #ad007c65;
+  color: #ffffff;
 }
 )rawliteral";
 
@@ -718,9 +718,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <div class="container">
-    <div class="float-element"><a onclick="logoutButton()" href='javascript:void(0);'>[X]</a></div>
-    <h1 align="center">FZEROFIRMWARE Firmware</h1>
-    <p>Firmware for offensive pranks and pentest studies and analysis. For educational purposes only. Don't use in environments where you are not allowed. All responsibilities for irresponsible usage of this firmware rest on your fin, sharky. Sincerely, FZerofirmware.</p>
+    <h1 align="center">FZero Firmware</h1>
     <p>Firmware version: %FIRMWARE%</p>
     <p>SD Free Storage: <span id="freeSD">%FREESD%</span> | Used: <span id="usedSD">%USEDSD%</span> | Total: <span id="totalSD">%TOTALSD%</span></p>
     <p>LittleFS Free Storage: <span id="freeSD">%FREELittleFS%</span> | Used: <span id="usedSD">%USEDLittleFS%</span> | Total: <span id="totalSD">%TOTALLittleFS%</span></p>
@@ -762,7 +760,7 @@ const char logout_html[] PROGMEM = R"rawliteral(
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
       padding: 20px;
-      color: #ad007b;
+      color: #ffffff;
       background-color: #202124;
     }
 
