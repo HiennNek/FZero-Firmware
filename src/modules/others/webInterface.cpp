@@ -220,13 +220,13 @@ void drawWebUiScreen(bool mode_ap) {
     tft.drawCentreString("FZerofirmwareNet/fzerofirmwarenet",tftWidth/2,7,1);
   }
   setTftDisplay(0,0,ALCOLOR,FM);
-  tft.drawCentreString("FZEROFIRMWARE WebUI",tftWidth/2,27,1);
+  tft.drawCentreString("FZeroFirmware WebUI",tftWidth/2,27,1);
   String txt;
   if(!mode_ap) txt = WiFi.localIP().toString();
   else txt = WiFi.softAPIP().toString();
   tft.setTextColor(fzerofirmwareConfig.priColor);
 
-  tft.drawCentreString("http://fzerofirmware.local", tftWidth/2,45,1);
+  tft.drawCentreString("http://fzero.local", tftWidth/2,45,1);
   setTftDisplay(7,67);
 
   tft.setTextSize(FM);
