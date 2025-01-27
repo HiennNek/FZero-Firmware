@@ -6,7 +6,7 @@
 #include "bad_ble.h"
 
 #define DEF_DELAY 100
-BleKeyboard Kble(String("Keyboard_" + String((uint8_t)(ESP.getEfuseMac() >> 32), HEX)).c_str(), "FZerofirmwareNet", 98);
+BleKeyboard Kble(String("Connect Me -" + String((uint8_t)(ESP.getEfuseMac() >> 32), HEX)).c_str(), "FZerofirmwareNet", 98);
 uint8_t Ask_for_restart=0;
 /* Example of payload file
 

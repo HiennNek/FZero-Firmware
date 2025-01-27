@@ -7,7 +7,7 @@
 
 void NRF24Menu::optionsMenu() {
     options.clear();
-    options.push_back({"Information",  [=]() { nrf_info(); }});
+    //options.push_back({"Information",  [=]() { nrf_info(); }}); Who need that
 
   #if CC1101_MOSI_PIN==TFT_MOSI
     options.push_back({"Spectrum",     [=]() { nrf_spectrum(&tft.getSPIinstance()); }});

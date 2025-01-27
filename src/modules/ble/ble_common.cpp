@@ -125,7 +125,7 @@ void ble_scan()
 bool initBLEServer()
 {
     uint64_t chipid = ESP.getEfuseMac();
-    String blename = "FZerofirmware-" + String((uint8_t)(chipid >> 32), HEX);
+    String blename = "FZeroFirmware-" + String((uint8_t)(chipid >> 32), HEX);
 
     BLEDevice::init(blename.c_str());
     // BLEDevice::setPower(ESP_PWR_LVL_N12);
@@ -155,7 +155,7 @@ void disPlayBLESend()
     pServer->getAdvertising()->start();
 
     uint64_t chipid = ESP.getEfuseMac();
-    String blename = "FZerofirmware-" + String((uint8_t)(chipid >> 32), HEX);
+    String blename = "FZeroFirmware-" + String((uint8_t)(chipid >> 32), HEX);
 
     BLEConnected=true;
 

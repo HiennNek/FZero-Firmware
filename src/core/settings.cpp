@@ -346,6 +346,7 @@ void setClock() {
       {"Athens",      [&]() { fzerofirmwareConfig.setTmz(2);  }, fzerofirmwareConfig.tmz==2  },
       {"Moscow",      [&]() { fzerofirmwareConfig.setTmz(3);  }, fzerofirmwareConfig.tmz==3  },
       {"Dubai",       [&]() { fzerofirmwareConfig.setTmz(4);  }, fzerofirmwareConfig.tmz==4  },
+      {"Ho Chi Minh", [&]() { fzerofirmwareConfig.setTmz(7);  }, fzerofirmwareConfig.tmz==4  },
       {"Hong Kong",   [&]() { fzerofirmwareConfig.setTmz(8);  }, fzerofirmwareConfig.tmz==8  },
       {"Tokyo",       [&]() { fzerofirmwareConfig.setTmz(9);  }, fzerofirmwareConfig.tmz==9  },
       {"Sydney",      [&]() { fzerofirmwareConfig.setTmz(10); }, fzerofirmwareConfig.tmz==10 },
