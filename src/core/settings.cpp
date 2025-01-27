@@ -335,7 +335,7 @@ void setClock() {
   if (auto_mode) {
     if(!wifiConnected) wifiConnectMenu();
 
-    options = {
+    /*options = {
       {"Los Angeles", [&]() { fzerofirmwareConfig.setTmz(-8); }, fzerofirmwareConfig.tmz==-8 },
       {"Chicago",     [&]() { fzerofirmwareConfig.setTmz(-6); }, fzerofirmwareConfig.tmz==-6 },
       {"New York",    [&]() { fzerofirmwareConfig.setTmz(-5); }, fzerofirmwareConfig.tmz==-5 },
@@ -351,8 +351,36 @@ void setClock() {
       {"Tokyo",       [&]() { fzerofirmwareConfig.setTmz(9);  }, fzerofirmwareConfig.tmz==9  },
       {"Sydney",      [&]() { fzerofirmwareConfig.setTmz(10); }, fzerofirmwareConfig.tmz==10 },
       {"Main Menu",   [=]() { backToMenu(); }},
-    };
+    };*/
 
+    options = {
+      {"UTC -12", [&]() { fzerofirmwareConfig.setTmz(-12); }, fzerofirmwareConfig.tmz==-12 },
+      {"UTC -11", [&]() { fzerofirmwareConfig.setTmz(-11); }, fzerofirmwareConfig.tmz==-11 },
+      {"UTC -10", [&]() { fzerofirmwareConfig.setTmz(-10); }, fzerofirmwareConfig.tmz==-10 },
+      {"UTC -9",  [&]() { fzerofirmwareConfig.setTmz(-9);  }, fzerofirmwareConfig.tmz==-9  },
+      {"UTC -8",  [&]() { fzerofirmwareConfig.setTmz(-8);  }, fzerofirmwareConfig.tmz==-8  },
+      {"UTC -7",  [&]() { fzerofirmwareConfig.setTmz(-7);  }, fzerofirmwareConfig.tmz==-7  },
+      {"UTC -6",  [&]() { fzerofirmwareConfig.setTmz(-6);  }, fzerofirmwareConfig.tmz==-6  },
+      {"UTC -5",  [&]() { fzerofirmwareConfig.setTmz(-5);  }, fzerofirmwareConfig.tmz==-5  },
+      {"UTC -4",  [&]() { fzerofirmwareConfig.setTmz(-4);  }, fzerofirmwareConfig.tmz==-4  },
+      {"UTC -3",  [&]() { fzerofirmwareConfig.setTmz(-3);  }, fzerofirmwareConfig.tmz==-3  },
+      {"UTC -2",  [&]() { fzerofirmwareConfig.setTmz(-2);  }, fzerofirmwareConfig.tmz==-2  },
+      {"UTC -1",  [&]() { fzerofirmwareConfig.setTmz(-1);  }, fzerofirmwareConfig.tmz==-1  },
+      {"UTC  0",  [&]() { fzerofirmwareConfig.setTmz(0);   }, fzerofirmwareConfig.tmz==0   },
+      {"UTC +1",  [&]() { fzerofirmwareConfig.setTmz(1);   }, fzerofirmwareConfig.tmz==1   },
+      {"UTC +2",  [&]() { fzerofirmwareConfig.setTmz(2);   }, fzerofirmwareConfig.tmz==2   },
+      {"UTC +3",  [&]() { fzerofirmwareConfig.setTmz(3);   }, fzerofirmwareConfig.tmz==3   },
+      {"UTC +4",  [&]() { fzerofirmwareConfig.setTmz(4);   }, fzerofirmwareConfig.tmz==4   },
+      {"UTC +5",  [&]() { fzerofirmwareConfig.setTmz(5);   }, fzerofirmwareConfig.tmz==5   },
+      {"UTC +6",  [&]() { fzerofirmwareConfig.setTmz(6);   }, fzerofirmwareConfig.tmz==6   },
+      {"UTC +7",  [&]() { fzerofirmwareConfig.setTmz(7);   }, fzerofirmwareConfig.tmz==7   },
+      {"UTC +8",  [&]() { fzerofirmwareConfig.setTmz(8);   }, fzerofirmwareConfig.tmz==8   },
+      {"UTC +9",  [&]() { fzerofirmwareConfig.setTmz(9);   }, fzerofirmwareConfig.tmz==9   },
+      {"UTC +10", [&]() { fzerofirmwareConfig.setTmz(10);  }, fzerofirmwareConfig.tmz==10  },
+      {"UTC +11", [&]() { fzerofirmwareConfig.setTmz(11);  }, fzerofirmwareConfig.tmz==11  },
+      {"UTC +12", [&]() { fzerofirmwareConfig.setTmz(12);  }, fzerofirmwareConfig.tmz==12  },
+      {"Main Menu",   [=]() { backToMenu(); }},
+    }
 
     loopOptions(options);
 
