@@ -380,7 +380,7 @@ void setClock() {
       {"UTC +11", [&]() { fzerofirmwareConfig.setTmz(11);  }, fzerofirmwareConfig.tmz==11  },
       {"UTC +12", [&]() { fzerofirmwareConfig.setTmz(12);  }, fzerofirmwareConfig.tmz==12  },
       {"Main Menu",   [=]() { backToMenu(); }},
-    }
+    };
 
     loopOptions(options);
 
